@@ -1,0 +1,150 @@
+﻿<Window x:Class="EAST_ADL_METRICS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EAST_ADL_METRICS"
+        mc:Ignorable="d"
+        Title="EAST-ADL Metrics" Height="450" Width="800">
+    <Grid Background="#222">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ExtractResult" Grid.Row="0" Grid.Column="0" Margin="20 16 20 15" Height="auto" Width="auto" Click="ExtractResult_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#333"/>
+                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"></Setter>
+                </Style>
+            </Button.Resources>
+            <Viewbox StretchDirection="Both">
+                <TextBlock Margin="6">Extract results</TextBlock>
+            </Viewbox>
+        </Button>
+        <Button x:Name="SelectProject" Grid.Row="0" Grid.Column="4" Margin="20 16 20 15" Height="auto" Width="auto" Click="SelectProject_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#333"/>
+                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"></Setter>
+                </Style>
+            </Button.Resources>
+            <Viewbox StretchDirection="Both">
+                <TextBlock Margin="6">Select a project</TextBlock>
+            </Viewbox>
+        </Button>
+        <Viewbox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBlock x:Name="Title" Text="EAST-ADL Metrics" TextWrapping="Wrap" Foreground="White" Margin="20" FontSize="30" FontFamily="helvetica" FontWeight="Bold" Background="Transparent" />
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="1">
+            <TextBlock x:Name="Metrik1" Text="Metrik 1: "  Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="1">
+            <TextBlock x:Name="Metrik1_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="2">
+            <TextBlock x:Name="Metrik2" Text="Metrik 2: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="2">
+            <TextBlock x:Name="Metrik2_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="3">
+            <TextBlock x:Name="Metrik3" Text="Metrik 3: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="3">
+            <TextBlock x:Name="Metrik3_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="4">
+            <TextBlock x:Name="Metrik4" Text="Metrik 4: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="4">
+            <TextBlock x:Name="Metrik4_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="5">
+            <TextBlock x:Name="Metrik5" Text="Metrik 5: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="5">
+            <TextBlock x:Name="Metrik5_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="1">
+            <TextBlock x:Name="Metrik6" Text="Metrik 6: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="1">
+            <TextBlock x:Name="Metrik6_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="2">
+            <TextBlock x:Name="Metrik7" Text="Metrik 7: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="2">
+            <TextBlock x:Name="Metrik7_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="3">
+            <TextBlock x:Name="Metrik8" Text="Metrik 8: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="3">
+            <TextBlock x:Name="Metrik8_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="4">
+            <TextBlock x:Name="Metrik9" Text="Metrik 9: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="4">
+            <TextBlock x:Name="Metrik9_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="5">
+            <TextBlock x:Name="Metrik10" Text="Metrik 10: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="5">
+            <TextBlock x:Name="Metrik10_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+    </Grid>
+</Window>
