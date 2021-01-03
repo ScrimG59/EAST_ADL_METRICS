@@ -50,22 +50,45 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// <returns></returns>
         public Metric Functions_pckg(XDocument xml)
         {
-            /*var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
+            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
             var childElementList = searcher
                                     .childElementList(xml, parentList, 
                                     "DESIGN-FUNCTION-TYPE", 
                                     "ANALYSIS-FUNCTION-TYPE", 
                                     "HARDWARE-FUNCTION-TYPE", 
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");*/
+                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
             
-            var parentList = searcher.parentElementList(xml, "book");
-            var childElementList = searcher.childElementList(xml, parentList, "bastard");
+            /*var parentList = searcher.parentElementList(xml, "book");
+            var childElementList = searcher.childElementList(xml, parentList, "title");*/
 
             functions.MaxValue = childElementList.Values.Max();
             functions.MinValue = childElementList.Values.Min();
             functions.AvgValue = childElementList.Values.Average();
 
             return functions;
+        }
+
+        /// <summary>
+        /// FunctionType package nested metric
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public Metric Functions_pckg_tc(XDocument xml)
+        {
+            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
+            var childElementList = searcher
+                                    .nestedChildElementList(xml, parentList,
+                                    "DESIGN-FUNCTION-TYPE",
+                                    "ANALYSIS-FUNCTION-TYPE",
+                                    "HARDWARE-FUNCTION-TYPE",
+                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+            functions_tc.MaxValue = childElementList.Values.Max();
+            functions_tc.MinValue = childElementList.Values.Min();
+            functions_tc.AvgValue = childElementList.Values.Average();
+
+            return functions_tc;
+
         }
 
         /// <summary>

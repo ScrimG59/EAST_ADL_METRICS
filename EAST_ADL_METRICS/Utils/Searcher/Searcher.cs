@@ -30,15 +30,15 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <param name="parentList">a list of parent nodes, for example a list of all packages</param>
         /// <param name="keyword">an child element which gets searched within the parent node</param>
         /// <returns></returns>
-        public Dictionary<string, int> childElementList(XDocument xml, List<XElement> parentList, string firstKeyword, string secondKeyword = null, string thirdKeyword = null, string fourthKeyword = null)
+        public Dictionary<string, int> nestedChildElementList(XDocument xml, List<XElement> parentList, string firstKeyword, string secondKeyword = null, string thirdKeyword = null, string fourthKeyword = null)
         {
             Dictionary<string, int> parentChildCountPair = new Dictionary<string, int>();
-            int i = 0;
 
             foreach (var node in parentList)
             {
                 if (node.HasElements)
                 {
+                    // Elements == 1st level, Descendants == All levels
                     List<XElement> matchingChildNodes = node.Descendants()
                                                             .Where(child => child.Name == firstKeyword 
                                                             || child.Name == secondKeyword 
@@ -49,14 +49,12 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                     if (matchingChildNodes.Count != 0)
                     {
                         Console.WriteLine("Matching child nodes!");
-                        parentChildCountPair.Add(i.ToString(), matchingChildNodes.Count);
-                        i++;
+                        parentChildCountPair.Add(getName(node), matchingChildNodes.Count);
                     }
                     else
                     {
-                        parentChildCountPair.Add(i.ToString(), 0);
+                        parentChildCountPair.Add(getName(node), 0);
                         Console.WriteLine("No matching child nodes!");
-                        i++;
                     }
                 }
                 else
@@ -75,9 +73,65 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <param name="parentList"></param>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public Dictionary<string, int> nestedChildElementList(XDocument xml, List<XElement> parentList, string keyword)
+        public Dictionary<string, int> childElementList(XDocument xml, List<XElement> parentList, string firstKeyword, string secondKeyword = null, string thirdKeyword = null, string fourthKeyword = null)
         {
-            throw new NotImplementedException();
+            Dictionary<string, int> parentChildCountPair = new Dictionary<string, int>();
+
+            foreach(var node in parentList)
+            {
+                XElement element = node.Elements()
+                                       .Where(child => child.Name == "ELEMENTS")
+                                       .FirstOrDefault();
+
+                if(element == null)
+                {
+                    parentChildCountPair.Add(getName(node), 0);
+                }
+
+                else if (element.HasElements)
+                {
+                    List<XElement> matchingChildNodes = element.Elements()
+                                                               .Where(child => child.Name == firstKeyword
+                                                               || child.Name == secondKeyword
+                                                               || child.Name == thirdKeyword
+                                                               || child.Name == fourthKeyword)
+                                                               .ToList();
+                    if (matchingChildNodes.Count != 0)
+                    {
+                        Console.WriteLine("Matching child nodes!");
+                        parentChildCountPair.Add(getName(node), matchingChildNodes.Count);
+                    }
+                    else
+                    {
+                        parentChildCountPair.Add(getName(node), 0);
+                        Console.WriteLine("No matching child nodes!");
+                    }
+
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            return parentChildCountPair;
+        }
+
+        /// <summary>
+        /// gets the short-name or id of the xml-tag
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private string getName (XElement node)
+        {
+            if(node.Element("SHORT-NAME").Value != "")
+            {
+                return node.Element("SHORT-NAME").Value;
+            }
+            else
+            {
+                return "";
+            }
         }
 
     }

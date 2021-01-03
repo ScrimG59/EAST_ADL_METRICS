@@ -61,10 +61,19 @@ namespace EAST_ADL_METRICS
                 MessageBox.Show("Loading of XML-file failed! Please try again!");
             }
 
-            var metrics = package.Functions_pckg(xml);
-            Console.WriteLine(metrics.MaxValue);
-            Console.WriteLine(metrics.MinValue);
-            Console.WriteLine(metrics.AvgValue);
+            Console.WriteLine("Functions_pckg");
+            var functions_pckg = package.Functions_pckg(xml);
+            Console.WriteLine(functions_pckg.MaxValue);
+            Console.WriteLine(functions_pckg.MinValue);
+            Console.WriteLine(functions_pckg.AvgValue);
+
+            Console.WriteLine("Functions_pckg_tc");
+            var functions_pckg_tc = package.Functions_pckg_tc(xml);
+            Console.WriteLine(functions_pckg_tc.MaxValue);
+            Console.WriteLine(functions_pckg_tc.MinValue);
+            Console.WriteLine(functions_pckg_tc.AvgValue);
+
+
         }
 
         private void ExtractResult_Click(object sender, RoutedEventArgs e)
