@@ -108,5 +108,23 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             return reqts; 
         }
+
+        /// <summary>
+        /// Requirement package nested metric
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public Metric Reqts_pckg_tc(XDocument xml)
+        {
+            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
+            var childElementList = searcher
+                                    .nestedChildElementList(xml, parentList, "REQUIREMENT");
+
+            reqts_tc.MaxValue = childElementList.Values.Max();
+            reqts_tc.MinValue = childElementList.Values.Min();
+            reqts_tc.AvgValue = childElementList.Values.Average();
+
+            return reqts_tc;
+        }
     }
 }
