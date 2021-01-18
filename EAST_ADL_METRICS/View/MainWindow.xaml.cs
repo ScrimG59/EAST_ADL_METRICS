@@ -26,6 +26,7 @@ namespace EAST_ADL_METRICS
     {
         private Parser parser;
         private Package package = new Package();
+        private FunctionType functionType = new FunctionType();
 
         public MainWindow()
         {
@@ -61,18 +62,23 @@ namespace EAST_ADL_METRICS
                 MessageBox.Show("Loading of XML-file failed! Please try again!");
             }
 
-            Console.WriteLine("Functions_pckg");
+            Console.WriteLine("Functions_pckg:");
             var functions_pckg = package.Functions_pckg(xml);
             Console.WriteLine(functions_pckg.MaxValue);
             Console.WriteLine(functions_pckg.MinValue);
             Console.WriteLine(functions_pckg.AvgValue);
 
-            Console.WriteLine("Functions_pckg_tc");
+            Console.WriteLine("Functions_pckg_tc:");
             var functions_pckg_tc = package.Functions_pckg_tc(xml);
             Console.WriteLine(functions_pckg_tc.MaxValue);
             Console.WriteLine(functions_pckg_tc.MinValue);
             Console.WriteLine(functions_pckg_tc.AvgValue);
 
+            Console.WriteLine("Parts_fct_tc:");
+            var parts_fct_tc = functionType.Parts_fct_tc(xml);
+            Console.WriteLine(parts_fct_tc.MaxValue);
+            Console.WriteLine(parts_fct_tc.MinValue);
+            Console.WriteLine(parts_fct_tc.AvgValue);
 
         }
 

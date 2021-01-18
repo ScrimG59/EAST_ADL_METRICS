@@ -52,10 +52,11 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
             var childElementList = searcher
-                                    .childElementList(xml, parentList, 
-                                    "DESIGN-FUNCTION-TYPE", 
-                                    "ANALYSIS-FUNCTION-TYPE", 
-                                    "HARDWARE-FUNCTION-TYPE", 
+                                    .childElementList(parentList,
+                                    "DESIGN-FUNCTION-TYPE",
+                                    "ANALYSIS-FUNCTION-TYPE",
+                                    "HARDWARE-FUNCTION-TYPE",
+                                    "HARDWARE-COMPONENT-TYPE",
                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
             
             /*var parentList = searcher.parentElementList(xml, "book");
@@ -77,10 +78,11 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
             var childElementList = searcher
-                                    .nestedChildElementList(xml, parentList,
+                                    .nestedChildElementList(parentList,
                                     "DESIGN-FUNCTION-TYPE",
                                     "ANALYSIS-FUNCTION-TYPE",
                                     "HARDWARE-FUNCTION-TYPE",
+                                    "HARDWARE-COMPONENT-TYPE",
                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
 
             functions_tc.MaxValue = childElementList.Values.Max();
@@ -100,7 +102,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
             var childElementList = searcher
-                                    .childElementList(xml, parentList, "REQUIREMENT");
+                                   .childElementList(parentList, "REQUIREMENT");
 
             reqts.MaxValue = childElementList.Values.Max();
             reqts.MinValue = childElementList.Values.Min();
@@ -118,7 +120,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
             var childElementList = searcher
-                                    .nestedChildElementList(xml, parentList, "REQUIREMENT");
+                                    .nestedChildElementList(parentList, "REQUIREMENT");
 
             reqts_tc.MaxValue = childElementList.Values.Max();
             reqts_tc.MinValue = childElementList.Values.Min();

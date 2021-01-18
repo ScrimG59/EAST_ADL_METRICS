@@ -64,7 +64,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                                     "HARDWARE-FUNCTION-TYPE",
                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
             var childElementList = searcher
-                                    .nestedChildElementList(xml, parentList,
+                                    .nestedChildElementList(parentList,
                                     "DESIGN-FUNCTION-PROTOTYPE",
                                     "ANALYSIS-FUNCTION-PROTOTYPE",
                                     "HARDWARE-COMPONENT-PROTOTYPE",
@@ -84,6 +84,19 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// <returns></returns>
         public Metric Parts_fct_tc(XDocument xml)
         {
+            var parentList = searcher.parentElementList(xml,
+                                    "DESIGN-FUNCTION-TYPE",
+                                    "ANALYSIS-FUNCTION-TYPE",
+                                    "HARDWARE-FUNCTION-TYPE",
+                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+            var childElementList = searcher.recursiveChildElementList(xml, parentList);
+
+            parts_tc.MaxValue = childElementList.Values.Max();
+            parts_tc.MinValue = childElementList.Values.Min();
+            parts_tc.AvgValue = childElementList.Values.Average();
+
+            Console.WriteLine($"TYPNAME: {parts_tc.Name}");
             return parts_tc;
         }
 
@@ -94,7 +107,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// <returns></returns>
         public Metric NestingLevels_fct(XDocument xml)
         {
-            return NestingLevels;
+            return nestingLevels;
         }
 
         /// <summary>
@@ -108,12 +121,15 @@ namespace EAST_ADL_METRICS.Utils.Categories
                                     "DESIGN-FUNCTION-TYPE",
                                     "ANALYSIS-FUNCTION-TYPE",
                                     "HARDWARE-FUNCTION-TYPE",
+                                    "HARDWARE-COMPONENT-TYPE",
                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
             var childElementList = searcher
-                                    .nestedChildElementList(xml, parentList,
+                                    .nestedChildElementList(parentList,
                                     "FUNCTION-FLOW-PORT",
                                     "FUNCTION-CLIENT-SERVER-PORT",
-                                    "FUNCTION-POWER-PORT");
+                                    "FUNCTION-POWER-PORT",
+                                    "IO-HARDWARE-PIN", 
+                                    "COMMUNICATION-HARDWARE-PIN");
 
             ports.MaxValue = childElementList.Values.Max();
             ports.MinValue = childElementList.Values.Min();
@@ -136,7 +152,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                                     "HARDWARE-FUNCTION-TYPE",
                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
             var childElementList = searcher
-                                    .nestedChildElementList(xml, parentList,
+                                    .nestedChildElementList(parentList,
                                     "FUNCTION-CONNECTOR");
 
             connectors.MaxValue = childElementList.Values.Max();
