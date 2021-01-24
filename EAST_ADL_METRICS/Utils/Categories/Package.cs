@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using EAST_ADL_METRICS.Utils.Searcher;
 
 namespace EAST_ADL_METRICS.Utils.Categories
 {
     public class Package
     {
-        private Searcher.Searcher searcher = new Searcher.Searcher();
+        private Global globalSearcher = new Global();
+        private Local localSearcher = new Local();
+
         private Metric functions = new Metric
         {
             Name = "Functions_pckg",
@@ -48,23 +51,37 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Functions_pckg(XDocument xml)
+        public Metric Functions_pckg(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
-            var childElementList = searcher
-                                    .childElementList(parentList,
-                                    "DESIGN-FUNCTION-TYPE",
-                                    "ANALYSIS-FUNCTION-TYPE",
-                                    "HARDWARE-FUNCTION-TYPE",
-                                    "HARDWARE-COMPONENT-TYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
-            
-            /*var parentList = searcher.parentElementList(xml, "book");
-            var childElementList = searcher.childElementList(xml, parentList, "title");*/
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml, "EA-PACKAGE");
 
-            functions.MaxValue = childElementList.Values.Max();
-            functions.MinValue = childElementList.Values.Min();
-            functions.AvgValue = childElementList.Values.Average();
+                var childElementList = globalSearcher.childElementList(parentList,
+                                                     "DESIGN-FUNCTION-TYPE",
+                                                     "ANALYSIS-FUNCTION-TYPE",
+                                                     "HARDWARE-FUNCTION-TYPE",
+                                                     "HARDWARE-COMPONENT-TYPE",
+                                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+                functions.MaxValue = childElementList.Values.Max();
+                functions.MinValue = childElementList.Values.Min();
+                functions.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.childElementList(xml, elementName, 
+                                                    "DESIGN-FUNCTION-TYPE",
+                                                    "ANALYSIS-FUNCTION-TYPE",
+                                                    "HARDWARE-FUNCTION-TYPE",
+                                                    "HARDWARE-COMPONENT-TYPE",
+                                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+                functions.MaxValue = childElementList.Values.Max();
+                functions.MinValue = childElementList.Values.Min();
+                functions.AvgValue = childElementList.Values.Average();
+            }
+            
 
             return functions;
         }
@@ -74,20 +91,36 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Functions_pckg_tc(XDocument xml)
+        public Metric Functions_pckg_tc(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
-            var childElementList = searcher
-                                    .nestedChildElementList(parentList,
-                                    "DESIGN-FUNCTION-TYPE",
-                                    "ANALYSIS-FUNCTION-TYPE",
-                                    "HARDWARE-FUNCTION-TYPE",
-                                    "HARDWARE-COMPONENT-TYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml, "EA-PACKAGE");
 
-            functions_tc.MaxValue = childElementList.Values.Max();
-            functions_tc.MinValue = childElementList.Values.Min();
-            functions_tc.AvgValue = childElementList.Values.Average();
+                var childElementList = globalSearcher.nestedChildElementList(parentList,
+                                                     "DESIGN-FUNCTION-TYPE",
+                                                     "ANALYSIS-FUNCTION-TYPE",
+                                                     "HARDWARE-FUNCTION-TYPE",
+                                                     "HARDWARE-COMPONENT-TYPE",
+                                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+                functions_tc.MaxValue = childElementList.Values.Max();
+                functions_tc.MinValue = childElementList.Values.Min();
+                functions_tc.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.nestedChildElementList(xml, elementName,
+                                                     "DESIGN-FUNCTION-TYPE",
+                                                     "ANALYSIS-FUNCTION-TYPE",
+                                                     "HARDWARE-FUNCTION-TYPE",
+                                                     "HARDWARE-COMPONENT-TYPE",
+                                                     "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+                functions_tc.MaxValue = childElementList.Values.Max();
+                functions_tc.MinValue = childElementList.Values.Min();
+                functions_tc.AvgValue = childElementList.Values.Average();
+            }
 
             return functions_tc;
 
@@ -98,16 +131,25 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Reqts_pckg(XDocument xml)
+        public Metric Reqts_pckg(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
-            var childElementList = searcher
-                                   .childElementList(parentList, "REQUIREMENT");
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml, "EA-PACKAGE");
+                var childElementList = globalSearcher.childElementList(parentList, "REQUIREMENT");
 
-            reqts.MaxValue = childElementList.Values.Max();
-            reqts.MinValue = childElementList.Values.Min();
-            reqts.AvgValue = childElementList.Values.Average();
+                reqts.MaxValue = childElementList.Values.Max();
+                reqts.MinValue = childElementList.Values.Min();
+                reqts.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.childElementList(xml, elementName, "REQUIREMENT");
 
+                reqts.MaxValue = childElementList.Values.Max();
+                reqts.MinValue = childElementList.Values.Min();
+                reqts.AvgValue = childElementList.Values.Average();
+            }
             return reqts; 
         }
 
@@ -116,15 +158,25 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Reqts_pckg_tc(XDocument xml)
+        public Metric Reqts_pckg_tc(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml, "EA-PACKAGE");
-            var childElementList = searcher
-                                    .nestedChildElementList(parentList, "REQUIREMENT");
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml, "EA-PACKAGE");
+                var childElementList = globalSearcher.nestedChildElementList(parentList, "REQUIREMENT");
 
-            reqts_tc.MaxValue = childElementList.Values.Max();
-            reqts_tc.MinValue = childElementList.Values.Min();
-            reqts_tc.AvgValue = childElementList.Values.Average();
+                reqts_tc.MaxValue = childElementList.Values.Max();
+                reqts_tc.MinValue = childElementList.Values.Min();
+                reqts_tc.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.nestedChildElementList(xml, elementName, "REQUIREMENT");
+
+                reqts_tc.MaxValue = childElementList.Values.Max();
+                reqts_tc.MinValue = childElementList.Values.Min();
+                reqts_tc.AvgValue = childElementList.Values.Average();
+            }
 
             return reqts_tc;
         }

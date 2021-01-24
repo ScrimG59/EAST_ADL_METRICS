@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 using EAST_ADL_METRICS.Utils.Parser;
 using EAST_ADL_METRICS.Utils.Categories;
 using System.Xml.Linq;
+using EAST_ADL_METRICS.View;
+using System.Threading;
+using EAST_ADL_METRICS.Models;
 
 namespace EAST_ADL_METRICS
 {
@@ -27,6 +30,8 @@ namespace EAST_ADL_METRICS
         private Parser parser;
         private Package package = new Package();
         private FunctionType functionType = new FunctionType();
+        private Wrapper wrapper = new Wrapper();
+        private bool mode = true;
 
         public MainWindow()
         {
@@ -56,13 +61,22 @@ namespace EAST_ADL_METRICS
             if(parser.Loaded() == true)
             {
                 MessageBox.Show("XML-file successfully loaded!");
+                if (mode)
+                {
+                    showMetrics(xml);
+                }
+                else
+                {
+                    SelectWindow selectWindow = new SelectWindow(xml);
+                    selectWindow.Show();
+                }
             }
             else
             {
                 MessageBox.Show("Loading of XML-file failed! Please try again!");
             }
 
-            Console.WriteLine("Functions_pckg:");
+            /*Console.WriteLine("Functions_pckg:");
             var functions_pckg = package.Functions_pckg(xml);
             Console.WriteLine(functions_pckg.MaxValue);
             Console.WriteLine(functions_pckg.MinValue);
@@ -78,13 +92,33 @@ namespace EAST_ADL_METRICS
             var parts_fct_tc = functionType.Parts_fct_tc(xml);
             Console.WriteLine(parts_fct_tc.MaxValue);
             Console.WriteLine(parts_fct_tc.MinValue);
-            Console.WriteLine(parts_fct_tc.AvgValue);
+            Console.WriteLine(parts_fct_tc.AvgValue);*/
 
+        }
+
+        public void showMetrics(XDocument xml, Item item = null)
+        {
+            wrapper.calculateMetrics(xml, mode, item);
+            Console.WriteLine($"NAME: {item.Name}\n TYPE: {item.Type}");
         }
 
         private void ExtractResult_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Button works.");
+        }
+
+        private void Mode_Click(object sender, RoutedEventArgs e)
+        {
+            if (mode)
+            {
+                btnModeText.Text = "Local";
+                mode = false;
+            }
+            else
+            {
+                btnModeText.Text = "Global";
+                mode = true;
+            }
         }
     }
 }

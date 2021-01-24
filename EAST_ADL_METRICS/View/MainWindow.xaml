@@ -14,14 +14,25 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ExtractResult" Grid.Row="0" Grid.Column="0" Margin="20 16 20 15" Height="auto" Width="auto" Click="ExtractResult_Click">
+        <Button x:Name="ExtractResult" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="20 16 20 15" Height="auto" Width="auto" Click="ExtractResult_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#333"/>
@@ -52,7 +63,7 @@
                 <TextBlock Margin="6">Extract results</TextBlock>
             </Viewbox>
         </Button>
-        <Button x:Name="SelectProject" Grid.Row="0" Grid.Column="4" Margin="20 16 20 15" Height="auto" Width="auto" Click="SelectProject_Click">
+        <Button x:Name="SelectProject" Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="2" Margin="20 16 20 15" Height="auto" Width="auto" Click="SelectProject_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#333"/>
@@ -83,68 +94,270 @@
                 <TextBlock Margin="6">Select a project</TextBlock>
             </Viewbox>
         </Button>
-        <Viewbox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
-            <TextBlock x:Name="Title" Text="EAST-ADL Metrics" TextWrapping="Wrap" Foreground="White" Margin="20" FontSize="30" FontFamily="helvetica" FontWeight="Bold" Background="Transparent" />
-        </Viewbox>
-        <Viewbox Grid.Column="0" Grid.Row="1">
-            <TextBlock x:Name="Metrik1" Text="Metrik 1: "  Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
-        </Viewbox>
-        <Viewbox Grid.Column="1" Grid.Row="1">
-            <TextBlock x:Name="Metrik1_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
-        </Viewbox>
+        <Button x:Name="btnMode" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="20 16 20 15" Height="auto" Width="auto" Click="Mode_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#333"/>
+                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"></Setter>
+                </Style>
+            </Button.Resources>
+            <Viewbox StretchDirection="Both">
+                <TextBlock x:Name="btnModeText" Margin="3">Global</TextBlock>
+            </Viewbox>
+        </Button>
         <Viewbox Grid.Column="0" Grid.Row="2">
-            <TextBlock x:Name="Metrik2" Text="Metrik 2: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Functions_pckg" Text="Functions_pckg: "  Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="1" Grid.Row="2">
-            <TextBlock x:Name="Metrik2_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Functions_pckg_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="0" Grid.Row="3">
-            <TextBlock x:Name="Metrik3" Text="Metrik 3: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Functions_pckg_tc" Text="Functions_pckg_tc: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="1" Grid.Row="3">
-            <TextBlock x:Name="Metrik3_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Functions_pckg_tc_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="0" Grid.Row="4">
-            <TextBlock x:Name="Metrik4" Text="Metrik 4: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Reqts_pckg" Text="Reqts_pckg: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="1" Grid.Row="4">
-            <TextBlock x:Name="Metrik4_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Reqts_pckg_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="0" Grid.Row="5">
-            <TextBlock x:Name="Metrik5" Text="Metrik 5: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Reqts_pckg_tc" Text="Reqts_pckg_tc: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="1" Grid.Row="5">
-            <TextBlock x:Name="Metrik5_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Reqts_pckg_tc_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
-        <Viewbox Grid.Column="2" Grid.Row="1">
-            <TextBlock x:Name="Metrik6" Text="Metrik 6: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        <Viewbox Grid.Column="0" Grid.Row="6">
+            <TextBlock x:Name="Parts_fct" Text="Parts_fct: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
-        <Viewbox Grid.Column="3" Grid.Row="1">
-            <TextBlock x:Name="Metrik6_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        <Viewbox Grid.Column="1" Grid.Row="6">
+            <TextBlock x:Name="Parts_fct_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="7">
+            <TextBlock x:Name="Parts_fct_tc" Text="Parts_fct_tc: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="7">
+            <TextBlock x:Name="Parts_fct_tc_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="8">
+            <TextBlock x:Name="NestingLevels_fct" Text="NestingLevels_fct: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="8">
+            <TextBlock x:Name="NestingLevels_fct_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="9">
+            <TextBlock x:Name="Ports_fct" Text="Ports_fct: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="9">
+            <TextBlock x:Name="Ports_fct_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="10">
+            <TextBlock x:Name="Connectors_fct" Text="Connectors_fct: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="10">
+            <TextBlock x:Name="Connectors_fct_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="11">
+            <TextBlock x:Name="SubReqts" Text="SubReqts: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="11">
+            <TextBlock x:Name="SubReqts_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="12">
+            <TextBlock x:Name="NestingLevel" Text="NestingLevel: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="12">
+            <TextBlock x:Name="NestingLevel_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="13">
+            <TextBlock x:Name="Satisfiers" Text="Satisfiers: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="13">
+            <TextBlock x:Name="Satisfiers_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="0" Grid.Row="14">
+            <TextBlock x:Name="Verifiers" Text="Verifiers: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="14">
+            <TextBlock x:Name="Verifiers_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="2">
-            <TextBlock x:Name="Metrik7" Text="Metrik 7: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Derivatives" Text="Derivatives: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="2">
-            <TextBlock x:Name="Metrik7_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Derivatives_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="3">
-            <TextBlock x:Name="Metrik8" Text="Metrik 8: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Constraints_cons" Text="Constraints_cons: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="3">
-            <TextBlock x:Name="Metrik8_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Constraints_cons_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="4">
-            <TextBlock x:Name="Metrik9" Text="Metrik 9: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Parts_cons" Text="Parts_cons: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="4">
-            <TextBlock x:Name="Metrik9_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Parts_cons_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="5">
-            <TextBlock x:Name="Metrik10" Text="Metrik 10: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Parts_cons_tc" Text="Parts_cons_tc: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="5">
-            <TextBlock x:Name="Metrik10_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Parts_cons_tc_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="6">
+            <TextBlock x:Name="NestingLevels_cons" Text="NestingLevels_cons: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="6">
+            <TextBlock x:Name="NestingLevels_cons_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="7">
+            <TextBlock x:Name="Connectors_cons" Text="Connectors_cons: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="7">
+            <TextBlock x:Name="Connectors_cons_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="8">
+            <TextBlock x:Name="Parts_arch" Text="Parts_arch: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="8">
+            <TextBlock x:Name="Parts_arch_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="9">
+            <TextBlock x:Name="Parts_arch_tc" Text="Parts_arch_tc: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="9">
+            <TextBlock x:Name="Parts_arch_tc_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="10">
+            <TextBlock x:Name="NestingLevels_arch" Text="NestingLevels_arch: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="10">
+            <TextBlock x:Name="NestingLevels_arch_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="11">
+            <TextBlock x:Name="Ports_arch" Text="Ports_arch: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="11">
+            <TextBlock x:Name="Ports_arch_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="12">
+            <TextBlock x:Name="Connectors_arch" Text="Connectors_arch: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="12">
+            <TextBlock x:Name="Connectors_arch_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="13">
+            <TextBlock x:Name="FunctionNodeAllocation" Text="FunctionNodeAllocation: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="13">
+            <TextBlock x:Name="FunctionNodeAllocation_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.Row="14">
+            <TextBlock x:Name="FunctionPorts" Text="FunctionPorts: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Grid.Row="14">
+            <TextBlock x:Name="FunctionPorts_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="2">
+            <TextBlock x:Name="FunctionFlowPorts" Text="FunctionFlowPorts: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="2">
+            <TextBlock x:Name="FunctionFlowPorts_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="3">
+            <TextBlock x:Name="FunctionPowerPorts" Text="FunctionPowerPorts: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="3">
+            <TextBlock x:Name="FunctionPowerPorts_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="4">
+            <TextBlock x:Name="FunctionClientServerPorts" Text="FunctionClientServerPorts: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="4">
+            <TextBlock x:Name="FunctionClientServerPorts_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="5">
+            <TextBlock x:Name="Operations" Text="Operations: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="5">
+            <TextBlock x:Name="Operations_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="6">
+            <TextBlock x:Name="HardwarePorts" Text="HardwarePorts: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="6">
+            <TextBlock x:Name="HardwarePorts_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="7">
+            <TextBlock x:Name="Portgroups" Text="Portgroups: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="7">
+            <TextBlock x:Name="Portgroups_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="8">
+            <TextBlock x:Name="Portgroupsize" Text="Portgroupsize: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="8">
+            <TextBlock x:Name="Portgroupsize_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="9">
+            <TextBlock x:Name="OptionalElements" Text="OptionalElements: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="9">
+            <TextBlock x:Name="OptionalElements_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="10">
+            <TextBlock x:Name="Qualityrequirement_Requirement_Ratio" Text="QualityrequirementRequirementRatio: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="10">
+            <TextBlock x:Name="Qualityrequirement_Requirement_Ratio_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="11">
+            <TextBlock x:Name="UseCaseSatisfaction" Text="UseCaseSatisfaction: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="11">
+            <TextBlock x:Name="UseCaseSatisfaction_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="12">
+            <TextBlock x:Name="VVRatio" Text="VVRatio: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="12">
+            <TextBlock x:Name="VVRatio_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="13">
+            <TextBlock x:Name="PortConnectorAllocation" Text="PortConnectorAllocation" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="13">
+            <TextBlock x:Name="Unverified" Text="Unverified" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="4" Grid.Row="14">
+            <TextBlock x:Name="Reference" Text="Reference" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="5" Grid.Row="14">
+            <TextBlock x:Name="EventChain_Pair" Text="EventChainPair" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
     </Grid>
 </Window>

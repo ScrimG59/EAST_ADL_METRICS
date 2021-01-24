@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EAST_ADL_METRICS.Utils.Categories
 {
-    class Requirement
+    public class Requirement
     {
     }
 }

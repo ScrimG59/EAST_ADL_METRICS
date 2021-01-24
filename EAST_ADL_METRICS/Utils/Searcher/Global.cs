@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Searcher
 {
-    public class Searcher
+    public class Global
     {
+        private int nestingLevel = 0;
+        private int currentMax = 0;
+        private Helper helper = new Helper();
+        private List<int> nestingLevels = new List<int>();
+
         /// <summary>
         /// Returns a list of the nodes with the given keyword
         /// </summary>
@@ -49,14 +52,13 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                                                             || child.Name == secondKeyword 
                                                             || child.Name == thirdKeyword 
                                                             || child.Name == fourthKeyword
-                                                            || node.Name == fifthKeyword
-                                                            || node.Name == sixthKeyword)
+                                                            || child.Name == fifthKeyword
+                                                            || child.Name == sixthKeyword)
                                                             .ToList();
 
                     if (matchingChildNodes.Count != 0)
                     {
-                        Console.WriteLine("Matching child nodes!");
-                        var name = getName(node);
+                        var name = helper.getName(node);
                         if (!parentChildCountPair.ContainsKey(name[0]))
                         {
                             parentChildCountPair.Add(name[0], matchingChildNodes.Count);
@@ -68,7 +70,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                     }
                     else
                     {
-                        var name = getName(node);
+                        var name = helper.getName(node);
                         if (!parentChildCountPair.ContainsKey(name[0]))
                         {
                             parentChildCountPair.Add(name[0], 0);
@@ -77,7 +79,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                         {
                             parentChildCountPair.Add(name[1], 0);
                         }
-                        Console.WriteLine("No matching child nodes!");
                     }
                 }
                 else
@@ -108,7 +109,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
 
                 if(element == null)
                 {
-                    var name = getName(node);
+                    var name = helper.getName(node);
                     if (!parentChildCountPair.ContainsKey(name[0]))
                     {
                         parentChildCountPair.Add(name[0], 0);
@@ -126,13 +127,12 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                                                                || child.Name == secondKeyword
                                                                || child.Name == thirdKeyword
                                                                || child.Name == fourthKeyword
-                                                               || node.Name == fifthKeyword
-                                                               || node.Name == sixthKeyword)
+                                                               || child.Name == fifthKeyword
+                                                               || child.Name == sixthKeyword)
                                                                .ToList();
                     if (matchingChildNodes.Count != 0)
                     {
-                        Console.WriteLine("Matching child nodes!");
-                        var name = getName(node);
+                        var name = helper.getName(node);
                         if (!parentChildCountPair.ContainsKey(name[0]))
                         {
                             parentChildCountPair.Add(name[0], matchingChildNodes.Count);
@@ -144,7 +144,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                     }
                     else
                     {
-                        var name = getName(node);
+                        var name = helper.getName(node);
                         if (!parentChildCountPair.ContainsKey(name[0]))
                         {
                             parentChildCountPair.Add(name[0], 0);
@@ -153,7 +153,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                         {
                             parentChildCountPair.Add(name[1], 0);
                         }
-                        Console.WriteLine("No matching child nodes!");
                     }
 
                 }
@@ -179,10 +178,12 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             foreach(var node in parentList)
             {
                 List<XElement> tree = new List<XElement>();
+                nestingLevel = 0;
                 tree = constructTree(xml, node, tree);
+                nestingLevels.Add(nestingLevel);
                 if (tree == null)
                 {
-                    var name = getName(node);
+                    var name = helper.getName(node);
                     if (!parentChildCountPair.ContainsKey(name[0]))
                     {
                         parentChildCountPair.Add(name[0], 0);
@@ -194,7 +195,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 }
                 else
                 {
-                    var name = getName(node);
+                    var name = helper.getName(node);
                     if (!parentChildCountPair.ContainsKey(name[0]))
                     {
                         parentChildCountPair.Add(name[0], tree.Count);
@@ -205,140 +206,8 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                     }
                 }
             }
+            Console.WriteLine($"NESTINGLEVEL:{currentMax}");
             return parentChildCountPair;
-        }
-
-        /// <summary>
-        /// gets the short-name or id of the xml-tag
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        private List<string> getName (XElement node)
-        {
-            XName id = "UUID";
-            List<string> idNamePair = new List<string>();
-
-            if (node.HasAttributes && node.Attribute(id).Value != "")
-            {
-                idNamePair.Add(node.Attribute(id).Value);
-            }
-            if (node.Element("SHORT-NAME").Value != "")
-            {
-                idNamePair.Add(node.Element("SHORT-NAME").Value);
-            }
-            else
-            {
-                Console.WriteLine("ERROR: Cannot find name or ID!");
-            }
-
-            return idNamePair;
-        }
-
-        /// <summary>
-        /// gets the node from the given name string
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private XElement getNodeFromName(XElement node, string name)
-        {
-            List<XElement> nodeList = node.Descendants().ToList();
-            XElement matchingElement = new XElement("Dummy");
-
-            foreach(var nodeElement in nodeList)
-            {
-                if (nodeElement.Element("SHORT-NAME") != null && nodeElement.Element("SHORT-NAME").Value == name)
-                {
-                    matchingElement = nodeElement;
-                    break;
-                }
-                else if(nodeElement.Element("SHORT-NAME") == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: Couldn't find node!");
-                }
-            }
-            return matchingElement;
-        }
-
-        /// <summary>
-        /// checks if the given functiontype node has parts in it (prototypes)
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        private Boolean hasParts(XElement node)
-        {
-            if(node.Element("PARTS").HasElements)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// gets all the prototype of a given functiontype
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        private List<XElement> getParts(XElement node)
-        {
-            List<XElement> partList = new List<XElement>();
-            XElement partNode = new XElement("PartNode");
-
-            if (!hasParts(node))
-            {
-                return partList;
-            }
-            else
-            {
-                partNode = node.Element("PARTS");
-                partList = partNode.Descendants()
-                                   .Where(a => a.Name.ToString().Contains("PROTOTYPE"))
-                                   .ToList();
-                return partList;
-            }
-        }
-
-        /// <summary>
-        /// gets the value of the TYPE-TREF tag of the given node
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        public string getType(XElement node)
-        {
-            string type = node.Descendants()
-                              .Where(child => child.Name == "TYPE-TREF")
-                              .FirstOrDefault()
-                              .Value;
-
-            return type;          
-        }
-
-        /// <summary>
-        /// navigates to the Node that is given by the TYPE-TREF tag
-        /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="tref"></param>
-        /// <returns></returns>
-        private XElement navigateToNode(XDocument xml, string tref)
-        {
-            tref = tref.Substring(1);
-            string[] seperatedTrefs = tref.Split('/');
-            XElement node = xml.Descendants()
-                               .Where(a => a.Name == "EAXML")
-                               .FirstOrDefault();
-            for(int i = 0; i < seperatedTrefs.Count(); i++)
-            {
-                node = getNodeFromName(node, seperatedTrefs[i]);
-            }
-
-            return node;
         }
 
         /// <summary>
@@ -350,27 +219,34 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public List<XElement> constructTree(XDocument xml, XElement node, List<XElement> tree)
         {
-            /*if(node != null && (node.Name == "DESIGN-FUNCTION-TYPE" ||
-                               node.Name == "ANALYSIS-FUNCTION-TYPE" ||
-                               node.Name == "HARDWARE-FUNCTION-TYPE" ||
-                               node.Name == "HARDWARE-COMPONENT-TYPE" ||
-                               node.Name == "BASIC-SOFTWARE-FUNCTION-TYPE"))
-            {}*/
-            if (!hasParts(node))
+            
+            if(nestingLevel > currentMax)
+            {
+                currentMax = nestingLevel;
+            }
+            if (!helper.hasParts(node))
             {
                 return tree;
             }
             else
             {
-                List<XElement> parts = getParts(node);
+                nestingLevel++;
+                List<XElement> parts = helper.getParts(node);
                 foreach(var part in parts)
                 {
                     tree.Add(part);
-                    var functionType = navigateToNode(xml, getType(part));
+                    var functionType = helper.navigateToNode(xml, helper.getType(part));
+                    //Console.WriteLine($"INITIAL FUNCTIONTYPE: {helper.getName(node)[0]}\nFUNCTIONTYPE: {helper.getName(functionType)[0]}\n NESTINGLEVEL: {nestingLevel}\n PROTOTYPE: {part.ToString()}");
                     constructTree(xml, functionType, tree);
                 }
+                nestingLevel--;
                 return tree;
             }
+        }
+
+        public List<int> getNestingLevels()
+        {
+            return nestingLevels;
         }
 
     }

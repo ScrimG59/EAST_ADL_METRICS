@@ -1,16 +1,16 @@
 ﻿using EAST_ADL_METRICS.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using EAST_ADL_METRICS.Utils.Searcher;
 
 namespace EAST_ADL_METRICS.Utils.Categories
 {
     public class FunctionType
     {
-        private Searcher.Searcher searcher = new Searcher.Searcher();
+        private Global globalSearcher = new Global();
+        private Local localSearcher = new Local();
+
         private Metric parts = new Metric
         {
             Name = "Parts_fct",
@@ -56,24 +56,40 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Parts_fct(XDocument xml)
+        public Metric Parts_fct(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml, 
-                                    "DESIGN-FUNCTION-TYPE",
-                                    "ANALYSIS-FUNCTION-TYPE",
-                                    "HARDWARE-FUNCTION-TYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
-            var childElementList = searcher
-                                    .nestedChildElementList(parentList,
-                                    "DESIGN-FUNCTION-PROTOTYPE",
-                                    "ANALYSIS-FUNCTION-PROTOTYPE",
-                                    "HARDWARE-COMPONENT-PROTOTYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-PROTOTYPE");
+            // mode checks if the user wants metrics of the whole xml-file or of only one element
+            // mode = true (global), mode = false (local)
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml,
+                                               "DESIGN-FUNCTION-TYPE",
+                                               "ANALYSIS-FUNCTION-TYPE",
+                                               "HARDWARE-FUNCTION-TYPE",
+                                               "BASIC-SOFTWARE-FUNCTION-TYPE");
 
-            parts.MaxValue = childElementList.Values.Max();
-            parts.MinValue = childElementList.Values.Min();
-            parts.AvgValue = childElementList.Values.Average();
+                var childElementList = globalSearcher.nestedChildElementList(parentList,
+                                                     "DESIGN-FUNCTION-PROTOTYPE",
+                                                     "ANALYSIS-FUNCTION-PROTOTYPE",
+                                                     "HARDWARE-COMPONENT-PROTOTYPE",
+                                                     "BASIC-SOFTWARE-FUNCTION-PROTOTYPE");
 
+                parts.MaxValue = childElementList.Values.Max();
+                parts.MinValue = childElementList.Values.Min();
+                parts.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.nestedChildElementList(xml, elementName,
+                                                    "DESIGN-FUNCTION-PROTOTYPE",
+                                                    "ANALYSIS-FUNCTION-PROTOTYPE",
+                                                    "HARDWARE-COMPONENT-PROTOTYPE",
+                                                    "BASIC-SOFTWARE-FUNCTION-PROTOTYPE");
+
+                parts.MaxValue = childElementList.Values.Max();
+                parts.MinValue = childElementList.Values.Min();
+                parts.AvgValue = childElementList.Values.Average();
+            }
             return parts;
         }
 
@@ -82,21 +98,33 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Parts_fct_tc(XDocument xml)
+        public Metric Parts_fct_tc(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml,
-                                    "DESIGN-FUNCTION-TYPE",
-                                    "ANALYSIS-FUNCTION-TYPE",
-                                    "HARDWARE-FUNCTION-TYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
+            // mode checks if the user wants metrics of the whole xml-file or of only one element
+            // mode = true (global), mode = false (local)
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml,
+                                               "DESIGN-FUNCTION-TYPE",
+                                               "ANALYSIS-FUNCTION-TYPE",
+                                               "HARDWARE-FUNCTION-TYPE",
+                                               "BASIC-SOFTWARE-FUNCTION-TYPE");
 
-            var childElementList = searcher.recursiveChildElementList(xml, parentList);
+                var childElementList = globalSearcher.recursiveChildElementList(xml, parentList);
 
-            parts_tc.MaxValue = childElementList.Values.Max();
-            parts_tc.MinValue = childElementList.Values.Min();
-            parts_tc.AvgValue = childElementList.Values.Average();
+                parts_tc.MaxValue = childElementList.Values.Max();
+                parts_tc.MinValue = childElementList.Values.Min();
+                parts_tc.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.recursiveChildElementList(xml, elementName);
 
-            Console.WriteLine($"TYPNAME: {parts_tc.Name}");
+                parts_tc.MaxValue = childElementList.Values.Max();
+                parts_tc.MinValue = childElementList.Values.Min();
+                parts_tc.AvgValue = childElementList.Values.Average();
+            }
+
             return parts_tc;
         }
 
@@ -105,8 +133,27 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric NestingLevels_fct(XDocument xml)
+        public Metric NestingLevels_fct(XDocument xml, bool mode, string elementName = null)
         {
+            // mode checks if the user wants metrics of the whole xml-file or of only one element
+            // mode = true (global), mode = false (local)
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml,
+                                               "DESIGN-FUNCTION-TYPE",
+                                               "ANALYSIS-FUNCTION-TYPE",
+                                               "HARDWARE-FUNCTION-TYPE",
+                                               "BASIC-SOFTWARE-FUNCTION-TYPE");
+
+                var childElementList = globalSearcher.recursiveChildElementList(xml, parentList);
+
+            }
+            else
+            {
+                var childElementList = localSearcher.recursiveChildElementList(xml, elementName);
+                nestingLevels.AvgValue = localSearcher.getNestingLevel();
+            }
+
             return nestingLevels;
         }
 
@@ -115,28 +162,42 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Ports_fct(XDocument xml)
+        public Metric Ports_fct(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml,
-                                    "DESIGN-FUNCTION-TYPE",
-                                    "ANALYSIS-FUNCTION-TYPE",
-                                    "HARDWARE-FUNCTION-TYPE",
-                                    "HARDWARE-COMPONENT-TYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
-            var childElementList = searcher
-                                    .nestedChildElementList(parentList,
-                                    "FUNCTION-FLOW-PORT",
-                                    "FUNCTION-CLIENT-SERVER-PORT",
-                                    "FUNCTION-POWER-PORT",
-                                    "IO-HARDWARE-PIN", 
-                                    "COMMUNICATION-HARDWARE-PIN");
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml,
+                                               "DESIGN-FUNCTION-TYPE",
+                                               "ANALYSIS-FUNCTION-TYPE",
+                                               "HARDWARE-FUNCTION-TYPE",
+                                               "HARDWARE-COMPONENT-TYPE",
+                                               "BASIC-SOFTWARE-FUNCTION-TYPE");
 
-            ports.MaxValue = childElementList.Values.Max();
-            ports.MinValue = childElementList.Values.Min();
-            ports.AvgValue = childElementList.Values.Average();
+                var childElementList = globalSearcher.nestedChildElementList(parentList,
+                                                     "FUNCTION-FLOW-PORT",
+                                                     "FUNCTION-CLIENT-SERVER-PORT",
+                                                     "FUNCTION-POWER-PORT",
+                                                     "IO-HARDWARE-PIN",
+                                                     "COMMUNICATION-HARDWARE-PIN");
 
+                ports.MaxValue = childElementList.Values.Max();
+                ports.MinValue = childElementList.Values.Min();
+                ports.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.nestedChildElementList(xml, elementName,
+                                                    "FUNCTION-FLOW-PORT",
+                                                    "FUNCTION-CLIENT-SERVER-PORT",
+                                                    "FUNCTION-POWER-PORT",
+                                                    "IO-HARDWARE-PIN",
+                                                    "COMMUNICATION-HARDWARE-PIN");
+
+                ports.MaxValue = childElementList.Values.Max();
+                ports.MinValue = childElementList.Values.Min();
+                ports.AvgValue = childElementList.Values.Average();
+            }
             return ports;
-
         }
 
         /// <summary>
@@ -144,20 +205,32 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Connectors_fct(XDocument xml)
+        public Metric Connectors_fct(XDocument xml, bool mode, string elementName = null)
         {
-            var parentList = searcher.parentElementList(xml,
-                                    "DESIGN-FUNCTION-TYPE",
-                                    "ANALYSIS-FUNCTION-TYPE",
-                                    "HARDWARE-FUNCTION-TYPE",
-                                    "BASIC-SOFTWARE-FUNCTION-TYPE");
-            var childElementList = searcher
-                                    .nestedChildElementList(parentList,
-                                    "FUNCTION-CONNECTOR");
+            if (mode)
+            {
+                var parentList = globalSearcher.parentElementList(xml,
+                                               "DESIGN-FUNCTION-TYPE",
+                                               "ANALYSIS-FUNCTION-TYPE",
+                                               "HARDWARE-FUNCTION-TYPE",
+                                               "BASIC-SOFTWARE-FUNCTION-TYPE");
 
-            connectors.MaxValue = childElementList.Values.Max();
-            connectors.MinValue = childElementList.Values.Min();
-            connectors.AvgValue = childElementList.Values.Average();
+                var childElementList = globalSearcher.nestedChildElementList(parentList,
+                                                     "FUNCTION-CONNECTOR");
+
+                connectors.MaxValue = childElementList.Values.Max();
+                connectors.MinValue = childElementList.Values.Min();
+                connectors.AvgValue = childElementList.Values.Average();
+            }
+            else
+            {
+                var childElementList = localSearcher.nestedChildElementList(xml, elementName,
+                                                    "FUNCTION-CONNECTOR");
+
+                connectors.MaxValue = childElementList.Values.Max();
+                connectors.MinValue = childElementList.Values.Min();
+                connectors.AvgValue = childElementList.Values.Average();
+            }
 
             return connectors;
         }

@@ -9,7 +9,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 {
     public class Constraint
     {
-        private Searcher.Searcher searcher = new Searcher.Searcher();
+        private Searcher.Global searcher = new Searcher.Global();
         private Metric parts = new Metric
         {
             Name = "Parts_fct",
