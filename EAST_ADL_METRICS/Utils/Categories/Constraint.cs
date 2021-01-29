@@ -1,53 +1,72 @@
 ﻿using EAST_ADL_METRICS.Models;
+using EAST_ADL_METRICS.Utils.Searcher;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
 {
     public class Constraint
     {
-        private Searcher.Global searcher = new Searcher.Global();
-        private Metric parts = new Metric
+        private Global globalSearcher = new Global();
+        private Local localSearcher = new Local();
+        private Helper helper = new Helper();
+
+        private Metric constraints  = new Metric
         {
-            Name = "Parts_fct",
+            Name = "Constraints",
             Category = "Size",
-            Type = "FunctionType",
+            Type = "Constraint",
             Nested = false
         };
 
-        private Metric parts_tc = new Metric
+        public Metric Constraints(XDocument xml, string elementName)
         {
-            Name = "Parts_fct_tc",
-            Category = "Size",
-            Type = "FunctionType",
-            Nested = true
-        };
+            int count = 0;
 
-        private Metric nestingLevels = new Metric
-        {
-            Name = "NestingLevels_fct",
-            Category = "Size",
-            Type = "FunctionType",
-            Nested = false
-        };
+            // first get all timing constraints in the model
+            var periodicConstraintList = globalSearcher.parentElementList(xml, "PERIODIC-CONSTRAINT");
 
-        private Metric ports = new Metric
-        {
-            Name = "Ports_fct",
-            Category = "Size",
-            Type = "FunctionType",
-            Nested = false
-        };
+            // for each timing constraint do the following
+            foreach(var periodicConstraint in periodicConstraintList)
+            {
+                // gets the reference to the event function
+                string eventFunctionRef = periodicConstraint.Descendants()
+                                                      .Where(a => a.Name == "EVENT-REF")
+                                                      .FirstOrDefault()
+                                                      .Value;
 
-        private Metric connectors = new Metric
-        {
-            Name = "Connectors_fct",
-            Category = "Size",
-            Type = "FunctionType",
-            Nested = false
-        };
+                // gets the event function itself
+                XElement eventFunction = helper.navigateToNode(xml, eventFunctionRef);
+
+                // gets the reference to the function prototype
+                string functionPrototypeRef = eventFunction.Descendants()
+                                                           .Where(a => a.Name == "FUNCTION-PROTOTYPE-CONTEXT-REF")
+                                                           .FirstOrDefault()
+                                                           .Value;
+
+                // gets the function prototype itself
+                XElement functionProtoType = helper.navigateToNode(xml, functionPrototypeRef);
+
+                // gets the function type reference
+                string functionTypeRef = helper.getTypeReference(functionProtoType);
+
+                // gets the function type itself
+                XElement functionType = helper.navigateToNode(xml, functionTypeRef);
+
+                // if the function type is equal to the function type the user wanted the metrics from
+                if(helper.getShortName(functionType) == elementName)
+                {
+                    count++;
+                }
+            }
+
+            constraints.Value = count;
+
+            return constraints;
+        }
     }
 }

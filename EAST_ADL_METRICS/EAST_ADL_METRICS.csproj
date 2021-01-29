@@ -57,9 +57,12 @@
     </ApplicationDefinition>
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Metric.cs" />
+    <Compile Include="Utils\Categories\Architecture.cs" />
     <Compile Include="Utils\Categories\Constraint.cs" />
+    <Compile Include="Utils\Categories\Extension.cs" />
     <Compile Include="Utils\Categories\FunctionType.cs" />
     <Compile Include="Utils\Categories\Package.cs" />
+    <Compile Include="Utils\Categories\Port.cs" />
     <Compile Include="Utils\Categories\Requirement.cs" />
     <Compile Include="Utils\Categories\Wrapper.cs" />
     <Compile Include="Utils\Parser\Parser.cs" />

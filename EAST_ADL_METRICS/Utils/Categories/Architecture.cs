@@ -1,62 +1,75 @@
 ﻿using EAST_ADL_METRICS.Models;
-using System;
-using System.Linq;
-using System.Xml.Linq;
 using EAST_ADL_METRICS.Utils.Searcher;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
 {
-    public class FunctionType
+    public class Architecture
     {
         private Global globalSearcher = new Global();
         private Local localSearcher = new Local();
+        private Helper helper = new Helper();
 
         private Metric parts = new Metric
         {
-            Name = "Parts_fct",
+            Name = "Parts_arch",
             Category = "Size",
-            Type = "FunctionType",
+            Type = "Architecture",
             Nested = false
         };
 
         private Metric parts_tc = new Metric
         {
-            Name = "Parts_fct_tc",
+            Name = "Parts_arch_tc",
             Category = "Size",
-            Type = "FunctionType",
+            Type = "Architecture",
             Nested = true
         };
 
         private Metric nestingLevels = new Metric
         {
-            Name = "NestingLevels_fct",
+            Name = "NestingLevels_arch",
             Category = "Size",
-            Type = "FunctionType",
+            Type = "Architecture",
             Nested = false
         };
 
         private Metric ports = new Metric
         {
-            Name = "Ports_fct",
+            Name = "Ports_arch",
             Category = "Size",
-            Type = "FunctionType",
+            Type = "Architecture",
             Nested = false
         };
 
         private Metric connectors = new Metric
         {
-            Name = "Connectors_fct",
+            Name = "Connectors_arch",
             Category = "Size",
-            Type = "FunctionType",
+            Type = "Architecture",
+            Nested = false
+        };
+
+        private Metric functionNodeAllocation = new Metric
+        {
+            Name = "FunctionNodeAllocation",
+            Category = "Complexity",
+            Type = "Architecture",
             Nested = false
         };
 
         /// <summary>
-        /// returns the parts metric
+        /// return the parts metric
         /// </summary>
         /// <param name="xml"></param>
+        /// <param name="elementName"></param>
         /// <returns></returns>
-        public Metric Parts_fct(XDocument xml, string elementName)
+        public Metric Parts_arch(XDocument xml, string elementName)
         {
             // mode checks if the user wants metrics of the whole xml-file or of only one element
             // mode = true (global), mode = false (local)
@@ -78,14 +91,21 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 parts.MinValue = childElementList.Values.Min();
                 parts.AvgValue = childElementList.Values.Average();
             }*/
-            int count = localSearcher.nestedChildElementList(xml, elementName,
+
+            XElement architecture = helper.navigateToNode(xml, elementName);
+            // gets the function type of this architecture
+            XElement functionType = helper.getFunctionTypeFromArchitecture(xml, architecture);
+
+            string shortName = helper.getShortName(functionType);
+
+            int count = localSearcher.nestedChildElementList(xml, shortName,
                                                  "DESIGN-FUNCTION-PROTOTYPE",
                                                  "ANALYSIS-FUNCTION-PROTOTYPE",
                                                  "HARDWARE-COMPONENT-PROTOTYPE",
                                                  "BASIC-SOFTWARE-FUNCTION-PROTOTYPE");
 
             parts.Value = count;
-            
+
             return parts;
         }
 
@@ -94,7 +114,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Parts_fct_tc(XDocument xml, string elementName)
+        public Metric Parts_arch_tc(XDocument xml, string elementName)
         {
             // mode checks if the user wants metrics of the whole xml-file or of only one element
             // mode = true (global), mode = false (local)
@@ -112,7 +132,14 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 parts_tc.MinValue = childElementList.Values.Min();
                 parts_tc.AvgValue = childElementList.Values.Average();
             }*/
-            int count = localSearcher.recursiveChildElementList(xml, elementName);
+
+            XElement architecture = helper.navigateToNode(xml, elementName);
+            // gets the function type of this architecture
+            XElement functionType = helper.getFunctionTypeFromArchitecture(xml, architecture);
+
+            string shortName = helper.getShortName(functionType);
+
+            int count = localSearcher.recursiveChildElementList(xml, shortName);
 
             parts_tc.Value = count;
 
@@ -124,7 +151,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric NestingLevels_fct(XDocument xml, string elementName)
+        public Metric NestingLevels_arch(XDocument xml, string elementName)
         {
             // mode checks if the user wants metrics of the whole xml-file or of only one element
             // mode = true (global), mode = false (local)
@@ -140,7 +167,13 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             }*/
 
-            var childElementList = localSearcher.recursiveChildElementList(xml, elementName);
+            XElement architecture = helper.navigateToNode(xml, elementName);
+            // gets the function type of this architecture
+            XElement functionType = helper.getFunctionTypeFromArchitecture(xml, architecture);
+
+            string shortName = helper.getShortName(functionType);
+
+            var childElementList = localSearcher.recursiveChildElementList(xml, shortName);
             nestingLevels.Value = localSearcher.getNestingLevel();
 
             return nestingLevels;
@@ -151,7 +184,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Ports_fct(XDocument xml,  string elementName)
+        public Metric Ports_arch(XDocument xml, string elementName)
         {
             /*if (mode)
             {
@@ -173,7 +206,14 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 ports.MinValue = childElementList.Values.Min();
                 ports.AvgValue = childElementList.Values.Average();
             }*/
-            int count = localSearcher.nestedChildElementList(xml, elementName,
+
+            XElement architecture = helper.navigateToNode(xml, elementName);
+            // gets the function type of this architecture
+            XElement functionType = helper.getFunctionTypeFromArchitecture(xml, architecture);
+
+            string shortName = helper.getShortName(functionType);
+
+            int count = localSearcher.nestedChildElementList(xml, shortName,
                                                 "FUNCTION-FLOW-PORT",
                                                 "FUNCTION-CLIENT-SERVER-PORT",
                                                 "FUNCTION-POWER-PORT",
@@ -190,7 +230,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Metric Connectors_fct(XDocument xml, string elementName)
+        public Metric Connectors_arch(XDocument xml, string elementName)
         {
             /*if (mode)
             {
@@ -208,13 +248,89 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 connectors.AvgValue = childElementList.Values.Average();
             }*/
 
-            int count = localSearcher.nestedChildElementList(xml, elementName,
-                                                            "FUNCTION-CONNECTOR", 
+            XElement architecture = helper.navigateToNode(xml, elementName);
+            // gets the function type of this architecture
+            XElement functionType = helper.getFunctionTypeFromArchitecture(xml, architecture);
+
+            string shortName = helper.getShortName(functionType);
+
+            int count = localSearcher.nestedChildElementList(xml, shortName,
+                                                            "FUNCTION-CONNECTOR",
                                                             "HARDWARE-CONNECTOR");
 
             connectors.Value = count;
 
             return connectors;
         }
+
+        /// <summary>
+        /// returns the FunctionNodeAllocation metric
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <param name="elementName"></param>
+        /// <returns></returns>
+        public Metric FunctionNodeAllocation(XDocument xml, string elementName)
+        {
+            Dictionary<string, int> hardwareNodeCount = new Dictionary<string, int>();
+
+            // gets the architecture
+            XElement architecture = helper.navigateToNode(xml, elementName);
+
+            var designLevels = xml.Descendants().Where(a => a.Name == "DESIGN-LEVEL");
+            
+            // for each design level in the model it picks out both architectures and 
+            // looks if one of them is equal to the given architecture
+            foreach(var designLevel in designLevels)
+            { 
+                XElement functionalDesignArchitecture = designLevel.Descendants()
+                                                              .Where(a => a.Name == "FUNCTIONAL-DESIGN-ARCHITECTURE")
+                                                              .FirstOrDefault();
+
+                XElement hardwareDesignArchitecture = designLevel.Descendants()
+                                                              .Where(a => a.Name == "HARDWARE-DESIGN-ARCHITECTURE")
+                                                              .FirstOrDefault();
+
+                // if one of the two architectures are equal, we are in the right design level
+                if(functionalDesignArchitecture == architecture || hardwareDesignArchitecture == architecture)
+                {
+                    // if this design level has allocations
+                    if(designLevel.Descendants().Where(a => a.Name == "ALLOCATIONS").FirstOrDefault().HasElements)
+                    {
+                        // get all allocations within the design level
+                        var allocations = designLevel.Descendants().Where(a => a.Name == "FUNCTION-ALLOCATION");
+
+                        foreach(var allocation in allocations)
+                        {
+                            string reference = helper.getTypeReference(allocation);
+
+                            // if the hardware node has already been seen just increment the value by 1
+                            if (hardwareNodeCount.ContainsKey(reference))
+                            { 
+                                int currentValue = hardwareNodeCount[reference];
+                                hardwareNodeCount[reference] = ++currentValue;
+                            }
+                            // otherwise add the new hardware node into the dictionary with the initial value of 1
+                            else
+                            {
+                                hardwareNodeCount.Add(reference, 1);
+                            }
+                        }
+                    }
+                    // an architecture can only be in one level, so if the design level got found just break out of the loop
+                    break;
+                }
+            }
+            if (hardwareNodeCount.Count != 0)
+            {
+                functionNodeAllocation.Value = hardwareNodeCount.Values.Average();
+            }
+            else
+            {
+                functionNodeAllocation.Value = 0;
+            }
+
+            return functionNodeAllocation;
+        }
+
     }
 }

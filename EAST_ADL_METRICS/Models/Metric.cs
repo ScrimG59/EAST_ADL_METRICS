@@ -11,9 +11,7 @@ namespace EAST_ADL_METRICS.Models
         public string Name { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
-        public int MinValue { get; set; }
-        public int MaxValue { get; set; }
-        public double AvgValue { get; set; }
+        public double Value { get; set; }
         public Boolean Nested { get; set; }
     }
 }

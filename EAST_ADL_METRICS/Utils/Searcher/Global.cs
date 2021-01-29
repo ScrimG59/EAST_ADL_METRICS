@@ -235,7 +235,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 foreach(var part in parts)
                 {
                     tree.Add(part);
-                    var functionType = helper.navigateToNode(xml, helper.getType(part));
+                    var functionType = helper.navigateToNode(xml, helper.getTypeReference(part));
                     //Console.WriteLine($"INITIAL FUNCTIONTYPE: {helper.getName(node)[0]}\nFUNCTIONTYPE: {helper.getName(functionType)[0]}\n NESTINGLEVEL: {nestingLevel}\n PROTOTYPE: {part.ToString()}");
                     constructTree(xml, functionType, tree);
                 }
@@ -244,10 +244,42 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             }
         }
 
-        public List<int> getNestingLevels()
+        /// <summary>
+        /// only for requirment metrics in this case
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, int> getNestingLevels(List<XElement> parentList)
         {
-            return nestingLevels;
+            Dictionary<string, int> nodeDepthPair = new Dictionary<string, int>();
+
+            foreach(var node in parentList)
+            {
+                var currentNode = node;
+                int currentNestingLevel = 0;
+                while (currentNode.Parent.Name == "REQUIREMENTS-HIERARCHY")
+                {
+                    currentNode = currentNode.Parent;
+                    currentNestingLevel++;
+                }
+
+                var name = helper.getName(node);
+                if (!nodeDepthPair.ContainsKey(name[0]))
+                {
+                    nodeDepthPair.Add(name[0], currentNestingLevel);
+                }
+                else
+                {
+                    nodeDepthPair.Add(name[1], currentNestingLevel);
+                }
+            }
+
+            return nodeDepthPair;
         }
+
+        /*public List<int> getRecursiveNestingLevels()
+        {
+
+        }*/
 
     }
 }

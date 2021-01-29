@@ -16,29 +16,52 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public List<string> getName(XElement node)
         {
-            XName id = "UUID";
-            List<string> idNamePair = new List<string>();
+            try {
+                XName id = "UUID";
+                List<string> idNamePair = new List<string>();
 
-            if (node.HasAttributes && node.Attribute(id).Value != "")
-            {
-                idNamePair.Add(node.Attribute(id).Value);
-            }
-            if (node.Element("SHORT-NAME").Value != "")
-            {
-                idNamePair.Add(node.Element("SHORT-NAME").Value);
-            }
-            else
-            {
-                Console.WriteLine("ERROR: Cannot find name or ID!");
-            }
+                if (node.HasAttributes && node.Attribute(id).Value != "")
+                {
+                    idNamePair.Add(node.Attribute(id).Value);
+                }
+                if (node.Element("SHORT-NAME").Value != "")
+                {
+                    idNamePair.Add(node.Element("SHORT-NAME").Value);
+                }
+                else
+                {
+                    Console.WriteLine("ERROR: Cannot find name or ID!");
+                }
 
-            return idNamePair;
+                return idNamePair;
+            }
+            catch
+            {
+                throw new Exception("COULDN'T FIND NAME.");
+            }
+        }
+
+        /// <summary>
+        /// gets the SHORT-NAME of an element
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public string getShortName(XElement node)
+        {
+            try
+            {
+                return node.Element("SHORT-NAME").Value;
+            }
+            catch
+            {
+                throw new Exception("Couldn't find name!");
+            }
         }
 
         /// <summary>
         /// gets the node from the given name string
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">the whole xml-file as a node</param>
         /// <param name="name"></param>
         /// <returns></returns>
         public XElement getNodeFromName(XElement node, string name)
@@ -74,6 +97,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         {
             if (node.Element("PARTS").HasElements)
             {
+                Console.WriteLine($"NODE: {getName(node)[0]}");
                 return true;
             }
             else
@@ -83,7 +107,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         }
 
         /// <summary>
-        /// gets all the prototype of a given functiontype
+        /// gets all the prototypes of a given functiontype
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -107,14 +131,15 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         }
 
         /// <summary>
-        /// gets the value of the TYPE-TREF tag of the given node
+        /// gets the value of the REF tag of the given node
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
         public string getTypeReference(XElement node)
         {
             string type = node.Descendants()
-                              .Where(child => child.Name == "TYPE-TREF")
+                              .Where(child => child.Name == "TYPE-TREF" ||
+                                              child.Name == "ALLOCATION-TARGET-REF")
                               .FirstOrDefault()
                               .Value;
 
@@ -155,6 +180,20 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             return node;
         }
 
+        public string getLastNameOfReference(string tref)
+        {
+            if (tref.Contains("/"))
+            {
+                string[] splittedString = tref.Split('/');
+
+                return splittedString[splittedString.Count() - 1];
+            }
+            else
+            {
+                return tref;
+            }
+        }
+
         /// <summary>
         /// gets all functiontypes in the given xml-file
         /// </summary>
@@ -168,10 +207,39 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                                              node.Name == "HARDWARE-FUNCTION-TYPE" ||
                                              node.Name == "BASIC-SOFTWARE-FUNCTION-TYPE" ||
                                              node.Name == "REQUIREMENT" ||
-                                             node.Name == "EA-PACKAGE")
+                                             node.Name == "QUALITY-REQUIREMENT" ||
+                                             node.Name == "EA-PACKAGE" || 
+                                             node.Name == "FUNCTIONAL-ANALYSIS-ARCHITECTURE" ||
+                                             node.Name == "HARDWARE-DESIGN-ARCHITECTURE" ||
+                                             node.Name == "FUNCTIONAL-DESIGN-ARCHITECTURE")
                               .ToList();
 
             return nodeList;
+        }
+
+        /// <summary>
+        /// gets the contained requirment within a requirment hierarchy
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public XElement getContainedRequirement(XDocument xml, XElement node)
+        {
+            string reference = node.Element("CONTAINED-REQUIREMENT-REF").Value;
+            XElement reqtsNode = navigateToNode(xml, reference);
+
+            return reqtsNode;
+        }
+
+        /// <summary>
+        /// gets the function type of the given architecture
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public XElement getFunctionTypeFromArchitecture(XDocument xml, XElement node)
+        {
+            return navigateToNode(xml, getTypeReference(node));
         }
     }
 }
