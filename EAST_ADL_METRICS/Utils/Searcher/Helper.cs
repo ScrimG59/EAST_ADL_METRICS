@@ -168,10 +168,12 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             {
                 tref = tref.Substring(1);
             }
+
             string[] seperatedTrefs = tref.Split('/');
             XElement node = xml.Descendants()
                                .Where(a => a.Name == "EAXML")
                                .FirstOrDefault();
+
             for (int i = 0; i < seperatedTrefs.Count(); i++)
             {
                 node = getNodeFromName(node, seperatedTrefs[i]);

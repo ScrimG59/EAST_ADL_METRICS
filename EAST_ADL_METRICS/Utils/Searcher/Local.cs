@@ -165,7 +165,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 // if the right hierarchy got found
                 if(requirement == helper.getContainedRequirement(xml, hierarchy))
                 {
-                    // count the amount of subrequirements
+                    // count the amount of subrequirementhierarchies
                     int count = hierarchy.Descendants().Where(a => a.Name == "REQUIREMENTS-HIERARCHY").ToList().Count;
                     return count;
                 }
@@ -178,7 +178,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         }
 
         /// <summary>
-        /// only for requirment metrics in this case
+        /// only for requirement metrics in this case
         /// </summary>
         /// <returns></returns>
         public int getNestingLevels(XDocument xml, string parentName)
@@ -187,37 +187,43 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             var requirement = helper.navigateToNode(xml, parentName);
             // gets all requirements-hierarchy
             var hierarchies = global.parentElementList(xml, "REQUIREMENTS-HIERARCHY");
-            Dictionary<string, int> nodeDepthPair = new Dictionary<string, int>();
 
             foreach (var hierarchy in hierarchies)
             {
                 // if the right hierarchy got found
                 if (requirement == helper.getContainedRequirement(xml, hierarchy))
                 {
+                    var tempHierarchy = hierarchy;
                     int currentNestingLevel = 0;
 
                     while (true)
                     {
                         var currentNode = xml.Descendants()
-                                         .Where(a => a.Name == hierarchy.Name)
-                                         .Where(b => helper.getName(b) == helper.getName(hierarchy))
-                                         .Select(c => c.Parent).FirstOrDefault();
-                        if(currentNode.Name == "REQUIREMENTS-HIERARCHY")
+                                             .Where(a => a.Name == tempHierarchy.Name)
+                                             .Where(b => helper.getShortName(b) == helper.getShortName(tempHierarchy))
+                                             .Select(c => c.Parent).Select(d => d.Parent).ToList();
+
+                        // if another requirement got found as the parent, increment the nesting level
+                        if(currentNode[0].Name == "REQUIREMENTS-HIERARCHY")
                         {
+                            tempHierarchy = currentNode[0];
                             currentNestingLevel++;
                         }
+                        // this is the intermediate step to get to another requirements hierarchy
+                        else if(currentNode[0].Name == "CHILD-HIERARCHYS")
+                        {
+                            //node = currentNode;
+                            continue;
+                        }
+                        // if he doesn't find any more requirements as parents break out of the while-loop
                         else
                         {
                             break;
                         }  
                     }
 
-                    nodeDepthPair.Add(parentName, currentNestingLevel);
-                    break;
-                }
-                else
-                {
-                    // do nothing
+                    // return the nesting level
+                    return currentNestingLevel;
                 }
             }
 
@@ -225,9 +231,9 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         }
 
         /// <summary>
-        /// gets the nestinglevel for functiontypes
+        /// gets the nestinglevel for functiontypes (parts_tc)
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns> 
         public int getNestingLevel()
         {
             return currentMax;

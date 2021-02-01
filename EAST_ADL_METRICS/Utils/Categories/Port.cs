@@ -81,39 +81,107 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Metric FunctionPorts(XDocument xml, string elementName)
         {
-            int count = localSearcher.nestedChildElementList(xml, elementName,
-                                                            "FUNCTION-FLOW-PORT",
-                                                            "FUNCTION-CLIENT-SERVER-PORT",
-                                                            "FUNCTION-POWER-PORT");
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            functionPorts.Value = count;
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
+            {
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
+
+                string shortName = helper.getShortName(possibleFunctionType);
+
+                int count = localSearcher.nestedChildElementList(xml, shortName,
+                                                                "FUNCTION-FLOW-PORT",
+                                                                "FUNCTION-CLIENT-SERVER-PORT",
+                                                                "FUNCTION-POWER-PORT");
+
+                functionPorts.Value = count;
+            }    
+            else
+            {
+                int count = localSearcher.nestedChildElementList(xml, elementName,
+                                                                "FUNCTION-FLOW-PORT",
+                                                                "FUNCTION-CLIENT-SERVER-PORT",
+                                                                "FUNCTION-POWER-PORT");
+
+                functionPorts.Value = count;
+            }
+            
 
             return functionPorts;
         }
 
         public Metric FunctionFlowPorts(XDocument xml, string elementName)
         {
-            int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-FLOW-PORT");
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            functionFlowPorts.Value = count;
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
+            {
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
+
+                string shortName = helper.getShortName(possibleFunctionType);
+
+                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-FLOW-PORT");
+
+                functionFlowPorts.Value = count;
+            }
+            else
+            {
+                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-FLOW-PORT");
+
+                functionFlowPorts.Value = count;
+            }
 
             return functionFlowPorts;
         }
 
         public Metric FunctionPowerPorts(XDocument xml, string elementName)
         {
-            int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-POWER-PORT");
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            functionPowerPorts.Value = count;
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
+            {
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
 
+                string shortName = helper.getShortName(possibleFunctionType);
+
+                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-POWER-PORT");
+
+                functionPowerPorts.Value = count;
+            }
+            else
+            {
+                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-POWER-PORT");
+
+                functionPowerPorts.Value = count;
+            }
+            
             return functionPowerPorts;
         }
 
         public Metric FunctionClientServerPorts(XDocument xml, string elementName)
         {
-            int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-CLIENT-SERVER-PORT");
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            functionClientServerPorts.Value = count;
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
+            {
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
+
+                string shortName = helper.getShortName(possibleFunctionType);
+
+                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-CLIENT-SERVER-PORT");
+
+                functionClientServerPorts.Value = count;
+            } 
+            else
+            {
+                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-CLIENT-SERVER-PORT");
+
+                functionClientServerPorts.Value = count;
+            }
 
             return functionClientServerPorts;
         }
@@ -121,44 +189,97 @@ namespace EAST_ADL_METRICS.Utils.Categories
         public Metric Operations(XDocument xml, string elementName)
         {
             int count = 0;
-            // get the function type
-            XElement functionType = helper.navigateToNode(xml, elementName);
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            // get all function client server ports within the function type
-            var functionClientServerPorts = functionType.Descendants()
-                                                        .Where(a => a.Name == "FUNCTION-CLIENT-SERVER-PORT");
-
-            // iterate through all function client server ports
-            foreach(var functionClientServerPort in functionClientServerPorts)
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
             {
-                string reference = helper.getTypeReference(functionClientServerPort);
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
 
-                var functionClientServerInterface = helper.navigateToNode(xml, reference);
+                // get all function client server ports within the function type
+                var functionClientServerPorts = possibleFunctionType.Descendants()
+                                                            .Where(a => a.Name == "FUNCTION-CLIENT-SERVER-PORT");
 
-                var operations = functionClientServerInterface.Descendants()
-                                                              .Where(a => a.Name == "OPERATIONS")
-                                                              .FirstOrDefault();
-
-                // if it has elements count all operations
-                if (operations.HasElements)
+                // iterate through all function client server ports
+                foreach (var functionClientServerPort in functionClientServerPorts)
                 {
-                    count = operations.Descendants().Where(a => a.Name == "OPERATION").ToList().Count;
-                }
-            }
+                    string reference = helper.getTypeReference(functionClientServerPort);
 
-            operations.Value = count;
+                    var functionClientServerInterface = helper.navigateToNode(xml, reference);
+
+                    var operations = functionClientServerInterface.Descendants()
+                                                                  .Where(a => a.Name == "OPERATIONS")
+                                                                  .FirstOrDefault();
+
+                    // if it has elements count all operations
+                    if (operations.HasElements)
+                    {
+                        count = operations.Descendants().Where(a => a.Name == "OPERATION").ToList().Count;
+                    }
+                }
+
+                operations.Value = count;
+            }
+            else
+            {
+                // get the function type
+                XElement functionType = helper.navigateToNode(xml, elementName);
+                // get all function client server ports within the function type
+                var functionClientServerPorts = functionType.Descendants()
+                                                            .Where(a => a.Name == "FUNCTION-CLIENT-SERVER-PORT");
+
+                // iterate through all function client server ports
+                foreach (var functionClientServerPort in functionClientServerPorts)
+                {
+                    string reference = helper.getTypeReference(functionClientServerPort);
+
+                    var functionClientServerInterface = helper.navigateToNode(xml, reference);
+
+                    var operations = functionClientServerInterface.Descendants()
+                                                                  .Where(a => a.Name == "OPERATIONS")
+                                                                  .FirstOrDefault();
+
+                    // if it has elements count all operations
+                    if (operations.HasElements)
+                    {
+                        count = operations.Descendants().Where(a => a.Name == "OPERATION").ToList().Count;
+                    }
+                }
+
+                operations.Value = count;
+            }
 
             return operations;
         }
 
         public Metric HardwarePorts(XDocument xml, string elementName)
         {
-            int count = localSearcher.nestedChildElementList(xml, elementName, 
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
+
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
+            {
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
+
+                string shortName = helper.getShortName(possibleFunctionType);
+
+                int count = localSearcher.nestedChildElementList(xml, elementName,
+                                                            "IO-HARDWARE-PIN",
+                                                            "COMMUNICATION-HARDWARE-PIN",
+                                                            "POWER-HARDWARE-PIN",
+                                                            "HARDWARE-PORT");
+
+                hardwarePorts.Value = count;
+            }
+            else
+            {
+                int count = localSearcher.nestedChildElementList(xml, elementName,
                                                             "IO-HARDWARE-PIN",
                                                             "COMMUNICATION-HARDWARE-PIN",
                                                             "POWER-HARDWARE-PIN");
 
-            hardwarePorts.Value = count;
+                hardwarePorts.Value = count;
+            }
 
             return hardwarePorts;
         }
@@ -166,17 +287,39 @@ namespace EAST_ADL_METRICS.Utils.Categories
         public Metric Portgroups(XDocument xml, string elementName)
         {
             int count = 0;
-            var functionType = helper.navigateToNode(xml, elementName);
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            var portGroup = functionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
-
-            // if the function type has port groups then count it
-            if (portGroup.HasElements)
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
             {
-                count = localSearcher.nestedChildElementList(xml, elementName, "PORT-GROUP");
-            }
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
 
-            portgroups.Value = count;
+                string shortName = helper.getShortName(possibleFunctionType);
+
+                var portGroup = possibleFunctionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
+
+                // if the function type has port groups then count it
+                if (portGroup.HasElements)
+                {
+                    count = localSearcher.nestedChildElementList(xml, elementName, "PORT-GROUP");
+                }
+
+                portgroups.Value = count;
+            }
+            else
+            {
+                var functionType = helper.navigateToNode(xml, elementName);
+
+                var portGroup = functionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
+
+                // if the function type has port groups then count it
+                if (portGroup.HasElements)
+                {
+                    count = localSearcher.nestedChildElementList(xml, elementName, "PORT-GROUP");
+                }
+
+                portgroups.Value = count;
+            }
 
             return portgroups;
         }
@@ -185,37 +328,77 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             Dictionary<string, int> portGroupCount = new Dictionary<string, int>();
 
-            var functionType = helper.navigateToNode(xml, elementName);
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            var portGroup = functionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
-
-            // if the function type doesn't have any portgroups, then just return
-            if (!portGroup.HasElements)
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
             {
-                portgroupSize.Value = 0;
-                return portgroupSize;
-            }
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
 
-            var portGroups = portGroup.Descendants().Where(a => a.Name == "PORT-GROUP");
+                var portGroup = possibleFunctionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
 
-            foreach(var pg in portGroups)
-            {
-                var portRefs = pg.Descendants().Where(a => a.Name == "PORT-REFS").FirstOrDefault();
-
-                if (portRefs.HasElements)
+                // if the function type doesn't have any portgroups, then just return
+                if (!portGroup.HasElements)
                 {
-                    int count = pg.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
-                    portGroupCount.Add(helper.getShortName(pg), count);
+                    portgroupSize.Value = 0;
+                    return portgroupSize;
                 }
-            }
 
-            if(portGroupCount.Count != 0)
-            {
-                portgroupSize.Value = portGroupCount.Values.Average();
+                var portGroups = portGroup.Descendants().Where(a => a.Name == "PORT-GROUP");
+
+                foreach (var pg in portGroups)
+                {
+                    var portRefs = pg.Descendants().Where(a => a.Name == "PORT-REFS").FirstOrDefault();
+
+                    if (portRefs.HasElements)
+                    {
+                        int count = pg.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
+                        portGroupCount.Add(helper.getShortName(pg), count);
+                    }
+                }
+
+                if (portGroupCount.Count != 0)
+                {
+                    portgroupSize.Value = portGroupCount.Values.Average();
+                }
+                else
+                {
+                    portgroupSize.Value = 0;
+                }
             }
             else
             {
-                portgroupSize.Value = 0;
+                var functionType = helper.navigateToNode(xml, elementName);
+                var portGroup = functionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
+
+                // if the function type doesn't have any portgroups, then just return
+                if (!portGroup.HasElements)
+                {
+                    portgroupSize.Value = 0;
+                    return portgroupSize;
+                }
+
+                var portGroups = portGroup.Descendants().Where(a => a.Name == "PORT-GROUP");
+
+                foreach (var pg in portGroups)
+                {
+                    var portRefs = pg.Descendants().Where(a => a.Name == "PORT-REFS").FirstOrDefault();
+
+                    if (portRefs.HasElements)
+                    {
+                        int count = pg.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
+                        portGroupCount.Add(helper.getShortName(pg), count);
+                    }
+                }
+
+                if (portGroupCount.Count != 0)
+                {
+                    portgroupSize.Value = portGroupCount.Values.Average();
+                }
+                else
+                {
+                    portgroupSize.Value = 0;
+                }
             }
 
             return portgroupSize;

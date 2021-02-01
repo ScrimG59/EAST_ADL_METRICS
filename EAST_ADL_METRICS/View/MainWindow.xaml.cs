@@ -42,6 +42,7 @@ namespace EAST_ADL_METRICS
 
         private void SelectProject_Click(object sender, RoutedEventArgs e)
         {
+            resetAll();
             parser = new Parser();
             //package = new Package();
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -49,7 +50,6 @@ namespace EAST_ADL_METRICS
             openFileDialog.Filter = "EAST-ADL Files|*.eaxml";
             openFileDialog.DefaultExt = ".eaxml";
             Nullable<bool> dialogOK = openFileDialog.ShowDialog();
-            resetFontColors();
             XDocument xml = null;
 
             if (dialogOK == true)
@@ -103,48 +103,108 @@ namespace EAST_ADL_METRICS
             //Console.WriteLine(nestingLevel.AvgValue);
             
             var metricList = wrapper.calculateMetrics(xml, item);
-            /*if (mode)
+            var ruleList = wrapper.calcualteRules(xml);
+            if (item.Type.Contains("EA-PACKAGE"))
             {
-                Functions_pckg_val.Text = metricList[0].AvgValue.ToString();
-                Functions_pckg_tc_val.Text = metricList[1].AvgValue.ToString();
-                Reqts_pckg_val.Text = metricList[2].AvgValue.ToString();
-                Reqts_pckg_tc_val.Text = metricList[3].AvgValue.ToString();
-                Parts_fct_val.Text = metricList[4].AvgValue.ToString();
-                Parts_fct_tc_val.Text = metricList[5].AvgValue.ToString();
-                NestingLevels_fct_val.Text = metricList[6].AvgValue.ToString();
-                Ports_fct_val.Text = metricList[7].AvgValue.ToString();
-                Connectors_fct_val.Text = metricList[8].AvgValue.ToString();
-                SubReqts_val.Text = metricList[9].AvgValue.ToString();
-                NestingLevel_val.Text = metricList[10].AvgValue.ToString();
-                Satisfiers_val.Text = metricList[11].AvgValue.ToString();
-                Verifiers_val.Text = metricList[12].AvgValue.ToString();
-                Derivatives_val.Text = metricList[13].AvgValue.ToString();
-                Constraints_cons_val.Text = metricList[14].AvgValue.ToString();
-                Parts_cons_val.Text = metricList[15].AvgValue.ToString();
-                Parts_cons_tc_val.Text = metricList[16].AvgValue.ToString();
-                NestingLevels_cons_val.Text = metricList[17].AvgValue.ToString();
-                Connectors_cons_val.Text = metricList[18].AvgValue.ToString();
-                Parts_arch_val.Text = metricList[19].AvgValue.ToString();
-                Parts_arch_tc_val.Text = metricList[20].AvgValue.ToString();
-                NestingLevels_arch_val.Text = metricList[21].AvgValue.ToString();
-                Ports_arch_val.Text = metricList[22].AvgValue.ToString();
-                Connectors_arch_val.Text = metricList[23].AvgValue.ToString();
-                FunctionNodeAllocation_val.Text = metricList[24].AvgValue.ToString();
-                FunctionPorts_val.Text = metricList[25].AvgValue.ToString();
-                FunctionFlowPorts_val.Text = metricList[26].AvgValue.ToString();
-                FunctionPowerPorts_val.Text = metricList[27].AvgValue.ToString();
-                FunctionClientServerPorts_val.Text = metricList[28].AvgValue.ToString();
-                Operations_val.Text = metricList[29].AvgValue.ToString();
-                HardwarePorts_val.Text = metricList[30].AvgValue.ToString();
-                Portgroups_val.Text = metricList[31].AvgValue.ToString();
-                Portgroupsize_val.Text = metricList[32].AvgValue.ToString();
-                OptionalElements_val.Text = metricList[33].AvgValue.ToString();
-                Qualityrequirement_Requirement_Ratio_val.Text = metricList[34].AvgValue.ToString();
-                UseCaseSatisfaction_val.Text = metricList[35].AvgValue.ToString();
-                VVRatio_val.Text = metricList[36].AvgValue.ToString();
-            }*/
-
-            //Console.WriteLine($"NAME: {item.Name}\n TYPE: {item.Type}");
+                Functions_pckg_val.Text = metricList[0].Value.ToString();
+                Functions_pckg_tc_val.Text = metricList[1].Value.ToString();
+                Reqts_pckg_val.Text = metricList[2].Value.ToString();
+                Reqts_pckg_tc_val.Text = metricList[3].Value.ToString();
+                OptionalElements_val.Text = metricList[4].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[5].Value.ToString();
+                UseCaseSatisfaction_val.Text = metricList[6].Value.ToString();
+                VVRatio_val.Text = metricList[7].Value.ToString();
+            }
+            else if(item.Type.Contains("FUNCTION-TYPE") || item.Type.Contains("ANALYSIS-ARCHITECTURE"))
+            {
+                Parts_fct_val.Text = metricList[0].Value.ToString();
+                Parts_fct_tc_val.Text = metricList[1].Value.ToString();
+                NestingLevels_fct_val.Text = metricList[2].Value.ToString();
+                Ports_fct_val.Text = metricList[3].Value.ToString();
+                Connectors_fct_val.Text = metricList[4].Value.ToString();
+                Constraints_val.Text = metricList[5].Value.ToString();
+                FunctionPorts_val.Text = metricList[6].Value.ToString();
+                FunctionFlowPorts_val.Text = metricList[7].Value.ToString();
+                FunctionPowerPorts_val.Text = metricList[8].Value.ToString();
+                FunctionClientServerPorts_val.Text = metricList[9].Value.ToString();
+                Operations_val.Text = metricList[10].Value.ToString();
+                Portgroups_val.Text = metricList[11].Value.ToString();
+                Portgroupsize_val.Text = metricList[12].Value.ToString();
+                OptionalElements_val.Text = metricList[13].Value.ToString();
+                UseCaseSatisfaction_val.Text = metricList[14].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[15].Value.ToString();
+                VVRatio_val.Text = metricList[16].Value.ToString();
+            }
+            else if (item.Type.Equals("HARDWARE-DESIGN-ARCHITECTURE"))
+            {
+                Parts_fct_val.Text = metricList[0].Value.ToString();
+                Parts_fct_tc_val.Text = metricList[1].Value.ToString();
+                NestingLevels_fct_val.Text = metricList[2].Value.ToString();
+                Ports_fct_val.Text = metricList[3].Value.ToString();
+                Connectors_fct_val.Text = metricList[4].Value.ToString();
+                HardwarePorts_val.Text = metricList[5].Value.ToString();
+                OptionalElements_val.Text = metricList[6].Value.ToString();
+                UseCaseSatisfaction_val.Text = metricList[7].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[8].Value.ToString();
+                VVRatio_val.Text = metricList[9].Value.ToString();
+            }
+            else if (item.Type.Contains("DESIGN-ARCHITECTURE"))
+            {
+                Parts_fct_val.Text = metricList[0].Value.ToString();
+                Parts_fct_tc_val.Text = metricList[1].Value.ToString();
+                NestingLevels_fct_val.Text = metricList[2].Value.ToString();
+                Ports_fct_val.Text = metricList[3].Value.ToString();
+                Connectors_fct_val.Text = metricList[4].Value.ToString();
+                Constraints_val.Text = metricList[5].Value.ToString();
+                FunctionNodeAllocation_val.Text = metricList[6].Value.ToString();
+                FunctionPorts_val.Text = metricList[7].Value.ToString();
+                FunctionFlowPorts_val.Text = metricList[8].Value.ToString();
+                FunctionPowerPorts_val.Text = metricList[9].Value.ToString();
+                FunctionClientServerPorts_val.Text = metricList[10].Value.ToString();
+                Operations_val.Text = metricList[11].Value.ToString();
+                Portgroups_val.Text = metricList[12].Value.ToString();
+                Portgroupsize_val.Text = metricList[13].Value.ToString();
+                OptionalElements_val.Text = metricList[14].Value.ToString();
+                UseCaseSatisfaction_val.Text = metricList[15].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[16].Value.ToString();
+                VVRatio_val.Text = metricList[17].Value.ToString();
+            }
+            else if (item.Type.Contains("REQUIREMENT"))
+            {
+                SubReqts_val.Text = metricList[0].Value.ToString();
+                NestingLevel_val.Text = metricList[1].Value.ToString();
+                Satisfiers_val.Text = metricList[2].Value.ToString();
+                Verifiers_val.Text = metricList[3].Value.ToString();
+                Derivatives_val.Text = metricList[4].Value.ToString();
+                OptionalElements_val.Text = metricList[5].Value.ToString();
+                UseCaseSatisfaction_val.Text = metricList[6].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[7].Value.ToString();
+                VVRatio_val.Text = metricList[8].Value.ToString();
+            }
+            if (ruleList[0].Fulfilled)
+            {
+                PortConnectorAllocation.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            if (ruleList[1].Fulfilled)
+            {
+                Unverified.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            if (ruleList[2].Fulfilled)
+            {
+                ResidualAnomaly.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            if (ruleList[3].Fulfilled)
+            {
+                Reference.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            if (ruleList[4].Fulfilled)
+            {
+                EventChainPair.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            if (true)
+            {
+                PortConnectorDirection.Foreground = new SolidColorBrush(Colors.Green);
+            }
         }
 
         private void ExtractResult_Click(object sender, RoutedEventArgs e)
@@ -191,7 +251,7 @@ namespace EAST_ADL_METRICS
                 Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
             }
-            else if(item.Type.Contains("FUNCTION-TYPE") || item.Type.Contains("FUNCTIONAL-ANALYSIS-ARCHITECTURE"))
+            else if(item.Type.Contains("FUNCTION-TYPE") || item.Type.Contains("ANALYSIS-ARCHITECTURE"))
             {
                 Functions_pckg.Foreground = new SolidColorBrush(Colors.Gray);
                 Functions_pckg_tc.Foreground = new SolidColorBrush(Colors.Gray);
@@ -199,6 +259,7 @@ namespace EAST_ADL_METRICS
                 Reqts_pckg_tc.Foreground = new SolidColorBrush(Colors.Gray);
                 SubReqts.Foreground = new SolidColorBrush(Colors.Gray);
                 NestingLevel.Foreground = new SolidColorBrush(Colors.Gray);
+                HardwarePorts.Foreground = new SolidColorBrush(Colors.Gray);
                 Satisfiers.Foreground = new SolidColorBrush(Colors.Gray);
                 Verifiers.Foreground = new SolidColorBrush(Colors.Gray);
                 Derivatives.Foreground = new SolidColorBrush(Colors.Gray);
@@ -224,6 +285,27 @@ namespace EAST_ADL_METRICS
                 FunctionClientServerPorts.Foreground = new SolidColorBrush(Colors.Gray);
                 Operations.Foreground = new SolidColorBrush(Colors.Gray);
                 HardwarePorts.Foreground = new SolidColorBrush(Colors.Gray);
+                Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
+                Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else if (item.Type.Equals("HARDWARE-DESIGN-ARCHITECTURE") || item.Type.Equals("HARDWARE-COMPONENT-TYPE"))
+            {
+                Functions_pckg.Foreground = new SolidColorBrush(Colors.Gray);
+                Functions_pckg_tc.Foreground = new SolidColorBrush(Colors.Gray);
+                Reqts_pckg.Foreground = new SolidColorBrush(Colors.Gray);
+                Reqts_pckg_tc.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionNodeAllocation.Foreground = new SolidColorBrush(Colors.Gray);
+                SubReqts.Foreground = new SolidColorBrush(Colors.Gray);
+                NestingLevel.Foreground = new SolidColorBrush(Colors.Gray);
+                Satisfiers.Foreground = new SolidColorBrush(Colors.Gray);
+                Verifiers.Foreground = new SolidColorBrush(Colors.Gray);
+                Derivatives.Foreground = new SolidColorBrush(Colors.Gray);
+                Constraints.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionFlowPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionPowerPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionClientServerPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                Operations.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
             }
@@ -271,6 +353,50 @@ namespace EAST_ADL_METRICS
             Functional_Quality_Reqts_Ratio.Foreground = new SolidColorBrush(Colors.AliceBlue);
             UseCaseSatisfaction.Foreground = new SolidColorBrush(Colors.AliceBlue);
             VVRatio.Foreground = new SolidColorBrush(Colors.AliceBlue);
+            PortConnectorAllocation.Foreground = new SolidColorBrush(Colors.IndianRed);
+            Unverified.Foreground = new SolidColorBrush(Colors.IndianRed);
+            ResidualAnomaly.Foreground = new SolidColorBrush(Colors.IndianRed);
+            Reference.Foreground = new SolidColorBrush(Colors.IndianRed);
+            EventChainPair.Foreground = new SolidColorBrush(Colors.IndianRed);
+            PortConnectorDirection.Foreground = new SolidColorBrush(Colors.IndianRed);
+        }
+
+        private void resetValues()
+        {
+            Functions_pckg_val.Text = "";
+            Functions_pckg_tc_val.Text = "";
+            Reqts_pckg_val.Text = "";
+            Reqts_pckg_tc_val.Text = "";
+            Parts_fct_val.Text = "";
+            Parts_fct_tc_val.Text = "";
+            NestingLevels_fct_val.Text = "";
+            Ports_fct_val.Text = "";
+            Connectors_fct_val.Text = "";
+            Constraints_val.Text = "";
+            FunctionNodeAllocation_val.Text = "";
+            SubReqts_val.Text = "";
+            NestingLevel_val.Text = "";
+            Satisfiers_val.Text = "";
+            Verifiers_val.Text = "";
+            Derivatives_val.Text = "";
+            FunctionPorts_val.Text = "";
+            FunctionFlowPorts_val.Text = "";
+            FunctionPowerPorts_val.Text = "";
+            FunctionClientServerPorts_val.Text = "";
+            Operations_val.Text = "";
+            HardwarePorts_val.Text = "";
+            Portgroups_val.Text = "";
+            Portgroupsize_val.Text = "";
+            OptionalElements_val.Text = "";
+            UseCaseSatisfaction_val.Text = "";
+            Functional_Quality_Reqts_Ratio_val.Text = "";
+            VVRatio_val.Text = "";
+        }
+
+        private void resetAll()
+        {
+            resetFontColors();
+            resetValues();
         }
     }
 }

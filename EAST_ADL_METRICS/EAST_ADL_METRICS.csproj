@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Metric.cs" />
+    <Compile Include="Models\Rule.cs" />
     <Compile Include="Utils\Categories\Architecture.cs" />
     <Compile Include="Utils\Categories\Constraint.cs" />
     <Compile Include="Utils\Categories\Extension.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Utils\Categories\Package.cs" />
     <Compile Include="Utils\Categories\Port.cs" />
     <Compile Include="Utils\Categories\Requirement.cs" />
+    <Compile Include="Utils\Categories\Rules.cs" />
     <Compile Include="Utils\Categories\Wrapper.cs" />
     <Compile Include="Utils\Parser\Parser.cs" />
     <Compile Include="View\SelectWindow.xaml.cs">
@@ -114,9 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Example.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

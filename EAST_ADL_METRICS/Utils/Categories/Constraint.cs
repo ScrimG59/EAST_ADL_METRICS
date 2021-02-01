@@ -26,45 +26,117 @@ namespace EAST_ADL_METRICS.Utils.Categories
         public Metric Constraints(XDocument xml, string elementName)
         {
             int count = 0;
+            XElement possibleArchitecture = helper.navigateToNode(xml, elementName);
 
-            // first get all timing constraints in the model
-            var periodicConstraintList = globalSearcher.parentElementList(xml, "PERIODIC-CONSTRAINT");
-
-            // for each timing constraint do the following
-            foreach(var periodicConstraint in periodicConstraintList)
+            if (possibleArchitecture.Name.ToString().Contains("ARCHITECTURE"))
             {
-                // gets the reference to the event function
-                string eventFunctionRef = periodicConstraint.Descendants()
-                                                      .Where(a => a.Name == "EVENT-REF")
-                                                      .FirstOrDefault()
-                                                      .Value;
+                // gets the function type of this architecture
+                XElement possibleFunctionType = helper.getFunctionTypeFromArchitecture(xml, possibleArchitecture);
 
-                // gets the event function itself
-                XElement eventFunction = helper.navigateToNode(xml, eventFunctionRef);
+                // first get all timing constraints in the model
+                var periodicConstraintList = globalSearcher.parentElementList(xml, "PERIODIC-CONSTRAINT");
 
-                // gets the reference to the function prototype
-                string functionPrototypeRef = eventFunction.Descendants()
-                                                           .Where(a => a.Name == "FUNCTION-PROTOTYPE-CONTEXT-REF")
-                                                           .FirstOrDefault()
-                                                           .Value;
-
-                // gets the function prototype itself
-                XElement functionProtoType = helper.navigateToNode(xml, functionPrototypeRef);
-
-                // gets the function type reference
-                string functionTypeRef = helper.getTypeReference(functionProtoType);
-
-                // gets the function type itself
-                XElement functionType = helper.navigateToNode(xml, functionTypeRef);
-
-                // if the function type is equal to the function type the user wanted the metrics from
-                if(helper.getShortName(functionType) == elementName)
+                // for each timing constraint do the following
+                foreach (var periodicConstraint in periodicConstraintList)
                 {
-                    count++;
-                }
-            }
+                    // gets the reference to the event function
+                    string eventFunctionRef = periodicConstraint.Descendants()
+                                                          .Where(a => a.Name == "EVENT-REF")
+                                                          .FirstOrDefault()
+                                                          .Value;
 
-            constraints.Value = count;
+                    // gets the event function itself
+                    XElement eventFunction = helper.navigateToNode(xml, eventFunctionRef);
+
+                    // gets the reference to the function prototype
+                    string functionPrototypeRef = eventFunction.Descendants()
+                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-CONTEXT-REF")
+                                                               .FirstOrDefault()
+                                                               .Value;
+
+                    // gets the function prototype itself
+                    XElement functionProtoType = helper.navigateToNode(xml, functionPrototypeRef);
+
+                    // gets the function type reference
+                    string functionTypeRef = helper.getTypeReference(functionProtoType);
+
+                    // gets the function type itself
+                    XElement functionType = helper.navigateToNode(xml, functionTypeRef);
+
+                    // checks if it's a function type from an architecture or a "normal" prototype
+                    if (possibleFunctionType != null)
+                    {
+                        // if the function type is equal to the function type the user wanted the metrics from
+                        if (helper.getShortName(possibleFunctionType) == elementName)
+                        {
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        // if the function type is equal to the function type the user wanted the metrics from
+                        if (helper.getShortName(functionType) == elementName)
+                        {
+                            count++;
+                        }
+                    }
+                }
+
+                constraints.Value = count;
+            }
+            else
+            {
+                // first get all timing constraints in the model
+                var periodicConstraintList = globalSearcher.parentElementList(xml, "PERIODIC-CONSTRAINT");
+
+                // for each timing constraint do the following
+                foreach (var periodicConstraint in periodicConstraintList)
+                {
+                    // gets the reference to the event function
+                    string eventFunctionRef = periodicConstraint.Descendants()
+                                                          .Where(a => a.Name == "EVENT-REF")
+                                                          .FirstOrDefault()
+                                                          .Value;
+
+                    // gets the event function itself
+                    XElement eventFunction = helper.navigateToNode(xml, eventFunctionRef);
+
+                    // gets the reference to the function prototype
+                    string functionPrototypeRef = eventFunction.Descendants()
+                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-CONTEXT-REF")
+                                                               .FirstOrDefault()
+                                                               .Value;
+
+                    // gets the function prototype itself
+                    XElement functionProtoType = helper.navigateToNode(xml, functionPrototypeRef);
+
+                    // gets the function type reference
+                    string functionTypeRef = helper.getTypeReference(functionProtoType);
+
+                    // gets the function type itself
+                    XElement functionType = helper.navigateToNode(xml, functionTypeRef);
+
+                    // checks if it's a function type from an architecture or a "normal" prototype
+                    if (functionType != null)
+                    {
+                        // if the function type is equal to the function type the user wanted the metrics from
+                        if (helper.getShortName(functionType) == elementName)
+                        {
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        // if the function type is equal to the function type the user wanted the metrics from
+                        if (helper.getShortName(functionType) == elementName)
+                        {
+                            count++;
+                        }
+                    }
+                }
+
+                constraints.Value = count;
+            }
 
             return constraints;
         }

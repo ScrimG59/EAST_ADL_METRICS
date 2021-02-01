@@ -136,6 +136,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             int count = 0;
 
+            XElement requirement = helper.navigateToNode(xml, elementName);
+
             List<XElement> allFunctionTypes = globalSearcher.parentElementList(xml,
                                                             "DESIGN-FUNCTION-TYPE",
                                                             "ANALYSIS-FUNCTION-TYPE",
@@ -154,7 +156,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                     foreach (var r in referenceList)
                     {
-                        if (helper.getLastNameOfReference(r.Value) == elementName)
+                        if (helper.navigateToNode(xml, r.Value) == requirement)
                         {
                             int vvCaseCount = functionType.Descendants()
                                                           .Where(a => a.Name == "VERIFIED-BY-CASE-REFS")

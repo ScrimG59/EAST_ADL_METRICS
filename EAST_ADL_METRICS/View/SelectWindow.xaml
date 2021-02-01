@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EAST_ADL_METRICS.View"
         mc:Ignorable="d"
-        Title="SelectWindow" Height="450" Width="800"
+        Title="Elementlist" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid Background="#222">
         <ListView Background="#222" Margin="10" Name="ListViewFunctionTypes">
