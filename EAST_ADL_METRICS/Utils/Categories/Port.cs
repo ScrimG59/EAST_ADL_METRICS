@@ -299,9 +299,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 var portGroup = possibleFunctionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
 
                 // if the function type has port groups then count it
-                if (portGroup.HasElements)
+                if (portGroup != null && portGroup.HasElements)
                 {
-                    count = localSearcher.nestedChildElementList(xml, elementName, "PORT-GROUP");
+                    count = localSearcher.nestedChildElementList(xml, shortName, "PORT-GROUP");
                 }
 
                 portgroups.Value = count;
@@ -313,7 +313,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 var portGroup = functionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
 
                 // if the function type has port groups then count it
-                if (portGroup.HasElements)
+                if (portGroup != null && portGroup.HasElements)
                 {
                     count = localSearcher.nestedChildElementList(xml, elementName, "PORT-GROUP");
                 }
@@ -338,7 +338,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 var portGroup = possibleFunctionType.Descendants().Where(a => a.Name == "PORT-GROUPS").FirstOrDefault();
 
                 // if the function type doesn't have any portgroups, then just return
-                if (!portGroup.HasElements)
+                if (portGroup != null && !portGroup.HasElements)
                 {
                     portgroupSize.Value = 0;
                     return portgroupSize;
@@ -350,9 +350,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 {
                     var portRefs = pg.Descendants().Where(a => a.Name == "PORT-REFS").FirstOrDefault();
 
-                    if (portRefs.HasElements)
+                    if (portRefs != null && portRefs.HasElements)
                     {
-                        int count = pg.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
+                        int count = portRefs.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
                         portGroupCount.Add(helper.getShortName(pg), count);
                     }
                 }
@@ -384,9 +384,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 {
                     var portRefs = pg.Descendants().Where(a => a.Name == "PORT-REFS").FirstOrDefault();
 
-                    if (portRefs.HasElements)
+                    if (portRefs != null && portRefs.HasElements)
                     {
-                        int count = pg.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
+                        int count = portRefs.Descendants().Where(a => a.Name == "PORT-REF").ToList().Count;
                         portGroupCount.Add(helper.getShortName(pg), count);
                     }
                 }

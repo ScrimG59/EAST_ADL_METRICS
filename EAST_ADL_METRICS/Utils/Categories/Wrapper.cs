@@ -1,10 +1,6 @@
 ﻿using EAST_ADL_METRICS.Models;
-using EAST_ADL_METRICS.Utils.Searcher;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
@@ -19,6 +15,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         private Port port = new Port();
         private Extension extension = new Extension();
         private Rules rules= new Rules();
+        private Mode mode = new Mode();
 
         public List<Metric> calculateMetrics(XDocument xml, Item item)
         {
@@ -163,6 +160,14 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[16].Value}");
                 Console.WriteLine($"VVRatio: {metricList[17].Value}");
             }
+            else if (item.Type.Contains("MODE"))
+            {
+                metricList.Add(mode.AllocatedFunctionTypes(xml, item.Name));
+                metricList.Add(extension.VariableElements(xml));
+                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
+                metricList.Add(extension.VVRatio(xml));
+            }
 
             return metricList;
         }
@@ -176,6 +181,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             ruleList.Add(rules.ResidualAnomaly(xml));
             ruleList.Add(rules.Reference(xml));
             ruleList.Add(rules.EventChainPair(xml));
+            ruleList.Add(rules.ModeAllocation(xml));
 
             return ruleList;
         }

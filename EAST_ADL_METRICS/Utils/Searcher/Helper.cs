@@ -95,7 +95,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public Boolean hasParts(XElement node)
         {
-            if (node.Element("PARTS").HasElements)
+            if (node.Name.ToString().Contains("FUNCTION-TYPE") && node.Element("PARTS").HasElements)
             {
                 Console.WriteLine($"NODE: {getName(node)[0]}");
                 return true;
@@ -137,13 +137,17 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public string getTypeReference(XElement node)
         {
-            string type = node.Descendants()
+            var type = node.Descendants()
                               .Where(child => child.Name == "TYPE-TREF" ||
                                               child.Name == "ALLOCATION-TARGET-REF")
-                              .FirstOrDefault()
-                              .Value;
+                              .FirstOrDefault();
 
-            return type;
+            if(type != null)
+            {
+                return type.Value;
+            }
+
+            return "";
         }
 
         /// <summary>
@@ -213,7 +217,8 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                                              node.Name == "EA-PACKAGE" || 
                                              node.Name == "FUNCTIONAL-ANALYSIS-ARCHITECTURE" ||
                                              node.Name == "HARDWARE-DESIGN-ARCHITECTURE" ||
-                                             node.Name == "FUNCTIONAL-DESIGN-ARCHITECTURE")
+                                             node.Name == "FUNCTIONAL-DESIGN-ARCHITECTURE" ||
+                                             node.Name == "MODE")
                               .ToList();
 
             return nodeList;

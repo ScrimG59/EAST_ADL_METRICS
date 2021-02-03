@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,6 +61,7 @@
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\Rule.cs" />
+    <Compile Include="Utils\Categories\Mode.cs" />
     <Compile Include="Utils\Categories\Architecture.cs" />
     <Compile Include="Utils\Categories\Constraint.cs" />
     <Compile Include="Utils\Categories\Extension.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="Utils\Categories\Rules.cs" />
     <Compile Include="Utils\Categories\Wrapper.cs" />
     <Compile Include="Utils\Parser\Parser.cs" />
+    <Compile Include="Utils\Parser\Serializer.cs" />
     <Compile Include="View\SelectWindow.xaml.cs">
       <DependentUpon>SelectWindow.xaml</DependentUpon>
     </Compile>
@@ -109,6 +114,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

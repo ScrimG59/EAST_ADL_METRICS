@@ -57,16 +57,6 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Metric SubReqts(XDocument xml, string elementName)
         {
-            /*if (mode)
-            {
-                var parentList = globalSearcher.parentElementList(xml, "REQUIREMENTS-HIERARCHY");
-
-                var childElementList = globalSearcher.nestedChildElementList(parentList, "REQUIREMENTS-HIERARCHY");
-
-                subReqts.MaxValue = childElementList.Values.Max();
-                subReqts.MinValue = childElementList.Values.Min();
-                subReqts.AvgValue = childElementList.Values.Average();
-            }*/
 
             int count = localSearcher.subRequirementElementList(xml, elementName);
 
@@ -99,30 +89,20 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             int count = 0;
 
+            // get the requirement the user selected
             XElement requirement = helper.navigateToNode(xml, elementName);
 
-            List<XElement> allFunctionTypes = globalSearcher.parentElementList(xml,
-                                                            "DESIGN-FUNCTION-TYPE",
-                                                            "ANALYSIS-FUNCTION-TYPE",
-                                                            "HARDWARE-FUNCTION-TYPE",
-                                                            "BASIC-SOFTWARE-FUNCTION-TYPE");
+            // get all satisfied requirement refs in the file
+            var referenceList = xml.Descendants().Where(a => a.Name == "SATISFIED-REQUIREMENT-REF");
 
-            foreach(var functionType in allFunctionTypes)
+            if (referenceList.Count() != 0)
             {
-                var reference = functionType.Descendants()
-                                            .Where(a => a.Name == "SATISFIED-REQUIREMENT-REFS")
-                                            .FirstOrDefault();
-
-                if(reference != null)
+                // iterate through each reference and check if the satisfied requirement equals the selected requirement
+                foreach (var reference in referenceList)
                 {
-                    var referenceList = reference.Elements();
-
-                    foreach(var r in referenceList)
+                    if (helper.navigateToNode(xml, reference.Value) == requirement)
                     {
-                        if(helper.navigateToNode(xml, r.Value) == requirement)
-                        {
-                            count++;
-                        }
+                        count++;
                     }
                 }
             }
@@ -136,40 +116,31 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             int count = 0;
 
+            // get the requirement the user selected
             XElement requirement = helper.navigateToNode(xml, elementName);
 
-            List<XElement> allFunctionTypes = globalSearcher.parentElementList(xml,
-                                                            "DESIGN-FUNCTION-TYPE",
-                                                            "ANALYSIS-FUNCTION-TYPE",
-                                                            "HARDWARE-FUNCTION-TYPE",
-                                                            "BASIC-SOFTWARE-FUNCTION-TYPE");
+            // get all verify-relations in the file
+            var verifyList = xml.Descendants().Where(a => a.Name == "VERIFY");
 
-            foreach (var functionType in allFunctionTypes)
+            if(verifyList.Count() != 0)
             {
-                var reference = functionType.Descendants()
-                                            .Where(a => a.Name == "VERIFIED-REQUIREMENT-REFS")
-                                            .FirstOrDefault();
-
-                if (reference != null)
+                foreach(var verify in verifyList)
                 {
-                    var referenceList = reference.Elements();
+                    // get all verified requirement refs in the verify-relation
+                    var referenceList = verify.Descendants().Where(a => a.Name == "VERIFIED-REQUIREMENT-REF");
 
-                    foreach (var r in referenceList)
+                    // iterate through each reference and check if the verified requirement equals the selected requirement
+                    foreach (var reference in referenceList)
                     {
-                        if (helper.navigateToNode(xml, r.Value) == requirement)
+                        if (helper.navigateToNode(xml, reference.Value) == requirement)
                         {
-                            int vvCaseCount = functionType.Descendants()
-                                                          .Where(a => a.Name == "VERIFIED-BY-CASE-REFS")
-                                                          .Count();
-
-                            int vvProcedureCount = functionType.Descendants()
-                                                               .Where(a => a.Name == "VERIFIED-BY-PROCEDURE-REFS")
-                                                               .Count();
-
-                            count += vvCaseCount + vvProcedureCount; 
+                            count += verify.Descendants()
+                                           .Where(a => a.Name == "VERIFIED-BY-CASE-REF" ||
+                                                       a.Name == "VERIFIED-BY-PROCEDURE-REF")
+                                           .Count();
                         }
                     }
-                }
+                }   
             }
 
             verifiers.Value = count;
@@ -179,6 +150,37 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Metric Derivatives(XDocument xml, string elementName)
         {
+            int count = 0;
+            XElement requirement = helper.navigateToNode(xml, elementName);
+
+            // get all derive Requirment relations in the file
+            var deriveRequirementList = xml.Descendants().Where(a => a.Name == "DERIVE-REQUIREMENT");
+
+            // if the list isnt null
+            if(deriveRequirementList.Count() != 0)
+            {
+                // iterate through every relation
+                foreach(var deriveRequirement in deriveRequirementList)
+                {
+                    // get the "derived from refs"
+                    var referenceList = deriveRequirement.Descendants().Where(a => a.Name == "DERIVED-FROM-REF");
+                    
+                    if(referenceList.Count() != 0)
+                    {
+                        foreach(var reference in referenceList)
+                        {
+                            // if one derive-from ref equals the current requirement, get the count of the derived requirement refs
+                            if(helper.navigateToNode(xml, reference.Value) == requirement)
+                            {
+                                count += deriveRequirement.Descendants().Where(a => a.Name == "DERIVED-REF").ToList().Count;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            derivatives.Value = count;
             return derivatives;
         }
     }

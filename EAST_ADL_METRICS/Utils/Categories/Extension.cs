@@ -50,15 +50,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
         public Metric VariableElements(XDocument xml)
         {
             var elements = xml.Descendants().Where(a => a.Name == "VARIABLE-ELEMENT");
-
-            if(elements != null)
-            {
-                variableElements.Value = elements.Count();
-            }
-            else
-            {
-                variableElements.Value = 0;
-            }
+            
+            variableElements.Value = elements.Count();
 
             return variableElements;
         }
@@ -69,16 +62,16 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             var qualityRequirements = xml.Descendants().Where(a => a.Name == "QUALITY-REQUIREMENT");
 
-            if(requirements != null && qualityRequirements != null && qualityRequirements.Count() != 0)
+            if(qualityRequirements.Count() != 0)
             {
                 double result = requirements.Count() / qualityRequirements.Count();
                 functionalQualityReqtsRatio.Value = result;
             }
-            else if(requirements == null)
+            else if(requirements.Count() == 0)
             {
                 functionalQualityReqtsRatio.Value = 0;
             }
-            else if(qualityRequirements == null)
+            else if(qualityRequirements.Count() == 0)
             {
                 functionalQualityReqtsRatio.Value = requirements.Count();
             }
@@ -92,7 +85,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             var useCases = xml.Descendants().Where(a => a.Name == "USE-CASE");
 
-            if(useCases == null)
+            if(useCases.Count() == 0)
             {
                 useCaseSatisfaction.Value = count;
                 return useCaseSatisfaction;
@@ -101,7 +94,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             {
                 var reference = xml.Descendants().Where(a => a.Name == "SATISFIED-USE-CASE-REF");
 
-                if(reference == null)
+                if(reference.Count() == 0)
                 {
                     useCaseSatisfaction.Value = count;
                     return useCaseSatisfaction;
@@ -132,7 +125,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             var verifyTags = xml.Descendants().Where(a => a.Name == "VERIFY");
 
-            if(verifyTags == null)
+            if(verifyTags.Count() == 0)
             {
                 vvRatio.Value = ratio;
                 return vvRatio;
@@ -142,7 +135,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             {
                 var verifiedByProcedureRef = verifyTag.Descendants().Where(a => a.Name == "VERIFIED-BY-PROCEDURE-REF");
                 
-                if(verifiedByProcedureRef == null)
+                if(verifiedByProcedureRef.Count() == 0)
                 {
                     vvCaseOnly++;
                 }

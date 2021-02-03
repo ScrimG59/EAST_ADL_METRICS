@@ -1,24 +1,14 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using EAST_ADL_METRICS.Utils.Parser;
 using EAST_ADL_METRICS.Utils.Categories;
 using System.Xml.Linq;
 using EAST_ADL_METRICS.View;
-using System.Threading;
 using EAST_ADL_METRICS.Models;
+using System.IO;
 
 namespace EAST_ADL_METRICS
 {
@@ -28,12 +18,12 @@ namespace EAST_ADL_METRICS
     public partial class MainWindow : Window
     {
         private Parser parser;
-        private Package package = new Package();
-        private FunctionType functionType = new FunctionType();
-        private Requirement requirement = new Requirement();
+        private Serializer serializer = new Serializer();
         private Wrapper wrapper = new Wrapper();
-        // true: global, false: local
-        // private bool mode = true;
+        private bool resultsReady = false;
+        private List<Metric> metricList = new List<Metric>();
+        private List<Rule> ruleList = new List<Rule>();
+        private Item selectedItem = new Item();
 
         public MainWindow()
         {
@@ -44,7 +34,6 @@ namespace EAST_ADL_METRICS
         {
             resetAll();
             parser = new Parser();
-            //package = new Package();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = "EAST-ADL Files|*.eaxml";
@@ -58,52 +47,31 @@ namespace EAST_ADL_METRICS
             }
             else
             {
-                MessageBox.Show("Something went wrong. Try it again!");
+                Console.WriteLine("Closed opendialog without selecting file");
+                return;
             }
 
             if(parser.Loaded() == true)
             {
-                MessageBox.Show("XML-file successfully loaded!");
+                MessageBox.Show("EAXML-file successfully loaded!");
                 SelectWindow selectWindow = new SelectWindow(xml);
                 selectWindow.Show();
             }
             else
             {
-                MessageBox.Show("Loading of XML-file failed! Please try again!");
+                MessageBox.Show("Loading of EAXML-file failed! Please try again!");
             }
-
-            /*Console.WriteLine("Functions_pckg:");
-            var functions_pckg = package.Functions_pckg(xml);
-            Console.WriteLine(functions_pckg.MaxValue);
-            Console.WriteLine(functions_pckg.MinValue);
-            Console.WriteLine(functions_pckg.AvgValue);
-
-            Console.WriteLine("Functions_pckg_tc:");
-            var functions_pckg_tc = package.Functions_pckg_tc(xml);
-            Console.WriteLine(functions_pckg_tc.MaxValue);
-            Console.WriteLine(functions_pckg_tc.MinValue);
-            Console.WriteLine(functions_pckg_tc.AvgValue);
-
-            Console.WriteLine("Parts_fct_tc:");
-            var parts_fct_tc = functionType.Parts_fct_tc(xml);
-            Console.WriteLine(parts_fct_tc.MaxValue);
-            Console.WriteLine(parts_fct_tc.MinValue);
-            Console.WriteLine(parts_fct_tc.AvgValue);*/
-
         }
 
         public void showMetrics(XDocument xml, Item item)
         {
             changeFontColor(item);
+            selectedItem = item;
             SelectedElement.Text = item.Name;
-            //var subReqts = requirement.SubReqts(xml, name);
-            //var nestingLevel = requirement.NestingLevel(xml, name);
 
-            //Console.WriteLine(subReqts.AvgValue);
-            //Console.WriteLine(nestingLevel.AvgValue);
-            
-            var metricList = wrapper.calculateMetrics(xml, item);
-            var ruleList = wrapper.calcualteRules(xml);
+            metricList = wrapper.calculateMetrics(xml, item);
+            ruleList = wrapper.calcualteRules(xml);
+
             if (item.Type.Contains("EA-PACKAGE"))
             {
                 Functions_pckg_val.Text = metricList[0].Value.ToString();
@@ -181,6 +149,14 @@ namespace EAST_ADL_METRICS
                 Functional_Quality_Reqts_Ratio_val.Text = metricList[7].Value.ToString();
                 VVRatio_val.Text = metricList[8].Value.ToString();
             }
+            else if (item.Type.Equals("MODE"))
+            {
+                AllocatedFunctionTypes_val.Text = metricList[0].Value.ToString();
+                OptionalElements_val.Text = metricList[1].Value.ToString();
+                UseCaseSatisfaction_val.Text = metricList[2].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[3].Value.ToString();
+                VVRatio_val.Text = metricList[4].Value.ToString();
+            }
             if (ruleList[0].Fulfilled)
             {
                 PortConnectorAllocation.Foreground = new SolidColorBrush(Colors.Green);
@@ -201,30 +177,42 @@ namespace EAST_ADL_METRICS
             {
                 EventChainPair.Foreground = new SolidColorBrush(Colors.Green);
             }
-            if (true)
+            if (ruleList[5].Fulfilled)
             {
-                PortConnectorDirection.Foreground = new SolidColorBrush(Colors.Green);
+                ModeAllocation.Foreground = new SolidColorBrush(Colors.Green);
             }
+            resultsReady = true;
         }
 
         private void ExtractResult_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Button works.");
-        }
+            if (resultsReady)
+            {
+                Stream myStream;
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                string path = "";
 
-        /*private void Mode_Click(object sender, RoutedEventArgs e)
-        {
-            if (mode)
-            {
-                btnModeText.Text = "Local";
-                mode = false;
+                saveFileDialog.Filter = "txt files (*.txt)|*.txt";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    if ((myStream = saveFileDialog.OpenFile()) != null)
+                    {
+                        path = saveFileDialog.FileName;
+                        myStream.Close();
+                    }
+
+                    serializer.WriteResultsIntoFile(metricList, ruleList, selectedItem, path);
+                    MessageBox.Show("Successfully extracted results!");
+                    resultsReady = false;
+                }
+                else
+                {
+                    Console.WriteLine("Closed savedialog without selecting/creating file");
+                    return;
+                }
             }
-            else
-            {
-                btnModeText.Text = "Global";
-                mode = true;
-            }
-        }*/
+        }
 
         private void changeFontColor(Item item)
         {
@@ -250,6 +238,7 @@ namespace EAST_ADL_METRICS
                 HardwarePorts.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
+                AllocatedFunctionTypes.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else if(item.Type.Contains("FUNCTION-TYPE") || item.Type.Contains("ANALYSIS-ARCHITECTURE"))
             {
@@ -265,6 +254,7 @@ namespace EAST_ADL_METRICS
                 Derivatives.Foreground = new SolidColorBrush(Colors.Gray);
                 Constraints.Foreground = new SolidColorBrush(Colors.Gray);
                 FunctionNodeAllocation.Foreground = new SolidColorBrush(Colors.Gray);
+                AllocatedFunctionTypes.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else if(item.Type.Contains("REQUIREMENT"))
             {
@@ -287,6 +277,7 @@ namespace EAST_ADL_METRICS
                 HardwarePorts.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
+                AllocatedFunctionTypes.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else if (item.Type.Equals("HARDWARE-DESIGN-ARCHITECTURE") || item.Type.Equals("HARDWARE-COMPONENT-TYPE"))
             {
@@ -308,6 +299,7 @@ namespace EAST_ADL_METRICS
                 Operations.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
                 Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
+                AllocatedFunctionTypes.Foreground = new SolidColorBrush(Colors.Gray);
             }
             else if (item.Type.Contains("DESIGN-ARCHITECTURE"))
             {
@@ -320,6 +312,34 @@ namespace EAST_ADL_METRICS
                 Satisfiers.Foreground = new SolidColorBrush(Colors.Gray);
                 Verifiers.Foreground = new SolidColorBrush(Colors.Gray);
                 Derivatives.Foreground = new SolidColorBrush(Colors.Gray);
+                AllocatedFunctionTypes.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else if (item.Type.Equals("MODE"))
+            {
+                Parts_fct.Foreground = new SolidColorBrush(Colors.Gray);
+                Parts_fct_tc.Foreground = new SolidColorBrush(Colors.Gray);
+                NestingLevels_fct.Foreground = new SolidColorBrush(Colors.Gray);
+                Ports_fct.Foreground = new SolidColorBrush(Colors.Gray);
+                Connectors_fct.Foreground = new SolidColorBrush(Colors.Gray);
+                Functions_pckg.Foreground = new SolidColorBrush(Colors.Gray);
+                Functions_pckg_tc.Foreground = new SolidColorBrush(Colors.Gray);
+                Reqts_pckg.Foreground = new SolidColorBrush(Colors.Gray);
+                Reqts_pckg_tc.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionNodeAllocation.Foreground = new SolidColorBrush(Colors.Gray);
+                SubReqts.Foreground = new SolidColorBrush(Colors.Gray);
+                NestingLevel.Foreground = new SolidColorBrush(Colors.Gray);
+                Satisfiers.Foreground = new SolidColorBrush(Colors.Gray);
+                Verifiers.Foreground = new SolidColorBrush(Colors.Gray);
+                Derivatives.Foreground = new SolidColorBrush(Colors.Gray);
+                Constraints.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionFlowPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionPowerPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                FunctionClientServerPorts.Foreground = new SolidColorBrush(Colors.Gray);
+                Operations.Foreground = new SolidColorBrush(Colors.Gray);
+                HardwarePorts.Foreground = new SolidColorBrush(Colors.Gray);
+                Portgroups.Foreground = new SolidColorBrush(Colors.Gray);
+                Portgroupsize.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
 
@@ -358,7 +378,8 @@ namespace EAST_ADL_METRICS
             ResidualAnomaly.Foreground = new SolidColorBrush(Colors.IndianRed);
             Reference.Foreground = new SolidColorBrush(Colors.IndianRed);
             EventChainPair.Foreground = new SolidColorBrush(Colors.IndianRed);
-            PortConnectorDirection.Foreground = new SolidColorBrush(Colors.IndianRed);
+            ModeAllocation.Foreground = new SolidColorBrush(Colors.IndianRed);
+            AllocatedFunctionTypes.Foreground = new SolidColorBrush(Colors.AliceBlue);
         }
 
         private void resetValues()
@@ -391,10 +412,14 @@ namespace EAST_ADL_METRICS
             UseCaseSatisfaction_val.Text = "";
             Functional_Quality_Reqts_Ratio_val.Text = "";
             VVRatio_val.Text = "";
+            AllocatedFunctionTypes_val.Text = "";
         }
 
         private void resetAll()
         {
+            resultsReady = false;
+            metricList = new List<Metric>();
+            ruleList = new List<Rule>();
             resetFontColors();
             resetValues();
         }

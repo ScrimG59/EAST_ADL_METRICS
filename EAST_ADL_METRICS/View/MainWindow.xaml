@@ -269,40 +269,28 @@
             <TextBlock x:Name="VVRatio_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="13">
-            <TextBlock x:Name="PortConnectorAllocation" Text="PortConnectorAllocation" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="AllocatedFunctionTypes" Text="AllocatedFunctionTypes: " Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="13">
-            <TextBlock x:Name="PortConnectorAllocation_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="AllocatedFunctionTypes_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="14">
-            <TextBlock x:Name="Unverified" Text="Unverified" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="PortConnectorAllocation" Text="PortConnectorAllocation" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="14">
-            <TextBlock x:Name="Unverified_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
-        </Viewbox>
-        <Viewbox Grid.Column="2" Grid.Row="15">
-            <TextBlock x:Name="ResidualAnomaly" Text="ResidualAnomaly" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
-        </Viewbox>
-        <Viewbox Grid.Column="3" Grid.Row="15">
-            <TextBlock x:Name="ResidualAnomaly_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Unverified" Text="Unverified" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="16">
-            <TextBlock x:Name="Reference" Text="Reference" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="ResidualAnomaly" Text="ResidualAnomaly" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="16">
-            <TextBlock x:Name="Reference_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
-        </Viewbox>
-        <Viewbox Grid.Column="2" Grid.Row="17">
-            <TextBlock x:Name="EventChainPair" Text="EventChainPair" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
-        </Viewbox>
-        <Viewbox Grid.Column="3" Grid.Row="17">
-            <TextBlock x:Name="EventChainPair_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="Reference" Text="Reference" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="2" Grid.Row="18">
-            <TextBlock x:Name="PortConnectorDirection" Text="PortConnectorDirection" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="EventChainPair" Text="EvenChainPair" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
         <Viewbox Grid.Column="3" Grid.Row="18">
-            <TextBlock x:Name="PortConnectorDirection_val" Text="" Foreground="AliceBlue" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
+            <TextBlock x:Name="ModeAllocation" Text="ModeAllocation" Foreground="IndianRed" Margin="20" FontSize="30" FontFamily="helvetica" Background="Transparent"></TextBlock>
         </Viewbox>
     </Grid>
 </Window>

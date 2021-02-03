@@ -25,7 +25,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         {
             XElement parent = helper.navigateToNode(xml, parentName);
 
-            if (parent.HasElements)
+            if (parent != null && parent.HasElements)
             {
                 // Elements == 1st level, Descendants == All levels
                 List<XElement> matchingChildNodes = parent.Descendants()
@@ -46,7 +46,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                     return 0;
                 }
             }
-            else{}
 
             return 0;
         }
@@ -66,12 +65,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                                      .Where(child => child.Name == "ELEMENTS")
                                      .FirstOrDefault();
 
-            if (element == null)
-            {
-                return 0;
-            }
-
-            else if (element.HasElements)
+            if (element != null && element.HasElements)
             {
                 List<XElement> matchingChildNodes = element.Elements()
                                                            .Where(child => child.Name == firstKeyword
@@ -89,9 +83,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 {
                     return 0;
                 }
-
             }
-            else{}
 
             return 0;
         }
@@ -108,6 +100,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
 
             List<XElement> tree = new List<XElement>();
             nestingLevel = 0;
+            currentMax = 0;
             tree = constructTree(xml, parent, tree);
             if (tree == null)
             {

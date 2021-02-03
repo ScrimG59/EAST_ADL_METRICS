@@ -39,6 +39,11 @@ namespace EAST_ADL_METRICS.Utils.Categories
             Name = "EventChainPair"
         };
 
+        private Rule modeAllocation = new Rule
+        {
+            Name = "ModeAllocation"
+        };
+
         public Rule PortConnectorAllocation(XDocument xml)
         {
             bool portConnector = false;
@@ -89,10 +94,63 @@ namespace EAST_ADL_METRICS.Utils.Categories
             return portConnectorAllocation;
         }
 
-        // TODO
         public Rule Unverified(XDocument xml)
         {
-            unverified.Fulfilled = true;
+            bool found = false;
+            // get all requirement hierarchys
+            var requirementHierarchyList = xml.Descendants().Where(a => a.Name == "REQUIREMENTS-HIERARCHY");
+
+            if(requirementHierarchyList.Count() != 0)
+            {
+                // iterate through every hierarchy and check if they have children
+                foreach(var requirementHierarchy in requirementHierarchyList)
+                {
+                    var children = requirementHierarchy.Descendants().Where(a => a.Name == "REQUIREMENTS-HIERARCHY");
+                    
+                    // if they don't have children, they have to get verified
+                    if(children.Count() == 0)
+                    {
+                        found = false;
+                        // get the contained requirement
+                        var containedRequirement = helper.getContainedRequirement(xml, requirementHierarchy);
+
+                        // get all verify-relations in the file
+                        var verifyList = xml.Descendants().Where(a => a.Name == "VERIFY");
+
+                        if (verifyList.Count() != 0)
+                        {
+                            // iterate through each verify relation
+                            foreach (var verify in verifyList)
+                            {
+                                if (found)
+                                {
+                                    break;
+                                }
+                                // get all verified requirement refs in the verify-relation
+                                var referenceList = verify.Descendants().Where(a => a.Name == "VERIFIED-REQUIREMENT-REF");
+
+                                // iterate through each reference and check if the verified requirement equals the selected requirement
+                                foreach (var reference in referenceList)
+                                {
+                                    if (helper.navigateToNode(xml, reference.Value) == containedRequirement)
+                                    {
+                                        // since there has to be a case verifying the requirement according to the meta model
+                                        // check if there's "vvCase"
+                                        var vvCase = verify.Descendants().Where(a => a.Name == "VERIFIED-BY-CASE");
+
+                                        if (vvCase.Count() != 0)
+                                        {
+                                            found = true;
+                                            break;
+                                        }    
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            unverified.Fulfilled = found;
             return unverified;
         }
 
@@ -100,7 +158,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             var anomalyRefs = globalSearcher.parentElementList(xml, "ANOMALY-IREF");
 
-            if(anomalyRefs != null)
+            if(anomalyRefs.Count() != 0)
             {
                 residualAnomaly.Fulfilled = true;
             }
@@ -122,7 +180,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             foreach(var protoType in protoTypeList)
             {
-                var typeRef = xml.Descendants().Where(a => a.Name == "TYPE-TREF").FirstOrDefault();
+                var typeRef = protoType.Descendants().Where(a => a.Name == "TYPE-TREF").FirstOrDefault();
 
                 if(typeRef == null || typeRef.Value == "")
                 {
@@ -153,6 +211,53 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             eventChainPair.Fulfilled = true;
             return eventChainPair;
+        }
+
+        public Rule ModeAllocation(XDocument xml)
+        {
+            // get every mode in the file
+            var modeList = xml.Descendants().Where(a => a.Name == "MODE");
+            var functionTriggerList = xml.Descendants().Where(a => a.Name == "FUNCTION-TRIGGER");
+
+            // if there are modes but no function triggers the rule isn't fulfilled
+            if((modeList.Count() != 0 && functionTriggerList.Count() == 0))
+            {
+                modeAllocation.Fulfilled = false;
+                return modeAllocation;
+            }
+
+            if (modeList.Count() != 0)
+            {
+                // iterate through each mode and check if there's a function ref referencing to the given mode
+                foreach(var mode in modeList)
+                {
+                    foreach(var functionTrigger in functionTriggerList)
+                    {
+                        var modeRefList = functionTrigger.Descendants().Where(a => a.Name == "MODE-REF");
+
+                        if(modeRefList.Count() != 0)
+                        {
+                            foreach(var modeRef in modeRefList)
+                            {
+                                // if theres a mode-ref referencing to the given mode, the rule is fulfilled
+                                if (helper.navigateToNode(xml, modeRef.Value) == mode)
+                                {
+                                    modeAllocation.Fulfilled = true;
+                                    return modeAllocation;
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+            else
+            {
+                modeAllocation.Fulfilled = true;
+                return modeAllocation;
+            }
+
+            modeAllocation.Fulfilled = false;
+            return modeAllocation;
         }
     }
 }
