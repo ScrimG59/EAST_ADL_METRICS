@@ -98,7 +98,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             bool found = false;
             // get all requirement hierarchys
-            var requirementHierarchyList = xml.Descendants().Where(a => a.Name == "REQUIREMENTS-HIERARCHY");
+            var requirementHierarchyList = globalSearcher.parentElementList(xml, "REQUIREMENTS-HIERARCHY");
 
             if(requirementHierarchyList.Count() != 0)
             {
@@ -115,7 +115,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                         var containedRequirement = helper.getContainedRequirement(xml, requirementHierarchy);
 
                         // get all verify-relations in the file
-                        var verifyList = xml.Descendants().Where(a => a.Name == "VERIFY");
+                        var verifyList = globalSearcher.parentElementList(xml, "VERIFY");
 
                         if (verifyList.Count() != 0)
                         {
@@ -136,7 +136,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                                     {
                                         // since there has to be a case verifying the requirement according to the meta model
                                         // check if there's "vvCase"
-                                        var vvCase = verify.Descendants().Where(a => a.Name == "VERIFIED-BY-CASE");
+                                        var vvCase = verify.Descendants().Where(a => a.Name == "VERIFIED-BY-CASE-REF");
 
                                         if (vvCase.Count() != 0)
                                         {
@@ -145,6 +145,13 @@ namespace EAST_ADL_METRICS.Utils.Categories
                                         }    
                                     }
                                 }
+                            }
+
+                            // if he didn't find any case/procedure verifying the requirement, the rule isn't fulfilled
+                            if (!found)
+                            {
+                                unverified.Fulfilled = found;
+                                return unverified;
                             }
                         }
                     }
@@ -182,7 +189,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
             {
                 var typeRef = protoType.Descendants().Where(a => a.Name == "TYPE-TREF").FirstOrDefault();
 
-                if(typeRef == null || typeRef.Value == "")
+                // if typeRef is null or the value is null or he doesn't find the node (because the path is possibly wrong)
+                if(typeRef == null || typeRef.Value == "" || helper.navigateToNode(xml, typeRef.Value).Name == "Dummy")
                 {
                     reference.Fulfilled = false;
                     return reference;
@@ -216,8 +224,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
         public Rule ModeAllocation(XDocument xml)
         {
             // get every mode in the file
-            var modeList = xml.Descendants().Where(a => a.Name == "MODE");
-            var functionTriggerList = xml.Descendants().Where(a => a.Name == "FUNCTION-TRIGGER");
+            var modeList = globalSearcher.parentElementList(xml, "MODE");
+            var functionTriggerList = globalSearcher.parentElementList(xml, "FUNCTION-TRIGGER");
 
             // if there are modes but no function triggers the rule isn't fulfilled
             if((modeList.Count() != 0 && functionTriggerList.Count() == 0))
@@ -228,7 +236,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             if (modeList.Count() != 0)
             {
-                // iterate through each mode and check if there's a function ref referencing to the given mode
+                // iterate through each mode and check if there's a function ref of a function trigger referencing to the given mode
                 foreach(var mode in modeList)
                 {
                     foreach(var functionTrigger in functionTriggerList)

@@ -12,7 +12,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         private int nestingLevel = 0;
         private int currentMax = 0;
         private Helper helper = new Helper();
-        private Global global = new Global();
 
         /// <summary>
         /// Returns pair of the parent node and the count of the keyword child nodes
@@ -146,7 +145,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             }
         }
 
-        public int subRequirementElementList(XDocument xml, string parentName)
+        /*public int subRequirementElementList(XDocument xml, string parentName)
         {
             // navigates to the node of the parentName-string
             var requirement = helper.navigateToNode(xml, parentName);
@@ -168,13 +167,13 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 }
             }
             return 0;
-        }
+        }*/
 
         /// <summary>
         /// only for requirement metrics in this case
         /// </summary>
         /// <returns></returns>
-        public int getNestingLevels(XDocument xml, string parentName)
+        /*public int getNestingLevels(XDocument xml, string parentName)
         {
             // navigates to the node of the parentName-string
             var requirement = helper.navigateToNode(xml, parentName);
@@ -221,7 +220,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             }
 
             return 0;
-        }
+        }*/
 
         /// <summary>
         /// gets the nestinglevel for functiontypes (parts_tc)

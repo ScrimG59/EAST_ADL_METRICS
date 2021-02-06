@@ -49,7 +49,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Metric VariableElements(XDocument xml)
         {
-            var elements = xml.Descendants().Where(a => a.Name == "VARIABLE-ELEMENT");
+            var elements = globalSearcher.parentElementList(xml, "VARIABLE-ELEMENT");
             
             variableElements.Value = elements.Count();
 
@@ -58,9 +58,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Metric FunctionalQualityReqtsRatio(XDocument xml)
         {
-            var requirements = xml.Descendants().Where(a => a.Name == "REQUIREMENT");
+            var requirements = globalSearcher.parentElementList(xml, "REQUIREMENT");
 
-            var qualityRequirements = xml.Descendants().Where(a => a.Name == "QUALITY-REQUIREMENT");
+            var qualityRequirements = globalSearcher.parentElementList(xml, "QUALITY-REQUIREMENT");
 
             if(qualityRequirements.Count() != 0)
             {
@@ -83,7 +83,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             int count = 0;
 
-            var useCases = xml.Descendants().Where(a => a.Name == "USE-CASE");
+            var useCases = globalSearcher.parentElementList(xml, "USE-CASE");
 
             if(useCases.Count() == 0)
             {
@@ -92,7 +92,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             }
             else
             {
-                var reference = xml.Descendants().Where(a => a.Name == "SATISFIED-USE-CASE-REF");
+                var reference = globalSearcher.parentElementList(xml, "SATISFIED-USE-CASE-REF");
 
                 if(reference.Count() == 0)
                 {

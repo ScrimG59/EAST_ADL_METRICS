@@ -71,8 +71,8 @@
     <Compile Include="Utils\Categories\Requirement.cs" />
     <Compile Include="Utils\Categories\Rules.cs" />
     <Compile Include="Utils\Categories\Wrapper.cs" />
-    <Compile Include="Utils\Parser\Parser.cs" />
-    <Compile Include="Utils\Parser\Serializer.cs" />
+    <Compile Include="Utils\File\Parser.cs" />
+    <Compile Include="Utils\File\Serializer.cs" />
     <Compile Include="View\SelectWindow.xaml.cs">
       <DependentUpon>SelectWindow.xaml</DependentUpon>
     </Compile>

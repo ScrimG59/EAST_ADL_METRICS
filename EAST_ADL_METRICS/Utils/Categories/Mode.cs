@@ -11,7 +11,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 {
     public class Mode
     {
-        private Global global = new Global();
+        private Global globalSearcher = new Global();
         private Helper helper = new Helper();
 
         private Metric allocatedFunctionTypes = new Metric
@@ -28,7 +28,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             List<XElement> functionTypeList = new List<XElement>();
 
             //get all function trigger in the file
-            var functionTriggerList = xml.Descendants().Where(a => a.Name == "FUNCTION-TRIGGER");
+            var functionTriggerList = globalSearcher.parentElementList(xml, "FUNCTION-TRIGGER");
 
             // if there are triggers
             if(functionTriggerList.Count() != 0)

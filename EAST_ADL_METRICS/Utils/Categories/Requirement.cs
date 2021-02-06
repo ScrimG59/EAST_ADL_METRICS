@@ -1,10 +1,6 @@
 ﻿using EAST_ADL_METRICS.Models;
 using EAST_ADL_METRICS.Utils.Searcher;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
@@ -12,7 +8,6 @@ namespace EAST_ADL_METRICS.Utils.Categories
     public class Requirement
     {
         private Global globalSearcher = new Global();
-        private Local localSearcher = new Local();
         private Helper helper = new Helper();
 
         private Metric subReqts = new Metric
@@ -57,31 +52,75 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Metric SubReqts(XDocument xml, string elementName)
         {
+            // navigates to the node of the parentName-string
+            var requirement = helper.navigateToNode(xml, elementName);
+            // gets all requirements-hierarchy
+            var hierarchies = globalSearcher.parentElementList(xml, "REQUIREMENTS-HIERARCHY");
 
-            int count = localSearcher.subRequirementElementList(xml, elementName);
+            foreach (var hierarchy in hierarchies)
+            {
+                // if the right hierarchy got found
+                if (requirement == helper.getContainedRequirement(xml, hierarchy))
+                {
+                    // count the amount of subrequirementhierarchies
+                    int count = hierarchy.Descendants().Where(a => a.Name == "REQUIREMENTS-HIERARCHY").ToList().Count;
+                    subReqts.Value = count;
+                    return subReqts;
+                }
+            }
 
-            subReqts.Value = count;
-
+            subReqts.Value = 0;
             return subReqts;
         }
 
         public Metric NestingLevel(XDocument xml, string elementName)
         {
-            /*if (mode)
+            // navigates to the node of the parentName-string
+            var requirement = helper.navigateToNode(xml, elementName);
+            // gets all requirements-hierarchy
+            var hierarchies = globalSearcher.parentElementList(xml, "REQUIREMENTS-HIERARCHY");
+
+            foreach (var hierarchy in hierarchies)
             {
-                var parentList = globalSearcher.parentElementList(xml, "REQUIREMENTS-HIERARCHY");
+                // if the right hierarchy got found
+                if (requirement == helper.getContainedRequirement(xml, hierarchy))
+                {
+                    var tempHierarchy = hierarchy;
+                    int currentNestingLevel = 0;
 
-                var nestingLevels = globalSearcher.getNestingLevels(parentList);
+                    while (true)
+                    {
+                        var currentNode = xml.Descendants()
+                                             .Where(a => a.Name == tempHierarchy.Name)
+                                             .Where(b => helper.getShortName(b) == helper.getShortName(tempHierarchy))
+                                             .Select(c => c.Parent).Select(d => d.Parent).ToList();
 
-                nestingLevel.MaxValue = nestingLevels.Values.Max();
-                nestingLevel.MinValue = nestingLevels.Values.Min();
-                nestingLevel.AvgValue = nestingLevels.Values.Average();
-            }*/
+                        // if another requirement got found as the parent, increment the nesting level
+                        if (currentNode[0].Name == "REQUIREMENTS-HIERARCHY")
+                        {
+                            tempHierarchy = currentNode[0];
+                            currentNestingLevel++;
+                        }
+                        // this is the intermediate step to get to another requirements hierarchy
+                        else if (currentNode[0].Name == "CHILD-HIERARCHYS")
+                        {
+                            //node = currentNode;
+                            continue;
+                        }
+                        // if he doesn't find any more requirements as parents break out of the while-loop
+                        else
+                        {
+                            break;
+                        }
+                    }
 
-            int count = localSearcher.getNestingLevels(xml, elementName);
+                    // return the nesting level
+                    nestingLevel.Value = currentNestingLevel;
+                    return nestingLevel;
+                }
+            }
 
-            nestingLevel.Value = count;
-
+            nestingLevel.Value = 0;
             return nestingLevel;
         }
 
@@ -93,7 +132,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             XElement requirement = helper.navigateToNode(xml, elementName);
 
             // get all satisfied requirement refs in the file
-            var referenceList = xml.Descendants().Where(a => a.Name == "SATISFIED-REQUIREMENT-REF");
+            var referenceList = globalSearcher.parentElementList(xml, "SATISFIED-REQUIREMENT-REF");
 
             if (referenceList.Count() != 0)
             {
@@ -120,7 +159,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             XElement requirement = helper.navigateToNode(xml, elementName);
 
             // get all verify-relations in the file
-            var verifyList = xml.Descendants().Where(a => a.Name == "VERIFY");
+            var verifyList = globalSearcher.parentElementList(xml, "VERIFY");
 
             if(verifyList.Count() != 0)
             {
@@ -154,7 +193,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             XElement requirement = helper.navigateToNode(xml, elementName);
 
             // get all derive Requirment relations in the file
-            var deriveRequirementList = xml.Descendants().Where(a => a.Name == "DERIVE-REQUIREMENT");
+            var deriveRequirementList = globalSearcher.parentElementList(xml, "DERIVE-REQUIREMENT");
 
             // if the list isnt null
             if(deriveRequirementList.Count() != 0)

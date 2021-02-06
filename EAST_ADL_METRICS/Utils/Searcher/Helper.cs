@@ -80,10 +80,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 {
                     continue;
                 }
-                else
-                {
-
-                }
             }
             return matchingElement;
         }

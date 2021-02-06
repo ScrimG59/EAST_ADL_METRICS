@@ -1,10 +1,6 @@
 ﻿using EAST_ADL_METRICS.Models;
 using EAST_ADL_METRICS.Utils.Searcher;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
