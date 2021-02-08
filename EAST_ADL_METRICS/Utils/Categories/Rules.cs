@@ -77,6 +77,12 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     var functionPortRefs = connector.Descendants().Where(a => a.Name == "FUNCTION-PORT-REF" ||
                                                                               a.Name == "HARDWARE-PIN-REF")
                                                                   .ToList();
+
+                    if(functionPortRefs.Count() != 2)
+                    {
+                        portConnectorAllocation.Fulfilled = false;
+                        return portConnectorAllocation;
+                    }
                     
                     var actualPort1 = helper.navigateToNode(xml, functionPortRefs[0].Value);
                     var actualPort2 = helper.navigateToNode(xml, functionPortRefs[1].Value);
@@ -163,7 +169,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         public Rule ResidualAnomaly(XDocument xml)
         {
-            var anomalyRefs = globalSearcher.parentElementList(xml, "ANOMALY-IREF");
+            var anomalyRefs = globalSearcher.parentElementList(xml, "ANOMALY-REF");
 
             if(anomalyRefs.Count() != 0)
             {

@@ -50,7 +50,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         private Metric connectors = new Metric
         {
             Name = "Connectors_arch",
-            Category = "Size",
+            Category = "Complexity",
             Type = "Architecture",
             Nested = false
         };

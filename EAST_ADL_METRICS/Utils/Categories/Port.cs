@@ -49,7 +49,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         private Metric operations = new Metric
         {
-            Name = "FunctionPorts",
+            Name = "Operations",
             Category = "Size",
             Type = "FunctionType",
             Nested = false
@@ -63,7 +63,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             Nested = false
         };
 
-        private Metric portgroups = new Metric
+        private Metric portGroups = new Metric
         {
             Name = "PortGroups",
             Category = "Size",
@@ -71,9 +71,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
             Nested = false
         };
 
-        private Metric portgroupSize = new Metric
+        private Metric portGroupSize = new Metric
         {
-            Name = "PortgroupSize",
+            Name = "PortGroupSize",
             Category = "Size",
             Type = "FunctionType",
             Nested = false
@@ -122,7 +122,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                 string shortName = helper.getShortName(possibleFunctionType);
 
-                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-FLOW-PORT");
+                int count = localSearcher.nestedChildElementList(xml, shortName, "FUNCTION-FLOW-PORT");
 
                 functionFlowPorts.Value = count;
             }
@@ -147,7 +147,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                 string shortName = helper.getShortName(possibleFunctionType);
 
-                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-POWER-PORT");
+                int count = localSearcher.nestedChildElementList(xml, shortName, "FUNCTION-POWER-PORT");
 
                 functionPowerPorts.Value = count;
             }
@@ -208,14 +208,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     var functionClientServerInterface = helper.navigateToNode(xml, reference);
 
                     var operations = functionClientServerInterface.Descendants()
-                                                                  .Where(a => a.Name == "OPERATIONS")
-                                                                  .FirstOrDefault();
+                                                                  .Where(a => a.Name == "OPERATION");
 
-                    // if it has elements count all operations
-                    if (operations.HasElements)
-                    {
-                        count = operations.Descendants().Where(a => a.Name == "OPERATION").ToList().Count;
-                    }
+                        count += operations.Count();
                 }
 
                 operations.Value = count;
@@ -236,14 +231,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     var functionClientServerInterface = helper.navigateToNode(xml, reference);
 
                     var operations = functionClientServerInterface.Descendants()
-                                                                  .Where(a => a.Name == "OPERATIONS")
-                                                                  .FirstOrDefault();
+                                                                  .Where(a => a.Name == "OPERATION");
 
-                    // if it has elements count all operations
-                    if (operations.HasElements)
-                    {
-                        count = operations.Descendants().Where(a => a.Name == "OPERATION").ToList().Count;
-                    }
+                    count += operations.Count();
                 }
 
                 operations.Value = count;
@@ -263,7 +253,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                 string shortName = helper.getShortName(possibleFunctionType);
 
-                int count = localSearcher.nestedChildElementList(xml, elementName,
+                int count = localSearcher.nestedChildElementList(xml, shortName,
                                                             "IO-HARDWARE-PIN",
                                                             "COMMUNICATION-HARDWARE-PIN",
                                                             "POWER-HARDWARE-PIN",
@@ -276,7 +266,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 int count = localSearcher.nestedChildElementList(xml, elementName,
                                                             "IO-HARDWARE-PIN",
                                                             "COMMUNICATION-HARDWARE-PIN",
-                                                            "POWER-HARDWARE-PIN");
+                                                            "POWER-HARDWARE-PIN",
+                                                            "HARDWARE-PORT");
 
                 hardwarePorts.Value = count;
             }
@@ -304,7 +295,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     count = localSearcher.nestedChildElementList(xml, shortName, "PORT-GROUP");
                 }
 
-                portgroups.Value = count;
+                portGroups.Value = count;
             }
             else
             {
@@ -318,13 +309,13 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     count = localSearcher.nestedChildElementList(xml, elementName, "PORT-GROUP");
                 }
 
-                portgroups.Value = count;
+                portGroups.Value = count;
             }
 
-            return portgroups;
+            return portGroups;
         }
 
-        public Metric PortgroupSize(XDocument xml, string elementName)
+        public Metric PortGroupSize(XDocument xml, string elementName)
         {
             Dictionary<string, int> portGroupCount = new Dictionary<string, int>();
 
@@ -340,8 +331,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 // if the function type doesn't have any portgroups, then just return
                 if (portGroup != null && !portGroup.HasElements)
                 {
-                    portgroupSize.Value = 0;
-                    return portgroupSize;
+                    portGroupSize.Value = 0;
+                    return portGroupSize;
                 }
 
                 var portGroups = portGroup.Descendants().Where(a => a.Name == "PORT-GROUP");
@@ -359,11 +350,11 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                 if (portGroupCount.Count != 0)
                 {
-                    portgroupSize.Value = portGroupCount.Values.Average();
+                    portGroupSize.Value = portGroupCount.Values.Average();
                 }
                 else
                 {
-                    portgroupSize.Value = 0;
+                    portGroupSize.Value = 0;
                 }
             }
             else
@@ -374,8 +365,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 // if the function type doesn't have any portgroups, then just return
                 if (!portGroup.HasElements)
                 {
-                    portgroupSize.Value = 0;
-                    return portgroupSize;
+                    portGroupSize.Value = 0;
+                    return portGroupSize;
                 }
 
                 var portGroups = portGroup.Descendants().Where(a => a.Name == "PORT-GROUP");
@@ -393,15 +384,15 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                 if (portGroupCount.Count != 0)
                 {
-                    portgroupSize.Value = portGroupCount.Values.Average();
+                    portGroupSize.Value = portGroupCount.Values.Average();
                 }
                 else
                 {
-                    portgroupSize.Value = 0;
+                    portGroupSize.Value = 0;
                 }
             }
 
-            return portgroupSize;
+            return portGroupSize;
         }
     }
 }

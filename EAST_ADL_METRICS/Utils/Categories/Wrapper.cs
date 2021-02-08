@@ -21,7 +21,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             List<Metric> metricList = new List<Metric>();
 
-            if(item.Type.Contains("FUNCTION-TYPE") || item.Type.Contains("ANALYSIS-ARCHITECTURE"))
+            if(item.Type.Contains("FUNCTION-TYPE"))
             {
                 metricList.Add(functionType.Parts_fct(xml, item.Name));
                 metricList.Add(functionType.Parts_fct_tc(xml, item.Name));
@@ -35,9 +35,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(port.FunctionClientServerPorts(xml, item.Name));
                 metricList.Add(port.Operations(xml, item.Name));
                 metricList.Add(port.Portgroups(xml, item.Name));
-                metricList.Add(port.PortgroupSize(xml, item.Name));
+                metricList.Add(port.PortGroupSize(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
-                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
                 Console.WriteLine($"PARTS: {metricList[0].Value}");
@@ -51,8 +51,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 Console.WriteLine($"FunctionPowerPorts: {metricList[8].Value}");
                 Console.WriteLine($"FunctionClientServerPorts: {metricList[9].Value}");
                 Console.WriteLine($"Operations: {metricList[10].Value}");
-                Console.WriteLine($"Portgroups: {metricList[11].Value}");
-                Console.WriteLine($"PortgroupSize: {metricList[12].Value}");
+                Console.WriteLine($"PortGroups: {metricList[11].Value}");
+                Console.WriteLine($"PortGroupSize: {metricList[12].Value}");
                 Console.WriteLine($"VariableElement: {metricList[13].Value}");
                 Console.WriteLine($"UseCaseSatisFaction: {metricList[14].Value}");
                 Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[15].Value}");
@@ -65,7 +65,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(package.Reqts_pckg(xml, item.Name));
                 metricList.Add(package.Reqts_pckg_tc(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
-                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
                 Console.WriteLine($"FUNCTIONS_pckg: {metricList[0].Value}");
@@ -85,7 +85,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(requirement.Verifiers(xml, item.Name));
                 metricList.Add(requirement.Derivatives(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
-                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
                 Console.WriteLine($"SubReqts: {metricList[0].Value}");
@@ -98,6 +98,43 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[7].Value}");
                 Console.WriteLine($"VVRatio: {metricList[8].Value}");
             }
+            else if (item.Type.Contains("ANALYSIS-ARCHITECTURE"))
+            {
+                metricList.Add(architecture.Parts_arch(xml, item.Name));
+                metricList.Add(architecture.Parts_arch_tc(xml, item.Name));
+                metricList.Add(architecture.NestingLevels_arch(xml, item.Name));
+                metricList.Add(architecture.Ports_arch(xml, item.Name));
+                metricList.Add(architecture.Connectors_arch(xml, item.Name));
+                metricList.Add(constraint.Constraints(xml, item.Name));
+                metricList.Add(port.FunctionPorts(xml, item.Name));
+                metricList.Add(port.FunctionFlowPorts(xml, item.Name));
+                metricList.Add(port.FunctionPowerPorts(xml, item.Name));
+                metricList.Add(port.FunctionClientServerPorts(xml, item.Name));
+                metricList.Add(port.Operations(xml, item.Name));
+                metricList.Add(port.Portgroups(xml, item.Name));
+                metricList.Add(port.PortGroupSize(xml, item.Name));
+                metricList.Add(extension.VariableElements(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
+                metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
+                metricList.Add(extension.VVRatio(xml));
+                Console.WriteLine($"PARTS: {metricList[0].Value}");
+                Console.WriteLine($"PARTS_TC: {metricList[1].Value}");
+                Console.WriteLine($"NESTINGLEVELS: {metricList[2].Value}");
+                Console.WriteLine($"PORTS: {metricList[3].Value}");
+                Console.WriteLine($"CONNECTORS: {metricList[4].Value}");
+                Console.WriteLine($"CONSTRAINTS: {metricList[5].Value}");
+                Console.WriteLine($"FunctionPorts: {metricList[6].Value}");
+                Console.WriteLine($"FunctionFlowPorts: {metricList[7].Value}");
+                Console.WriteLine($"FunctionFlowPorts: {metricList[8].Value}");
+                Console.WriteLine($"FunctionClientServerPorts: {metricList[9].Value}");
+                Console.WriteLine($"Operations: {metricList[10].Value}");
+                Console.WriteLine($"Portgroups: {metricList[11].Value}");
+                Console.WriteLine($"PortgroupSize: {metricList[12].Value}");
+                Console.WriteLine($"VariableElement: {metricList[13].Value}");
+                Console.WriteLine($"UseCaseSatisFaction: {metricList[14].Value}");
+                Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[15].Value}");
+                Console.WriteLine($"VVRatio: {metricList[16].Value}");
+            }
             else if (item.Type.Equals("HARDWARE-DESIGN-ARCHITECTURE"))
             {
                 metricList.Add(architecture.Parts_arch(xml, item.Name));
@@ -105,9 +142,10 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(architecture.NestingLevels_arch(xml, item.Name));
                 metricList.Add(architecture.Ports_arch(xml, item.Name));
                 metricList.Add(architecture.Connectors_arch(xml, item.Name));
+                metricList.Add(architecture.FunctionNodeAllocation(xml, item.Name));
                 metricList.Add(port.HardwarePorts(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
-                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
                 Console.WriteLine($"Parts: {metricList[0].Value}");
@@ -115,11 +153,12 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 Console.WriteLine($"NestingLevels: {metricList[2].Value}");
                 Console.WriteLine($"Ports: {metricList[3].Value}");
                 Console.WriteLine($"Connectors: {metricList[4].Value}");
-                Console.WriteLine($"HardwarePorts: {metricList[5].Value}");
-                Console.WriteLine($"VariableElement: {metricList[6].Value}");
-                Console.WriteLine($"UseCaseSatisFaction: {metricList[7].Value}");
-                Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[8].Value}");
-                Console.WriteLine($"VVRatio: {metricList[9].Value}");
+                Console.WriteLine($"FunctionNodeAllocation: {metricList[5].Value}");
+                Console.WriteLine($"HardwarePorts: {metricList[6].Value}");
+                Console.WriteLine($"VariableElement: {metricList[7].Value}");
+                Console.WriteLine($"UseCaseSatisFaction: {metricList[8].Value}");
+                Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[9].Value}");
+                Console.WriteLine($"VVRatio: {metricList[10].Value}");
             }
             else if (item.Type.Contains("DESIGN-ARCHITECTURE"))
             {
@@ -136,9 +175,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(port.FunctionClientServerPorts(xml, item.Name));
                 metricList.Add(port.Operations(xml, item.Name));
                 metricList.Add(port.Portgroups(xml, item.Name));
-                metricList.Add(port.PortgroupSize(xml, item.Name));
+                metricList.Add(port.PortGroupSize(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
-                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
                 Console.WriteLine($"PARTS: {metricList[0].Value}");
@@ -164,7 +203,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             {
                 metricList.Add(mode.AllocatedFunctionTypes(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
-                metricList.Add(extension.UseCaseSatisfaction(xml));
+                metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
             }

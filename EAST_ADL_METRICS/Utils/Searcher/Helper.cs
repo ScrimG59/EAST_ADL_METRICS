@@ -93,7 +93,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         {
             if (node.Name.ToString().Contains("FUNCTION-TYPE") && node.Element("PARTS").HasElements)
             {
-                Console.WriteLine($"NODE: {getName(node)[0]}");
+                //Console.WriteLine($"NODE: {getShortName(node)}");
                 return true;
             }
             else

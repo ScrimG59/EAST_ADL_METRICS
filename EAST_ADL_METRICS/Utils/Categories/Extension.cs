@@ -19,7 +19,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             Name = "VariableElements",
             Category = "Size",
-            Type = "Global",
+            Type = "Extension",
             Nested = false
         };
 
@@ -27,15 +27,15 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             Name = "FunctionalQualityReqtsRatio",
             Category = "Complexity",
-            Type = "Global",
+            Type = "Extension",
             Nested = false
         };
 
-        private Metric useCaseSatisfaction = new Metric
+        private Metric useCaseSatisfactionRatio = new Metric
         {
-            Name = "UseCaseSatisfaction",
-            Category = "Size",
-            Type = "Global",
+            Name = "UseCaseSatisfactionRatio",
+            Category = "Complexity",
+            Type = "Extension",
             Nested = false
         };
 
@@ -43,7 +43,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
         {
             Name = "VVRatio",
             Category = "Complexity",
-            Type = "Global",
+            Type = "Extension",
             Nested = false
         };
 
@@ -64,7 +64,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
             if(qualityRequirements.Count() != 0)
             {
-                double result = requirements.Count() / qualityRequirements.Count();
+                double result = (double) requirements.Count() / (double) qualityRequirements.Count();
                 functionalQualityReqtsRatio.Value = result;
             }
             else if(requirements.Count() == 0)
@@ -79,49 +79,55 @@ namespace EAST_ADL_METRICS.Utils.Categories
             return functionalQualityReqtsRatio;
         }
 
-        public Metric UseCaseSatisfaction(XDocument xml)
+        public Metric UseCaseSatisfactionRatio(XDocument xml)
         {
-            int count = 0;
+            int satisfiedCount = 0;
 
             var useCases = globalSearcher.parentElementList(xml, "USE-CASE");
 
             if(useCases.Count() == 0)
             {
-                useCaseSatisfaction.Value = count;
-                return useCaseSatisfaction;
+                useCaseSatisfactionRatio.Value = satisfiedCount;
+                return useCaseSatisfactionRatio;
             }
             else
             {
+                // get all satisfied-use-case references
                 var reference = globalSearcher.parentElementList(xml, "SATISFIED-USE-CASE-REF");
 
+                // if there is no reference, then set the value to 0 (satisfiedCount)
                 if(reference.Count() == 0)
                 {
-                    useCaseSatisfaction.Value = count;
-                    return useCaseSatisfaction;
+                    useCaseSatisfactionRatio.Value = satisfiedCount;
+                    return useCaseSatisfactionRatio;
                 }
 
+                // for each use case go through each satisfied-use-case reference and look if the reference is equal to the use case
                 foreach (var useCase in useCases)
                 {
                     foreach(var r in reference)
                     {
+                        // if it's equal, increment the satisfiedCount and break out of the nested loop
+                        // since we found the element that satisfies the usecase
                         if(useCase == helper.navigateToNode(xml, r.Value))
                         {
-                            count++;
+                            satisfiedCount++;
+                            break;
                         }
                     }
                 }
             }
 
-            useCaseSatisfaction.Value = count;
+            useCaseSatisfactionRatio.Value = (double) satisfiedCount / (double) useCases.Count();
 
-            return useCaseSatisfaction;
+            return useCaseSatisfactionRatio;
         }
 
         public Metric VVRatio(XDocument xml)
         {
-            int ratio = 0;
-            int vvCaseOnly = 0;
-            int vvBoth = 0;
+            double ratio = 0;
+            double vvCase = 0;
+            double vvBoth = 0;
 
             var verifyTags = xml.Descendants().Where(a => a.Name == "VERIFY");
 
@@ -137,10 +143,11 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 
                 if(verifiedByProcedureRef.Count() == 0)
                 {
-                    vvCaseOnly++;
+                    vvCase++;
                 }
                 else
                 {
+                    vvCase++;
                     vvBoth++;
                 }
             }
@@ -151,7 +158,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 return vvRatio;
             }
 
-            ratio = vvCaseOnly / vvBoth;
+            ratio = (double) vvBoth / (double) vvCase;
             vvRatio.Value = ratio;
             return vvRatio;
         }

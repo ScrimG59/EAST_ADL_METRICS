@@ -24,7 +24,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         private Metric functions_tc = new Metric
         {
-            Name = "Functions_pckg",
+            Name = "Functions_pckg_tc",
             Category = "Size",
             Type = "Package",
             Nested = true
@@ -40,7 +40,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
         private Metric reqts_tc = new Metric
         {
-            Name = "Reqts_pckg",
+            Name = "Reqts_pckg_tc",
             Category = "Size",
             Type = "Package",
             Nested = true

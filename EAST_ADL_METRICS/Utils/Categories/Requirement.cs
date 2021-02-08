@@ -23,7 +23,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             Name = "NestingLevel",
             Category = "Size",
             Type = "Requirement",
-            Nested = false
+            Nested = true
         };
 
         private Metric satisfiers = new Metric

@@ -46,7 +46,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                     // gets the reference to the function prototype
                     string functionPrototypeRef = eventFunction.Descendants()
-                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-CONTEXT-REF")
+                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-TARGET-REF")
                                                                .FirstOrDefault()
                                                                .Value;
 
@@ -99,7 +99,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                     // gets the reference to the function prototype
                     string functionPrototypeRef = eventFunction.Descendants()
-                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-CONTEXT-REF")
+                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-TARGET-REF")
                                                                .FirstOrDefault()
                                                                .Value;
 
