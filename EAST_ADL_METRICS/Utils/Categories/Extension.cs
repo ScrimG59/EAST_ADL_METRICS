@@ -1,10 +1,6 @@
 ﻿using EAST_ADL_METRICS.Models;
 using EAST_ADL_METRICS.Utils.Searcher;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
@@ -12,7 +8,6 @@ namespace EAST_ADL_METRICS.Utils.Categories
     public class Extension
     {
         private Global globalSearcher = new Global();
-        private Local localSearcher = new Local();
         private Helper helper = new Helper();
 
         private Metric variableElements = new Metric
@@ -108,7 +103,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     foreach(var r in reference)
                     {
                         // if it's equal, increment the satisfiedCount and break out of the nested loop
-                        // since we found the element that satisfies the usecase
+                        // since we found the element that satisfies the usecase and we only need one element
                         if(useCase == helper.navigateToNode(xml, r.Value))
                         {
                             satisfiedCount++;

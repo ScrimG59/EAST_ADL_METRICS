@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EAXML>
+  <TOP-LEVEL-PACKAGES>
+    <EA-PACKAGE>
+      <SHORT-NAME>EARoot</SHORT-NAME>
+      <CATEGORY></CATEGORY>
+      <NAME></NAME>
+      <OWNED-COMMENTS/>
+      <SUB-PACKAGES/>
+      <ELEMENTS>
+        <REQUIREMENT>
+          <SHORT-NAME>Reqt1</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TEXT></TEXT>
+          <FORMALISM></FORMALISM>
+          <URL></URL>
+          <MODE-REFS/>
+        </REQUIREMENT>
+        <QUALITY-REQUIREMENT>
+          <SHORT-NAME>QReqt1</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TEXT></TEXT>
+          <FORMALISM></FORMALISM>
+          <URL></URL>
+          <MODE-REFS/>
+          <KIND>AVAILABILITY</KIND>
+        </QUALITY-REQUIREMENT>
+        <QUALITY-REQUIREMENT>
+          <SHORT-NAME>QReqt2</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TEXT></TEXT>
+          <FORMALISM></FORMALISM>
+          <URL></URL>
+          <MODE-REFS/>
+          <KIND>AVAILABILITY</KIND>
+        </QUALITY-REQUIREMENT>
+      </ELEMENTS>
+    </EA-PACKAGE>
+  </TOP-LEVEL-PACKAGES>
+</EAXML>

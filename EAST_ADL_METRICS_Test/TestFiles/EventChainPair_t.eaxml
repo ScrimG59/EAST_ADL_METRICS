@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EAXML>
+  <TOP-LEVEL-PACKAGES>
+    <EA-PACKAGE>
+      <SHORT-NAME>EARoot</SHORT-NAME>
+      <CATEGORY></CATEGORY>
+      <NAME></NAME>
+      <OWNED-COMMENTS/>
+      <SUB-PACKAGES/>
+      <ELEMENTS>
+        <TIMING>
+          <SHORT-NAME>Timing</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <DESCRIPTIONS>
+            <EVENT-CHAIN>
+              <SHORT-NAME>Event1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <SEGMENT-REFS/>
+              <STIMULUS-REF TYPE="EVENT-FUNCTION-CLIENT-SERVER-PORT">/EASTADLExtensionElements/BBW_Timing/DiagEvent</STIMULUS-REF>
+              <RESPONSE-REF TYPE="EVENT-FUNCTION-FLOW-PORT">/EASTADLExtensionElements/BBW_Timing/EventBrakeContrIn</RESPONSE-REF>
+            </EVENT-CHAIN>
+            <EVENT-CHAIN>
+              <SHORT-NAME>Event2</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <SEGMENT-REFS/>
+              <STIMULUS-REF TYPE="EVENT-FUNCTION-FLOW-PORT">/EASTADLExtensionElements/BBW_Timing/EventWheelSpeedFLIn</STIMULUS-REF>
+              <RESPONSE-REF TYPE="EVENT-FUNCTION">/EASTADLExtensionElements/BBW_Timing/EventDiag</RESPONSE-REF>
+            </EVENT-CHAIN>
+          </DESCRIPTIONS>
+          <CONSTRAINTS/>
+        </TIMING>
+      </ELEMENTS>
+    </EA-PACKAGE>
+  </TOP-LEVEL-PACKAGES>
+</EAXML>

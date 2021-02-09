@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EAXML>
+  <TOP-LEVEL-PACKAGES>
+    <EA-PACKAGE>
+      <SHORT-NAME>EARoot</SHORT-NAME>
+      <CATEGORY></CATEGORY>
+      <NAME></NAME>
+      <OWNED-COMMENTS/>
+      <SUB-PACKAGES/>
+      <ELEMENTS>
+        <VARIABILITY>
+          <SHORT-NAME>Variability</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <PRODUCT-FEATURE-MODELS/>
+          <CONFIGURATIONS/>
+          <DECISION-MODELS/>
+          <VARIABLE-ELEMENTS>
+            <VARIABLE-ELEMENT UUID="">
+              <SHORT-NAME>Element1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <OPTIONAL-ELEMENT-REFS/>
+            </VARIABLE-ELEMENT>
+            <VARIABLE-ELEMENT>
+              <SHORT-NAME>Element2</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <OPTIONAL-ELEMENT-REFS/>
+            </VARIABLE-ELEMENT>
+          </VARIABLE-ELEMENTS>
+          <CONFIGURABLE-CONTAINERS/>
+        </VARIABILITY>
+      </ELEMENTS>
+    </EA-PACKAGE>
+  </TOP-LEVEL-PACKAGES>
+</EAXML>

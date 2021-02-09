@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EAXML>
+  <TOP-LEVEL-PACKAGES>
+    <EA-PACKAGE>
+      <SHORT-NAME>EARoot</SHORT-NAME>
+      <CATEGORY></CATEGORY>
+      <NAME></NAME>
+      <OWNED-COMMENTS/>
+      <SUB-PACKAGES/>
+      <ELEMENTS>
+        <ANALYSIS-FUNCTION-TYPE>
+          <SHORT-NAME>AFT1</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <IS-ELEMENTARY>false</IS-ELEMENTARY>
+          <PORTS>
+            <FUNCTION-CLIENT-SERVER-PORT>
+              <SHORT-NAME>Port1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <KIND>CLIENT</KIND>
+            </FUNCTION-CLIENT-SERVER-PORT>
+            <FUNCTION-POWER-PORT>
+              <SHORT-NAME>Port2</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+            </FUNCTION-POWER-PORT>
+          </PORTS>
+          <PORT-GROUPS/>
+          <CONNECTORS/>
+          <PARTS/>
+        </ANALYSIS-FUNCTION-TYPE>
+      </ELEMENTS>
+    </EA-PACKAGE>
+  </TOP-LEVEL-PACKAGES>
+</EAXML>

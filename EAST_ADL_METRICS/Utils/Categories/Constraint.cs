@@ -8,7 +8,6 @@ namespace EAST_ADL_METRICS.Utils.Categories
     public class Constraint
     {
         private Global globalSearcher = new Global();
-        private Local localSearcher = new Local();
         private Helper helper = new Helper();
 
         private Metric constraints  = new Metric

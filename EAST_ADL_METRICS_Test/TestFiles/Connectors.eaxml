@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EAXML>
+  <TOP-LEVEL-PACKAGES>
+    <EA-PACKAGE>
+      <SHORT-NAME>EARoot</SHORT-NAME>
+      <CATEGORY></CATEGORY>
+      <NAME></NAME>
+      <OWNED-COMMENTS/>
+      <SUB-PACKAGES/>
+      <ELEMENTS>
+        <DESIGN-FUNCTION-TYPE>
+          <SHORT-NAME>DFT1</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <IS-ELEMENTARY>false</IS-ELEMENTARY>
+          <PORTS/>
+          <PORT-GROUPS/>
+          <CONNECTORS>
+            <FUNCTION-CONNECTOR>
+              <SHORT-NAME>Connector1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <PORT-IREFS/>
+            </FUNCTION-CONNECTOR>
+          </CONNECTORS>
+          <PARTS/>
+        </DESIGN-FUNCTION-TYPE>
+      </ELEMENTS>
+    </EA-PACKAGE>
+  </TOP-LEVEL-PACKAGES>
+</EAXML>

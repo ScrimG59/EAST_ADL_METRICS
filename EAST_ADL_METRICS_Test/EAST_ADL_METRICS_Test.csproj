@@ -16,4 +16,8 @@
     <ProjectReference Include="..\EAST_ADL_METRICS\EAST_ADL_METRICS.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestFiles\" />
+  </ItemGroup>
+
 </Project>

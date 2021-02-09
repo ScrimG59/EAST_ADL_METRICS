@@ -1,10 +1,7 @@
 ﻿using EAST_ADL_METRICS.Models;
 using EAST_ADL_METRICS.Utils.Searcher;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace EAST_ADL_METRICS.Utils.Categories
@@ -187,7 +184,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             // gets the architecture
             XElement architecture = helper.navigateToNode(xml, elementName);
 
-            var designLevels = xml.Descendants().Where(a => a.Name == "DESIGN-LEVEL");
+            var designLevels = globalSearcher.parentElementList(xml, "DESIGN-LEVEL");
             
             // for each design level in the model it picks out both architectures and 
             // looks if one of them is equal to the given architecture

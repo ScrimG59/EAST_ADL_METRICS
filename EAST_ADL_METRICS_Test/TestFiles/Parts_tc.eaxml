@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EAXML>
+  <TOP-LEVEL-PACKAGES>
+    <EA-PACKAGE>
+      <SHORT-NAME>EARoot</SHORT-NAME>
+      <CATEGORY></CATEGORY>
+      <NAME></NAME>
+      <OWNED-COMMENTS/>
+      <SUB-PACKAGES/>
+      <ELEMENTS>
+        <ANALYSIS-FUNCTION-TYPE>
+          <SHORT-NAME>AFT1</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <IS-ELEMENTARY>false</IS-ELEMENTARY>
+          <PORTS/>
+          <PORT-GROUPS/>
+          <CONNECTORS/>
+          <PARTS>
+            <ANALYSIS-FUNCTION-PROTOTYPE UUID="">
+              <SHORT-NAME>AFP1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <TYPE-TREF TYPE="ANALYSIS-FUNCTION-TYPE">/EARoot/AFT2</TYPE-TREF>
+            </ANALYSIS-FUNCTION-PROTOTYPE>
+          </PARTS>
+        </ANALYSIS-FUNCTION-TYPE>
+        <ANALYSIS-FUNCTION-TYPE>
+          <SHORT-NAME>AFT2</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <IS-ELEMENTARY>false</IS-ELEMENTARY>
+          <PORTS/>
+          <PORT-GROUPS/>
+          <CONNECTORS/>
+          <PARTS>
+            <ANALYSIS-FUNCTION-PROTOTYPE UUID="">
+              <SHORT-NAME>AFP2</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <TYPE-TREF TYPE="ANALYSIS-FUNCTION-TYPE">/EARoot/AFT3</TYPE-TREF>
+            </ANALYSIS-FUNCTION-PROTOTYPE>
+          </PARTS>
+        </ANALYSIS-FUNCTION-TYPE>
+        <ANALYSIS-FUNCTION-TYPE>
+          <SHORT-NAME>AFT3</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <IS-ELEMENTARY>false</IS-ELEMENTARY>
+          <PORTS/>
+          <PORT-GROUPS/>
+          <CONNECTORS/>
+          <PARTS/>
+        </ANALYSIS-FUNCTION-TYPE>
+      </ELEMENTS>
+    </EA-PACKAGE>
+  </TOP-LEVEL-PACKAGES>
+</EAXML>

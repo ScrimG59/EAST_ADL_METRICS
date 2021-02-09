@@ -1,6 +1,4 @@
 ﻿using EAST_ADL_METRICS.Models;
-using System;
-using System.Linq;
 using System.Xml.Linq;
 using EAST_ADL_METRICS.Utils.Searcher;
 
@@ -8,7 +6,6 @@ namespace EAST_ADL_METRICS.Utils.Categories
 {
     public class FunctionType
     {
-        private Global globalSearcher = new Global();
         private Local localSearcher = new Local();
 
         private Metric parts = new Metric
