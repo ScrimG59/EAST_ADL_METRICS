@@ -31,6 +31,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 // first get all timing constraints in the model
                 var periodicConstraintList = globalSearcher.parentElementList(xml, "PERIODIC-CONSTRAINT");
 
+                //then get all safety constraints in the model
+                var safetyConstraintList = globalSearcher.parentElementList(xml, "SAFETY-CONSTRAINT");
+
                 // for each timing constraint do the following
                 foreach (var periodicConstraint in periodicConstraintList)
                 {
@@ -58,21 +61,58 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     // gets the function type itself
                     XElement functionType = helper.navigateToNode(xml, functionTypeRef);
 
-                    // checks if it's a function type from an architecture or a "normal" prototype
-                    if (possibleFunctionType != null)
+                    // if the function type is equal to the function type the user wanted the metrics from
+                    if (possibleFunctionType == functionType)
                     {
-                        // if the function type is equal to the function type the user wanted the metrics from
-                        if (helper.getShortName(possibleFunctionType) == elementName)
-                        {
-                            count++;
-                        }
+                        count++;
                     }
-                    else
+                }
+
+                // for each safety constraint do the following
+                foreach (var safetyConstraint in safetyConstraintList)
+                {
+                    // get all refs to FaultFailure-elements
+                    var constrainedFaultFailureRefList = safetyConstraint.Descendants()
+                                                                         .Where(a => a.Name == "CONSTRAINED-FAULT-FAILURE-REF");
+
+                    foreach(var constrainedFaultFailureRef in constrainedFaultFailureRefList)
                     {
-                        // if the function type is equal to the function type the user wanted the metrics from
-                        if (helper.getShortName(functionType) == elementName)
+                        // get the FaultFailureElement
+                        var constrainedFaultFailure = helper.navigateToNode(xml, constrainedFaultFailureRef.Value);
+
+                        // get the error-model-prototype ref
+                        var errorModelPrototypeRefList = constrainedFaultFailure.Descendants()
+                                                                         .Where(a => a.Name == "ERROR-MODEL-PROTOTYPE-REF");
+
+                        foreach(var errorModelPrototypeRef in errorModelPrototypeRefList)
                         {
-                            count++;
+                            // get the ErrorModelPrototype
+                            var errorModelPrototype = helper.navigateToNode(xml, errorModelPrototypeRef.Value);
+
+                            // get the ErrorModelType of the given ErrorModelPrototype
+                            var errorModelType = helper.navigateToNode(xml, helper.getTypeReference(errorModelPrototype));
+
+                            // get the target and the hardware target
+                            var targetRef = errorModelType.Descendants().Where(a => a.Name == "TARGET-REF").FirstOrDefault();
+                            if(targetRef != null)
+                            {
+                                var target = helper.navigateToNode(xml, targetRef.Value);
+                                // if the function type is equal to the function type the user wanted the metrics from
+                                if (target == possibleFunctionType)
+                                {
+                                    count++;
+                                }
+                            }
+                            var hwTargetRef = errorModelType.Descendants().Where(a => a.Name == "HW-TARGET-REF").FirstOrDefault();
+                            if(hwTargetRef != null)
+                            {
+                                var hwTarget = helper.navigateToNode(xml, hwTargetRef.Value);
+                                // if the function type is equal to the function type the user wanted the metrics from
+                                if (hwTarget == possibleFunctionType)
+                                {
+                                    count++;
+                                }
+                            }  
                         }
                     }
                 }
@@ -84,6 +124,9 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 // first get all timing constraints in the model
                 var periodicConstraintList = globalSearcher.parentElementList(xml, "PERIODIC-CONSTRAINT");
 
+                // then get all safety constraint in the model 
+                var safetyConstraintList = globalSearcher.parentElementList(xml, "SAFETY-CONSTRAINT");
+
                 // for each timing constraint do the following
                 foreach (var periodicConstraint in periodicConstraintList)
                 {
@@ -111,21 +154,59 @@ namespace EAST_ADL_METRICS.Utils.Categories
                     // gets the function type itself
                     XElement functionType = helper.navigateToNode(xml, functionTypeRef);
 
-                    // checks if it's a function type from an architecture or a "normal" prototype
-                    if (functionType != null)
+
+                    // if the function type is equal to the function type the user wanted the metrics from
+                    if (helper.getShortName(functionType) == elementName)
                     {
-                        // if the function type is equal to the function type the user wanted the metrics from
-                        if (helper.getShortName(functionType) == elementName)
-                        {
-                            count++;
-                        }
+                        count++;
                     }
-                    else
+                }
+
+                // for each safety constraint do the following
+                foreach (var safetyConstraint in safetyConstraintList)
+                {
+                    // get all refs to FaultFailure-elements
+                    var constrainedFaultFailureRefList = safetyConstraint.Descendants()
+                                                                         .Where(a => a.Name == "CONSTRAINED-FAULT-FAILURE-REF");
+
+                    foreach (var constrainedFaultFailureRef in constrainedFaultFailureRefList)
                     {
-                        // if the function type is equal to the function type the user wanted the metrics from
-                        if (helper.getShortName(functionType) == elementName)
+                        // get the FaultFailureElement
+                        var constrainedFaultFailure = helper.navigateToNode(xml, constrainedFaultFailureRef.Value);
+
+                        // get the error-model-prototype ref
+                        var errorModelPrototypeRefList = constrainedFaultFailure.Descendants()
+                                                                         .Where(a => a.Name == "ERROR-MODEL-PROTOTYPE-REF");
+
+                        foreach (var errorModelPrototypeRef in errorModelPrototypeRefList)
                         {
-                            count++;
+                            // get the ErrorModelPrototype
+                            var errorModelPrototype = helper.navigateToNode(xml, errorModelPrototypeRef.Value);
+
+                            // get the ErrorModelType of the given ErrorModelPrototype
+                            var errorModelType = helper.navigateToNode(xml, helper.getTypeReference(errorModelPrototype));
+
+                            // get the target and the hardware target
+                            var targetRef = errorModelType.Descendants().Where(a => a.Name == "TARGET-REF").FirstOrDefault();
+                            if(targetRef != null)
+                            {
+                                var target = helper.navigateToNode(xml, targetRef.Value);
+                                // if the function type is equal to the function type the user wanted the metrics from
+                                if (helper.getShortName(target) == elementName)
+                                {
+                                    count++;
+                                }
+                            }
+                            var hwTargetRef = errorModelType.Descendants().Where(a => a.Name == "HW-TARGET-REF").FirstOrDefault();
+                            if(hwTargetRef != null)
+                            {
+                                var hwTarget = helper.navigateToNode(xml, hwTargetRef.Value);
+                                // if the function type is equal to the function type the user wanted the metrics from
+                                if (helper.getShortName(hwTarget) == elementName)
+                                {
+                                    count++;
+                                }
+                            } 
                         }
                     }
                 }

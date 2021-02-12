@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test
         [Test]
         public void Parts_arch_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Parts_arch.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Parts_arch.eaxml");
 
             string elementName = "Architecture1";
 
@@ -32,7 +32,7 @@ namespace EAST_ADL_METRICS_Test
         [Test]
         public void Parts_arch_tc_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Parts_arch_tc.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Parts_arch_tc.eaxml");
 
             string elementName = "Architecture1";
 
@@ -52,7 +52,7 @@ namespace EAST_ADL_METRICS_Test
         [Test]
         public void NestingLevels_arch_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Parts_arch_tc.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Parts_arch_tc.eaxml");
 
             string elementName = "Architecture1";
 
@@ -72,7 +72,7 @@ namespace EAST_ADL_METRICS_Test
         [Test]
         public void Port_arch_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Ports_arch.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Ports_arch.eaxml");
 
             string elementName = "Architecture1";
 
@@ -92,7 +92,7 @@ namespace EAST_ADL_METRICS_Test
         [Test]
         public void Connectors_arch_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Connectors_arch.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Connectors_arch.eaxml");
 
             string elementName = "Architecture1";
 
@@ -112,7 +112,7 @@ namespace EAST_ADL_METRICS_Test
         [Test]
         public void FunctionNodeAllocation_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\FunctionNodeAllocation.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\FunctionNodeAllocation.eaxml");
 
             string elementName = "fda";
 

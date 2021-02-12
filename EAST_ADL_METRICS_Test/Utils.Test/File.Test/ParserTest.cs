@@ -20,7 +20,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.File.Test
         [Test]
         public void LoadXML_Test()
         {
-            actualXml = parser.LoadXML("C:\\Users\\maxei\\Desktop\\Test\\LoadXML.eaxml");
+            actualXml = parser.LoadXML(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\LoadXML.eaxml");
             Assert.AreEqual(expectedXml.ToString(), actualXml.ToString());
         }
     }

@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void FunctionPorts_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\FunctionPorts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\FunctionPorts.eaxml");
 
             string elementName = "DFT";
 
@@ -32,7 +32,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void FunctionFlowPorts_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\FunctionPorts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\FunctionPorts.eaxml");
 
             string elementName = "DFT";
 
@@ -52,7 +52,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void FunctionPowerPorts_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\FunctionPorts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\FunctionPorts.eaxml");
 
             string elementName = "DFT";
 
@@ -72,7 +72,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void FunctionClientServerPorts_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\FunctionPorts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\FunctionPorts.eaxml");
 
             string elementName = "DFT";
 
@@ -92,7 +92,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Operations_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Operations.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Operations.eaxml");
 
             string elementName = "DFT";
 
@@ -112,7 +112,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void HardwarePorts_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\HardwarePorts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\HardwarePorts.eaxml");
 
             string elementName = "hda";
 
@@ -130,9 +130,9 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         }
 
         [Test]
-        public void Portgroups_Test()
+        public void PortGroups_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Portgroups.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Portgroups.eaxml");
 
             string elementName = "DFT";
 
@@ -145,14 +145,14 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
                 Value = 2
             };
 
-            Metric actualMetric = port.Portgroups(xml, elementName);
+            Metric actualMetric = port.PortGroups(xml, elementName);
             Assert.AreEqual(expectedMetric.Value, actualMetric.Value);
         }
 
         [Test]
         public void PortGroupSize_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Portgroups.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Portgroups.eaxml");
 
             string elementName = "DFT";
 

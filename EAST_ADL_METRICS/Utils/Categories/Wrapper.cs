@@ -34,7 +34,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(port.FunctionPowerPorts(xml, item.Name));
                 metricList.Add(port.FunctionClientServerPorts(xml, item.Name));
                 metricList.Add(port.Operations(xml, item.Name));
-                metricList.Add(port.Portgroups(xml, item.Name));
+                metricList.Add(port.PortGroups(xml, item.Name));
                 metricList.Add(port.PortGroupSize(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
                 metricList.Add(extension.UseCaseSatisfactionRatio(xml));
@@ -111,7 +111,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(port.FunctionPowerPorts(xml, item.Name));
                 metricList.Add(port.FunctionClientServerPorts(xml, item.Name));
                 metricList.Add(port.Operations(xml, item.Name));
-                metricList.Add(port.Portgroups(xml, item.Name));
+                metricList.Add(port.PortGroups(xml, item.Name));
                 metricList.Add(port.PortGroupSize(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
                 metricList.Add(extension.UseCaseSatisfactionRatio(xml));
@@ -174,7 +174,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(port.FunctionPowerPorts(xml, item.Name));
                 metricList.Add(port.FunctionClientServerPorts(xml, item.Name));
                 metricList.Add(port.Operations(xml, item.Name));
-                metricList.Add(port.Portgroups(xml, item.Name));
+                metricList.Add(port.PortGroups(xml, item.Name));
                 metricList.Add(port.PortGroupSize(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
                 metricList.Add(extension.UseCaseSatisfactionRatio(xml));

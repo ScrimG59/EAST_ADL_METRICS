@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void SubReqts_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\SubReqts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\SubReqts.eaxml");
 
             string elementName = "QReqt1";
 
@@ -32,7 +32,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void NestingLevel_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\SubReqts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\SubReqts.eaxml");
 
             string elementName = "Reqt3";
 
@@ -52,7 +52,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Satisfiers_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Satisfiers.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Satisfiers.eaxml");
 
             string elementName = "Requirement";
 
@@ -72,7 +72,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Verifiers_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Verifiers.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Verifiers.eaxml");
 
             string elementName = "Requirement";
 
@@ -92,7 +92,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Derivatives_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Derivatives.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Derivatives.eaxml");
 
             string elementName = "QReqt1";
 

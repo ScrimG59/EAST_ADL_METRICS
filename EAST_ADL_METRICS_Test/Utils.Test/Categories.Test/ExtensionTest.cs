@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void VariableElements_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\VariableElements.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\VariableElements.eaxml");
 
             Metric expectedMetric = new Metric
             {
@@ -30,7 +30,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void FunctionalQualityReqtsRatio_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\FunctionalQualityReqtsRatio.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\FunctionalQualityReqtsRatio.eaxml");
 
             Metric expectedMetric = new Metric
             {
@@ -48,7 +48,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void UseCaseSatisfactionRatio_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\UseCaseSatisfactionRatio.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\UseCaseSatisfactionRatio.eaxml");
 
             Metric expectedMetric = new Metric
             {
@@ -66,7 +66,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void VVRatio_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\VVRatio.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\VVRatio.eaxml");
 
             Metric expectedMetric = new Metric
             {

@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Parts_fct_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Parts.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Parts.eaxml");
 
             string elementName = "AFT1";
 
@@ -32,7 +32,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Parts_fct_tc_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Parts_tc.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Parts_tc.eaxml");
 
             string elementName = "AFT1";
 
@@ -52,7 +52,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void NestingLevels_fct_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Parts_tc.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Parts_tc.eaxml");
 
             string elementName = "AFT1";
 
@@ -72,7 +72,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Ports_fct_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Ports.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Ports.eaxml");
 
             string elementName = "AFT1";
 
@@ -92,7 +92,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Connectors_fct_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Connectors.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Connectors.eaxml");
 
             string elementName = "DFT1";
 

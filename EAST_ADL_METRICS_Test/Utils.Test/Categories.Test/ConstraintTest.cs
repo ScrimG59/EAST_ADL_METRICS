@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Constraints_Test()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Constraints.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Constraints.eaxml");
 
             string elementName = "FunctionType2";
 

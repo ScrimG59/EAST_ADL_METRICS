@@ -168,7 +168,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
 
                 string shortName = helper.getShortName(possibleFunctionType);
 
-                int count = localSearcher.nestedChildElementList(xml, elementName, "FUNCTION-CLIENT-SERVER-PORT");
+                int count = localSearcher.nestedChildElementList(xml, shortName, "FUNCTION-CLIENT-SERVER-PORT");
 
                 functionClientServerPorts.Value = count;
             } 
@@ -271,7 +271,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
             return hardwarePorts;
         }
 
-        public Metric Portgroups(XDocument xml, string elementName)
+        public Metric PortGroups(XDocument xml, string elementName)
         {
             int count = 0;
             XElement possibleArchitecture = helper.navigateToNode(xml, elementName);

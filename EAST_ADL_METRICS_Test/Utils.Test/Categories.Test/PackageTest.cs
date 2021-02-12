@@ -12,7 +12,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Functions_pckg()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Functions_pckg.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Functions_pckg.eaxml");
 
             string elementName = "Package1";
 
@@ -32,7 +32,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Function_pckg_tc()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Functions_pckg_tc.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Functions_pckg_tc.eaxml");
 
             string elementName = "EARoot";
 
@@ -52,7 +52,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Reqts_pckg()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Reqts_pckg.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Reqts_pckg.eaxml");
 
             string elementName = "Package1";
 
@@ -72,7 +72,7 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
         [Test]
         public void Reqts_pckg_tc()
         {
-            XDocument xml = XDocument.Load(@"C:\Users\maxei\Desktop\Test\Reqts_pckg_tc.eaxml");
+            XDocument xml = XDocument.Load(@"C:\Users\maxei\source\repos\EAST_ADL_METRICS\EAST_ADL_METRICS_Test\TestFiles\Reqts_pckg_tc.eaxml");
 
             string elementName = "EARoot";
 
