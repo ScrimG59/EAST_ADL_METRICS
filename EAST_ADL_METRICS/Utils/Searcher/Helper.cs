@@ -35,7 +35,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             }
             catch
             {
-                throw new Exception("COULDN'T FIND NAME.");
+                throw new Exception("Couldn't find name.");
             }
         }
 
@@ -46,14 +46,14 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public string getShortName(XElement node)
         {
-            try
+            if (node.Element("SHORT-NAME") != null)
             {
                 return node.Element("SHORT-NAME").Value;
             }
-            catch
+            else
             {
-                throw new Exception("Couldn't find name!");
-            }
+                return "";
+            }  
         }
 
         /// <summary>
@@ -91,7 +91,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         {
             if (node.Name.ToString().Contains("FUNCTION-TYPE") && node.Element("PARTS").HasElements)
             {
-                //Console.WriteLine($"NODE: {getShortName(node)}");
                 return true;
             }
             else
@@ -166,7 +165,10 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             {
                 tref = tref.Substring(1);
             }
-
+            if(tref == null || tref == "")
+            {
+                return null;
+            }
             string[] seperatedTrefs = tref.Split('/');
             XElement node = xml.Descendants()
                                .Where(a => a.Name == "EAXML")
@@ -212,10 +214,17 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public XElement getContainedRequirement(XDocument xml, XElement node)
         {
-            string reference = node.Element("CONTAINED-REQUIREMENT-REF").Value;
-            XElement reqtsNode = navigateToNode(xml, reference);
+            if (node.Name.ToString().Contains("REQUIREMENTS-HIERARCHY"))
+            {
+                string reference = node.Element("CONTAINED-REQUIREMENT-REF").Value;
+                XElement reqtsNode = navigateToNode(xml, reference);
 
-            return reqtsNode;
+                return reqtsNode;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -226,7 +235,14 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public XElement getFunctionTypeFromArchitecture(XDocument xml, XElement node)
         {
-            return navigateToNode(xml, getTypeReference(node));
+            if(node != null && node.Name.ToString().Contains("ARCHITECTURE"))
+            {
+                return navigateToNode(xml, getTypeReference(node));
+            }
+            else
+            {
+                return null;
+            } 
         }
     }
 }

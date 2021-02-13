@@ -42,12 +42,14 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                     return 0;
                 }
             }
-
-            return 0;
+            else
+            {
+                return 0;
+            }
         }
 
         /// <summary>
-        /// only searches in the first nesting level
+        /// only searches in the first nesting level of a package
         /// </summary>
         /// <param name="xml"></param>
         /// <param name="parentList"></param>
@@ -134,7 +136,6 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 {
                     tree.Add(part);
                     var functionType = helper.navigateToNode(xml, helper.getTypeReference(part));
-                    //Console.WriteLine($"INITIAL FUNCTIONTYPE: {helper.getName(node)[0]}\nFUNCTIONTYPE: {helper.getName(functionType)[0]}\n NESTINGLEVEL: {nestingLevel}\n PROTOTYPE: {part.ToString()}");
                     constructTree(xml, functionType, tree);
                 }
                 nestingLevel--;
