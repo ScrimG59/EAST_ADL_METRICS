@@ -21,22 +21,11 @@ namespace EAST_ADL_METRICS.View
             nodeList = helper.getAllElements(_xml);
             foreach (var node in nodeList)
             {
-                if (helper.getName(node).Count == 1)
+                nodes.Add(new Item
                 {
-                    nodes.Add(new Item
-                    {
-                        Name = helper.getName(node)[0],
-                        Type = helper.getType(node)
-                    });
-                }
-                else
-                {
-                    nodes.Add(new Item
-                    {
-                        Name = helper.getName(node)[1],
-                        Type = helper.getType(node)
-                    });
-                }
+                    Name = helper.getShortName(node),
+                    Type = helper.getType(node)
+                });
             }
             ListViewFunctionTypes.ItemsSource = nodes;
         }

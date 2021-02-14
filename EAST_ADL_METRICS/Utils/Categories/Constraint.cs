@@ -34,37 +34,41 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 //then get all safety constraints in the model
                 var safetyConstraintList = globalSearcher.parentElementList(xml, "SAFETY-CONSTRAINT");
 
-                // for each timing constraint do the following
-                foreach (var periodicConstraint in periodicConstraintList)
+                // periodic constraints reference to events and events only reference to functiontype from function modeling
+                if (!possibleArchitecture.Name.ToString().Contains("HARDWARE"))
                 {
-                    // gets the reference to the event function
-                    string eventFunctionRef = periodicConstraint.Descendants()
-                                                          .Where(a => a.Name == "EVENT-REF")
-                                                          .FirstOrDefault()
-                                                          .Value;
-
-                    // gets the event function itself
-                    XElement eventFunction = helper.navigateToNode(xml, eventFunctionRef);
-
-                    // gets the reference to the function prototype
-                    string functionPrototypeRef = eventFunction.Descendants()
-                                                               .Where(a => a.Name == "FUNCTION-PROTOTYPE-TARGET-REF")
-                                                               .FirstOrDefault()
-                                                               .Value;
-
-                    // gets the function prototype itself
-                    XElement functionProtoType = helper.navigateToNode(xml, functionPrototypeRef);
-
-                    // gets the function type reference
-                    string functionTypeRef = helper.getTypeReference(functionProtoType);
-
-                    // gets the function type itself
-                    XElement functionType = helper.navigateToNode(xml, functionTypeRef);
-
-                    // if the function type is equal to the function type the user wanted the metrics from
-                    if (possibleFunctionType == functionType)
+                    // for each timing constraint do the following
+                    foreach (var periodicConstraint in periodicConstraintList)
                     {
-                        count++;
+                        // gets the reference to the event function
+                        string eventFunctionRef = periodicConstraint.Descendants()
+                                                              .Where(a => a.Name == "EVENT-REF")
+                                                              .FirstOrDefault()
+                                                              .Value;
+
+                        // gets the event function itself
+                        XElement eventFunction = helper.navigateToNode(xml, eventFunctionRef);
+
+                        // gets the reference to the function prototype
+                        string functionPrototypeRef = eventFunction.Descendants()
+                                                                   .Where(a => a.Name == "FUNCTION-PROTOTYPE-TARGET-REF")
+                                                                   .FirstOrDefault()
+                                                                   .Value;
+
+                        // gets the function prototype itself
+                        XElement functionProtoType = helper.navigateToNode(xml, functionPrototypeRef);
+
+                        // gets the function type reference
+                        string functionTypeRef = helper.getTypeReference(functionProtoType);
+
+                        // gets the function type itself
+                        XElement functionType = helper.navigateToNode(xml, functionTypeRef);
+
+                        // if the function type is equal to the function type the user wanted the metrics from
+                        if (possibleFunctionType == functionType)
+                        {
+                            count++;
+                        }
                     }
                 }
 

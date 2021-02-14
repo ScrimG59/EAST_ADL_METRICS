@@ -8,11 +8,11 @@ namespace EAST_ADL_METRICS.Utils.Searcher
     public class Helper
     {
         /// <summary>
-        /// gets the short-name or id of the xml-tag
+        /// gets the short-name and/or id of the xml-tag
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public List<string> getName(XElement node)
+        /*public List<string> getName(XElement node)
         {
             try {
                 XName id = "UUID";
@@ -22,7 +22,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
                 {
                     idNamePair.Add(node.Attribute(id).Value);
                 }
-                if (node.Element("SHORT-NAME").Value != "")
+                if (node.Element("SHORT-NAME") != null && node.Element("SHORT-NAME").Value != "")
                 {
                     idNamePair.Add(node.Element("SHORT-NAME").Value);
                 }
@@ -37,7 +37,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             {
                 throw new Exception("Couldn't find name.");
             }
-        }
+        }*/
 
         /// <summary>
         /// gets the SHORT-NAME of an element
@@ -52,7 +52,7 @@ namespace EAST_ADL_METRICS.Utils.Searcher
             }
             else
             {
-                return "";
+                return "Unknown Element";
             }  
         }
 
@@ -89,7 +89,8 @@ namespace EAST_ADL_METRICS.Utils.Searcher
         /// <returns></returns>
         public Boolean hasParts(XElement node)
         {
-            if (node.Name.ToString().Contains("FUNCTION-TYPE") && node.Element("PARTS").HasElements)
+            if ((node.Name.ToString().Contains("TYPE") || node.Name.ToString().Contains("NODE")) 
+                && node.Element("PARTS").HasElements)
             {
                 return true;
             }

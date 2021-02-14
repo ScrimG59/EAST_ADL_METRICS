@@ -40,12 +40,12 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
-                Console.WriteLine($"PARTS: {metricList[0].Value}");
-                Console.WriteLine($"PARTS_TC: {metricList[1].Value}");
-                Console.WriteLine($"NESTINGLEVELS: {metricList[2].Value}");
-                Console.WriteLine($"PORTS: {metricList[3].Value}");
-                Console.WriteLine($"CONNECTORS: {metricList[4].Value}");
-                Console.WriteLine($"CONSTRAINTS: {metricList[5].Value}");
+                Console.WriteLine($"Parts: {metricList[0].Value}");
+                Console.WriteLine($"Parts_tc: {metricList[1].Value}");
+                Console.WriteLine($"NestingLevels: {metricList[2].Value}");
+                Console.WriteLine($"Ports: {metricList[3].Value}");
+                Console.WriteLine($"Connectors: {metricList[4].Value}");
+                Console.WriteLine($"Constraints: {metricList[5].Value}");
                 Console.WriteLine($"FunctionPorts: {metricList[6].Value}");
                 Console.WriteLine($"FunctionFlowPorts: {metricList[7].Value}");
                 Console.WriteLine($"FunctionPowerPorts: {metricList[8].Value}");
@@ -68,8 +68,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(extension.UseCaseSatisfactionRatio(xml));
                 metricList.Add(extension.FunctionalQualityReqtsRatio(xml));
                 metricList.Add(extension.VVRatio(xml));
-                Console.WriteLine($"FUNCTIONS_pckg: {metricList[0].Value}");
-                Console.WriteLine($"FUNCTIONS_pckg_tc: {metricList[1].Value}");
+                Console.WriteLine($"Functions_pckg: {metricList[0].Value}");
+                Console.WriteLine($"Functions_pckg_tc: {metricList[1].Value}");
                 Console.WriteLine($"Reqts_pckg: {metricList[2].Value}");
                 Console.WriteLine($"Reqts_pckg_tc: {metricList[3].Value}");
                 Console.WriteLine($"VariableElement: {metricList[4].Value}");
@@ -142,6 +142,7 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 metricList.Add(architecture.NestingLevels_arch(xml, item.Name));
                 metricList.Add(architecture.Ports_arch(xml, item.Name));
                 metricList.Add(architecture.Connectors_arch(xml, item.Name));
+                metricList.Add(constraint.Constraints(xml, item.Name));
                 metricList.Add(architecture.FunctionNodeAllocation(xml, item.Name));
                 metricList.Add(port.HardwarePorts(xml, item.Name));
                 metricList.Add(extension.VariableElements(xml));
@@ -153,12 +154,13 @@ namespace EAST_ADL_METRICS.Utils.Categories
                 Console.WriteLine($"NestingLevels: {metricList[2].Value}");
                 Console.WriteLine($"Ports: {metricList[3].Value}");
                 Console.WriteLine($"Connectors: {metricList[4].Value}");
-                Console.WriteLine($"FunctionNodeAllocation: {metricList[5].Value}");
-                Console.WriteLine($"HardwarePorts: {metricList[6].Value}");
-                Console.WriteLine($"VariableElement: {metricList[7].Value}");
-                Console.WriteLine($"UseCaseSatisFaction: {metricList[8].Value}");
-                Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[9].Value}");
-                Console.WriteLine($"VVRatio: {metricList[10].Value}");
+                Console.WriteLine($"Constraints: {metricList[5].Value}");
+                Console.WriteLine($"FunctionNodeAllocation: {metricList[6].Value}");
+                Console.WriteLine($"HardwarePorts: {metricList[7].Value}");
+                Console.WriteLine($"VariableElement: {metricList[8].Value}");
+                Console.WriteLine($"UseCaseSatisFaction: {metricList[9].Value}");
+                Console.WriteLine($"FunctionalQualityReqtsRatio: {metricList[10].Value}");
+                Console.WriteLine($"VVRatio: {metricList[11].Value}");
             }
             else if (item.Type.Contains("DESIGN-ARCHITECTURE"))
             {

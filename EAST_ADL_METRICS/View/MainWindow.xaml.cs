@@ -79,8 +79,8 @@ namespace EAST_ADL_METRICS
                 Reqts_pckg_val.Text = metricList[2].Value.ToString();
                 Reqts_pckg_tc_val.Text = metricList[3].Value.ToString();
                 OptionalElements_val.Text = metricList[4].Value.ToString();
-                Functional_Quality_Reqts_Ratio_val.Text = metricList[5].Value.ToString();
-                UseCaseSatisfactionRatio_val.Text = metricList[6].Value.ToString();
+                UseCaseSatisfactionRatio_val.Text = metricList[5].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[6].Value.ToString();
                 VVRatio_val.Text = metricList[7].Value.ToString();
             }
             else if(item.Type.Contains("FUNCTION-TYPE"))
@@ -130,12 +130,13 @@ namespace EAST_ADL_METRICS
                 NestingLevels_fct_val.Text = metricList[2].Value.ToString();
                 Ports_fct_val.Text = metricList[3].Value.ToString();
                 Connectors_fct_val.Text = metricList[4].Value.ToString();
-                FunctionNodeAllocation_val.Text = metricList[5].Value.ToString();
-                HardwarePorts_val.Text = metricList[6].Value.ToString();
-                OptionalElements_val.Text = metricList[7].Value.ToString();
-                UseCaseSatisfactionRatio_val.Text = metricList[8].Value.ToString();
-                Functional_Quality_Reqts_Ratio_val.Text = metricList[9].Value.ToString();
-                VVRatio_val.Text = metricList[10].Value.ToString();
+                Constraints_val.Text = metricList[5].Value.ToString();
+                FunctionNodeAllocation_val.Text = metricList[6].Value.ToString();
+                HardwarePorts_val.Text = metricList[7].Value.ToString();
+                OptionalElements_val.Text = metricList[8].Value.ToString();
+                UseCaseSatisfactionRatio_val.Text = metricList[9].Value.ToString();
+                Functional_Quality_Reqts_Ratio_val.Text = metricList[10].Value.ToString();
+                VVRatio_val.Text = metricList[11].Value.ToString();
             }
             else if (item.Type.Contains("DESIGN-ARCHITECTURE"))
             {
@@ -310,7 +311,6 @@ namespace EAST_ADL_METRICS
                 Satisfiers.Foreground = new SolidColorBrush(Colors.Gray);
                 Verifiers.Foreground = new SolidColorBrush(Colors.Gray);
                 Derivatives.Foreground = new SolidColorBrush(Colors.Gray);
-                Constraints.Foreground = new SolidColorBrush(Colors.Gray);
                 FunctionPorts.Foreground = new SolidColorBrush(Colors.Gray);
                 FunctionFlowPorts.Foreground = new SolidColorBrush(Colors.Gray);
                 FunctionPowerPorts.Foreground = new SolidColorBrush(Colors.Gray);
