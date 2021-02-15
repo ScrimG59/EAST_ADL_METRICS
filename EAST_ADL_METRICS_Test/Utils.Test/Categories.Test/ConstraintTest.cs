@@ -22,7 +22,8 @@ namespace EAST_ADL_METRICS_Test.Utils.Test.Categories.Test
                 Category = "Size",
                 Type = "FUNCTION-TYPE",
                 Nested = false,
-                Value = 1
+                // 1 timing constraint and 1 safety constraint
+                Value = 2
             };
 
             Metric actualMetric = constraint.Constraints(xml, elementName);

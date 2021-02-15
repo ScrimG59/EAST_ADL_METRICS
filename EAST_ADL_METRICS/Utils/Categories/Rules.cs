@@ -185,7 +185,8 @@ namespace EAST_ADL_METRICS.Utils.Categories
                                                      "DESIGN-FUNCTION-PROTOTYPE",
                                                      "ANALYSIS-FUNCTION-PROTOTYPE",
                                                      "HARDWARE-COMPONENT-PROTOTYPE",
-                                                     "BASIC-SOFTWARE-FUNCTION-PROTOTYPE");
+                                                     "BASIC-SOFTWARE-FUNCTION-PROTOTYPE",
+                                                     "ERROR-MODEL-PROTOTYPE");
 
             foreach(var protoType in protoTypeList)
             {

@@ -32,7 +32,7 @@
               <CATEGORY></CATEGORY>
               <NAME></NAME>
               <OWNED-COMMENTS/>
-              <EVENT-REF TYPE="EVENT-FUNCTION">/EARoot/EventFunction1</EVENT-REF>
+              <EVENT-REF TYPE="EVENT-FUNCTION">/EARoot//EventFunction1</EVENT-REF>
             </PERIODIC-CONSTRAINT>
           </CONSTRAINTS>
         </TIMING>
@@ -70,6 +70,97 @@
           <CONNECTORS/>
           <PARTS/>
         </DESIGN-FUNCTION-TYPE>
+        <DEPENDABILITY>
+          <SHORT-NAME>Dependability</SHORT-NAME>
+          <CATEGORY></CATEGORY>
+          <NAME></NAME>
+          <OWNED-COMMENTS/>
+          <TRACEABLE-SPECIFICATION-REFS/>
+          <OWNED-RELATIONSHIPS/>
+          <FEATURE-FLAWS/>
+          <TECHNICAL-SAFETY-CONCEPTS/>
+          <SAFETY-CASES/>
+          <HAZARDS/>
+          <FAULT-FAILURES>
+            <FAULT-FAILURE>
+              <SHORT-NAME>FaultFailure1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <TEXT></TEXT>
+              <ANOMALY-IREF>
+                <ERROR-MODEL-PROTOTYPE-REF>/EARoot/Dependability/EMT1/EMP1</ERROR-MODEL-PROTOTYPE-REF>
+              </ANOMALY-IREF>
+            </FAULT-FAILURE>
+          </FAULT-FAILURES>
+          <EA-DATATYPES/>
+          <HAZARDOUS-EVENTS/>
+          <SAFETY-CONSTRAINTS>
+            <SAFETY-CONSTRAINT>
+              <SHORT-NAME>SomeFailure</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <TEXT></TEXT>
+              <ASIL-VALUE>ASIL_A</ASIL-VALUE>
+              <CONSTRAINED-FAULT-FAILURE-REFS>
+                <CONSTRAINED-FAULT-FAILURE-REF TYPE="FAULT-FAILURE">/EARoot/Dependability/FaultFailure1</CONSTRAINED-FAULT-FAILURE-REF>
+              </CONSTRAINED-FAULT-FAILURE-REFS>
+            </SAFETY-CONSTRAINT>
+          </SAFETY-CONSTRAINTS>
+          <ERROR-MODEL-TYPES>
+            <ERROR-MODEL-TYPE>
+              <SHORT-NAME>EMT1</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <TEXT></TEXT>
+              <ERROR-BEHAVIOR-DESCRIPTIONS/>
+              <TARGET-REFS>
+                <TARGET-REF TYPE="DESIGN-FUNCTION-TYPE">/EARoot/FunctionType1</TARGET-REF>
+              </TARGET-REFS>
+              <HW-TARGET-REFS/>
+              <FAULT-FAILURE-CONNECTORS/>
+              <EXTERNAL-FAULTS/>
+              <PARTS>
+                <ERROR-MODEL-PROTOTYPE>
+                  <SHORT-NAME>EMP1</SHORT-NAME>
+                  <CATEGORY></CATEGORY>
+                  <NAME></NAME>
+                  <OWNED-COMMENTS/>
+                  <TYPE-TREF TYPE="ERROR-MODEL-TYPE">/EARoot/Dependability/EMT2</TYPE-TREF>
+                  <FUNCTION-TARGET-IREFS/>
+                  <HW-TARGET-IREFS/>
+                </ERROR-MODEL-PROTOTYPE>
+              </PARTS>
+              <FAILURES/>
+              <INTERNAL-FAULTS/>
+              <PROCESS-FAULTS/>
+            </ERROR-MODEL-TYPE>
+            <ERROR-MODEL-TYPE>
+              <SHORT-NAME>EMT2</SHORT-NAME>
+              <CATEGORY></CATEGORY>
+              <NAME></NAME>
+              <OWNED-COMMENTS/>
+              <TEXT></TEXT>
+              <ERROR-BEHAVIOR-DESCRIPTIONS/>
+              <TARGET-REFS>
+                <TARGET-REF TYPE="DESIGN-FUNCTION-TYPE">/EARoot/FunctionType2</TARGET-REF>
+              </TARGET-REFS>
+              <HW-TARGET-REFS/>
+              <FAULT-FAILURE-CONNECTORS/>
+              <EXTERNAL-FAULTS/>
+              <PARTS/>
+              <FAILURES/>
+              <INTERNAL-FAULTS/>
+              <PROCESS-FAULTS/>
+            </ERROR-MODEL-TYPE>
+          </ERROR-MODEL-TYPES>
+          <FUNCTIONAL-SAFETY-CONCEPTS/>
+          <QUANTITIATIVE-SAFETY-CONSTRAINTS/>
+          <ITEMS/>
+          <SAFETY-GOALS/>
+        </DEPENDABILITY>
       </ELEMENTS>
     </EA-PACKAGE>
   </TOP-LEVEL-PACKAGES>
