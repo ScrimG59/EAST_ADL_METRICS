@@ -403,6 +403,7 @@ namespace EAST_ADL_METRICS
 
         private void resetValues()
         {
+            SelectedElement.Text = "";
             Functions_pckg_val.Text = "";
             Functions_pckg_tc_val.Text = "";
             Reqts_pckg_val.Text = "";
