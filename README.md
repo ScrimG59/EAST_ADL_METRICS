@@ -1,6 +1,6 @@
 # EAST_ADL_METRICS
 
-A tool which was developed in my bachelor thesis.
+A tool which was developed in my bachelor thesis. <br>
 It takes an EAST-ADL project (EAXML-file) and measures the quality of the given model according to metrics and rules which got transferred from an another tool called SDMetrics.
 On top of that it also has self-developed metrics and rules.
 
